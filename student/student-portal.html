@@ -20,9 +20,9 @@
             </a>
             <ul class="nav nav-pills">
                 <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link active">Student Login</a></li>
                 <li class="nav-item"><a href="check-result.html" class="nav-link">Check Result</a></li>
-                <li class="nav-item"><a href="request-pin.html" class="nav-link">Request PIN</a></li>
-                <li class="nav-item"><a href="student-portal.html" class="nav-link active">My Portal</a></li>
+                <li class="nav-item"><a href="#" class="nav-link text-danger" id="logoutLink">Logout</a></li>
             </ul>
         </div>
     </header>
@@ -42,8 +42,8 @@
                                         <i class="bi bi-person fs-1"></i>
                                     </div>
                                     <div>
-                                        <h3 class="fw-bold mb-0">Emmanuel Ochuko Omoniyi</h3>
-                                        <p class="text-muted mb-0">Admission No: SS1SC2026001 | Class: SS1 Science</p>
+                                        <h3 class="fw-bold mb-0" id="studentNameDisplay">Loading student information...</h3>
+                                        <p class="text-muted mb-0" id="studentInfoDisplay">Please wait while we load your details...</p>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,12 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="list-group" id="notificationsList">
-                                            <!-- Notifications will be loaded here -->
+                                            <div class="text-center py-4">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Loading notifications...</span>
+                                                </div>
+                                                <p class="mt-2 text-muted">Loading your notifications...</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +80,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-hover" id="pinsTable">
+                                            <table class="table table-hover">
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th>Session</th>
@@ -84,8 +89,15 @@
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <!-- PINs will be loaded here -->
+                                                <tbody id="pinsTableBody">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center py-4">
+                                                            <div class="spinner-border text-success" role="status">
+                                                                <span class="visually-hidden">Loading PINs...</span>
+                                                            </div>
+                                                            <p class="mt-2 text-muted">Loading your PINs...</p>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -111,27 +123,21 @@
                         
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Contact Admin</label>
-                            <textarea class="form-control" rows="3" placeholder="Type your message to the school admin..."></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Type your message to the school admin..." id="adminMessage"></textarea>
                         </div>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" onclick="sendMessageToAdmin()">
                             <i class="bi bi-send me-1"></i>Send Message
                         </button>
                         
                         <div class="mt-4">
                             <h6 class="fw-bold mb-3">Message History</h6>
-                            <div class="border rounded p-3 mb-2">
-                                <div class="d-flex justify-content-between">
-                                    <strong>Admin</strong>
-                                    <small class="text-muted">Jan 8, 2026, 10:30 AM</small>
+                            <div id="messageHistory">
+                                <div class="text-center py-4">
+                                    <div class="spinner-border text-info" role="status">
+                                        <span class="visually-hidden">Loading messages...</span>
+                                    </div>
+                                    <p class="mt-2 text-muted">Loading message history...</p>
                                 </div>
-                                <p class="mb-0">Your payment receipt has been approved. Your PIN IHS2026SS1SC is now active. You can check your results using this PIN.</p>
-                            </div>
-                            <div class="border rounded p-3">
-                                <div class="d-flex justify-content-between">
-                                    <strong>You</strong>
-                                    <small class="text-muted">Jan 8, 2026, 9:15 AM</small>
-                                </div>
-                                <p class="mb-0">Hello, I've uploaded my payment receipt for the result PIN. Please verify it when possible.</p>
                             </div>
                         </div>
                     </div>
@@ -149,10 +155,36 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="notificationDetails">
-                    <!-- Notification details will be loaded here -->
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading notification...</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="bi bi-check-circle me-2"></i>Action Confirmed</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-check2-circle fs-1"></i>
+                    </div>
+                    <h4 class="mb-3" id="confirmationTitle">Action Completed</h4>
+                    <p class="text-muted" id="confirmationMessage">Your action was successful.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
@@ -171,81 +203,236 @@
     <script src="../js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            loadNotifications();
-            loadPins();
+            // Check authentication status when page loads
+            checkAuthentication();
+            
+            // Set up logout functionality
+            document.getElementById('logoutLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                logoutStudent();
+            });
         });
         
-        function loadNotifications() {
+        function checkAuthentication() {
+            // Get student session from localStorage
+            const studentSession = localStorage.getItem('studentSession');
+            
+            // If no session exists, redirect to login
+            if (!studentSession) {
+                showConfirmationModal(
+                    'Not Logged In', 
+                    'You need to log in to access the student portal.',
+                    function() {
+                        window.location.href = 'login.html';
+                    }
+                );
+                return;
+            }
+            
+            try {
+                const session = JSON.parse(studentSession);
+                
+                // Validate session structure
+                if (!session.loggedIn || !session.fullName || !session.name || !session.loginTime) {
+                    throw new Error('Invalid session data');
+                }
+                
+                // Check if session has expired (24 hours)
+                const loginTime = new Date(session.loginTime);
+                const currentTime = new Date();
+                const hoursDiff = (currentTime - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursDiff >= 24) {
+                    // Session expired
+                    localStorage.removeItem('studentSession');
+                    showConfirmationModal(
+                        'Session Expired', 
+                        'Your session has expired for security reasons. Please log in again.',
+                        function() {
+                            window.location.href = 'login.html';
+                        }
+                    );
+                    return;
+                }
+                
+                // Session is valid - load student data
+                loadStudentData(session);
+                
+            } catch (error) {
+                console.error('Authentication error:', error);
+                localStorage.removeItem('studentSession');
+                showConfirmationModal(
+                    'Session Error', 
+                    'There was an error with your session. Please log in again.',
+                    function() {
+                        window.location.href = 'login.html';
+                    }
+                );
+            }
+        }
+        
+        function loadStudentData(session) {
+            // Update header with student information
+            document.getElementById('studentNameDisplay').textContent = session.name;
+            document.getElementById('studentInfoDisplay').textContent = `Full Name: ${session.fullName} | Class: ${session.class}`;
+            
+            // Load notifications for this student
+            loadNotifications(session.fullName);
+            
+            // Load PINs for this student
+            loadPins(session.fullName);
+            
+            // Load message history
+            loadMessageHistory(session.fullName);
+        }
+        
+        function loadNotifications(fullName) {
             const notificationsList = document.getElementById('notificationsList');
             notificationsList.innerHTML = '';
             
-            // Get notifications from localStorage
-            const notifications = JSON.parse(localStorage.getItem('studentNotifications') || '[]');
-            const studentNotifications = notifications.filter(n => n.admissionNo === 'SS1SC2026001');
-            
-            if (studentNotifications.length === 0) {
-                notificationsList.innerHTML = `
-                    <div class="text-center py-4 text-muted">
-                        <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
-                        <p>No notifications available</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Sort by date (newest first)
-            studentNotifications.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            studentNotifications.slice(0, 5).forEach(notification => {
-                const date = new Date(notification.date);
-                const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+            try {
+                // Get notifications from localStorage
+                const notifications = JSON.parse(localStorage.getItem('studentNotifications') || '[]');
+                const studentNotifications = notifications.filter(n => n.fullName === fullName);
                 
-                const item = document.createElement('a');
-                item.href = '#';
-                item.className = `list-group-item list-group-item-action ${notification.read ? '' : 'fw-bold bg-light'}`;
-                item.onclick = function(e) {
-                    e.preventDefault();
-                    showNotificationDetails(notification);
-                };
-                item.innerHTML = `
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">${notification.message.substring(0, 30)}${notification.message.length > 30 ? '...' : ''}</h6>
-                        <small>${formattedDate}</small>
+                if (studentNotifications.length === 0) {
+                    notificationsList.innerHTML = `
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
+                            <p>You have no notifications at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Sort by date (newest first)
+                studentNotifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // Display up to 5 most recent notifications
+                studentNotifications.slice(0, 5).forEach(notification => {
+                    const date = new Date(notification.date);
+                    const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+                    
+                    const item = document.createElement('a');
+                    item.href = '#';
+                    item.className = `list-group-item list-group-item-action ${notification.read ? '' : 'fw-bold bg-light'}`;
+                    item.onclick = function(e) {
+                        e.preventDefault();
+                        showNotificationDetails(notification);
+                    };
+                    item.innerHTML = `
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">${notification.message.substring(0, 30)}${notification.message.length > 30 ? '...' : ''}</h6>
+                            <small>${formattedDate}</small>
+                        </div>
+                    `;
+                    notificationsList.appendChild(item);
+                });
+                
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                notificationsList.innerHTML = `
+                    <div class="text-center py-4 text-danger">
+                        <i class="bi bi-exclamation-circle fs-1 mb-2 d-block"></i>
+                        <p>Error loading notifications. Please try again later.</p>
                     </div>
                 `;
-                notificationsList.appendChild(item);
-            });
+            }
         }
         
-        function loadPins() {
-            const tableBody = document.getElementById('pinsTable').getElementsByTagName('tbody')[0];
+        function loadPins(fullName) {
+            const tableBody = document.getElementById('pinsTableBody');
             tableBody.innerHTML = '';
             
-            // Get PINs from localStorage
-            const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
-            const studentPins = requests.filter(r => r.admissionNo === 'SS1SC2026001' && r.status === 'approved');
-            
-            if (studentPins.length === 0) {
-                const row = tableBody.insertRow();
-                const cell = row.insertCell(0);
-                cell.colSpan = 4;
-                cell.className = 'text-center py-4 text-muted';
-                cell.innerHTML = `
-                    <i class="bi bi-key fs-1 mb-2 d-block"></i>
-                    <p>No PINs available. Request a new PIN to get started.</p>
+            try {
+                // Get PINs from localStorage
+                const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+                const studentPins = requests.filter(r => 
+                    r.fullName === fullName && 
+                    r.status === 'approved'
+                );
+                
+                if (studentPins.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">
+                                <i class="bi bi-key fs-1 mb-2 d-block"></i>
+                                <p>No active PINs found. Request a new PIN to get started.</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // Display all approved PINs
+                studentPins.forEach(pinRequest => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>2025/2026</td>
+                        <td>Second Term</td>
+                        <td class="fw-bold text-primary">${pinRequest.pin}</td>
+                        <td><span class="badge bg-success">Active</span></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+            } catch (error) {
+                console.error('Error loading PINs:', error);
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-danger">
+                            <i class="bi bi-exclamation-circle fs-1 mb-2 d-block"></i>
+                            <p>Error loading PIN information. Please try again later.</p>
+                        </td>
+                    </tr>
                 `;
-                return;
             }
+        }
+        
+        function loadMessageHistory(fullName) {
+            const messageHistoryDiv = document.getElementById('messageHistory');
+            messageHistoryDiv.innerHTML = '';
             
-            studentPins.forEach(pinRequest => {
-                const row = tableBody.insertRow();
-                row.innerHTML = `
-                    <td>2025/2026</td>
-                    <td>Second Term</td>
-                    <td class="fw-bold text-primary">${pinRequest.pin}</td>
-                    <td><span class="badge bg-success">Active</span></td>
+            try {
+                // Demo message history - in real system this would come from database
+                const messages = [
+                    {
+                        from: 'Admin',
+                        date: '2026-01-08T10:30:00',
+                        text: 'Your payment receipt has been approved. Your PIN IHS2026SS1SC is now active. You can check your results using this PIN.'
+                    },
+                    {
+                        from: 'You',
+                        date: '2026-01-08T09:15:00',
+                        text: 'Hello, I\'ve uploaded my payment receipt for the result PIN. Please verify it when possible.'
+                    }
+                ];
+                
+                messages.forEach(message => {
+                    const date = new Date(message.date);
+                    const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+                    
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'border rounded p-3 mb-2';
+                    messageDiv.innerHTML = `
+                        <div class="d-flex justify-content-between">
+                            <strong>${message.from}</strong>
+                            <small class="text-muted">${formattedDate}</small>
+                        </div>
+                        <p class="mb-0">${message.text}</p>
+                    `;
+                    messageHistoryDiv.appendChild(messageDiv);
+                });
+                
+            } catch (error) {
+                console.error('Error loading message history:', error);
+                messageHistoryDiv.innerHTML = `
+                    <div class="text-center py-4 text-danger">
+                        <i class="bi bi-exclamation-circle fs-1 mb-2 d-block"></i>
+                        <p>Error loading message history. Please try again later.</p>
+                    </div>
                 `;
-            });
+            }
         }
         
         function showNotificationDetails(notification) {
@@ -261,28 +448,122 @@
                 Keep your PIN secure and do not share it with anyone.</p>
             `;
             
-            // Mark as read
-            const notifications = JSON.parse(localStorage.getItem('studentNotifications') || '[]');
-            const index = notifications.findIndex(n => n.id === notification.id);
-            if (index !== -1) {
-                notifications[index].read = true;
-                localStorage.setItem('studentNotifications', JSON.stringify(notifications));
-            }
+            // Mark notification as read in localStorage
+            markNotificationAsRead(notification.id, notification.fullName);
             
             // Show modal
             const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
             modal.show();
             
-            // Refresh notifications
-            loadNotifications();
+            // Refresh notifications after modal is closed
+            document.getElementById('notificationModal').addEventListener('hidden.bs.modal', function() {
+                const studentSession = JSON.parse(localStorage.getItem('studentSession'));
+                loadNotifications(studentSession.fullName);
+            }, { once: true });
+        }
+        
+        function markNotificationAsRead(notificationId, fullName) {
+            try {
+                const notifications = JSON.parse(localStorage.getItem('studentNotifications') || '[]');
+                const notificationIndex = notifications.findIndex(n => 
+                    n.id === notificationId && n.fullName === fullName
+                );
+                
+                if (notificationIndex !== -1) {
+                    notifications[notificationIndex].read = true;
+                    localStorage.setItem('studentNotifications', JSON.stringify(notifications));
+                }
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
         }
         
         function requestNewPIN() {
-            window.location.href = 'request-pin.html';
+            showConfirmationModal(
+                'Request New PIN', 
+                'You will be redirected to the PIN request page where you can upload your payment receipt.',
+                function() {
+                    window.location.href = 'request-pin.html';
+                }
+            );
         }
         
         function updateProfile() {
-            alert('Profile update functionality will be available in the live system.');
+            showConfirmationModal(
+                'Profile Update', 
+                'Profile update functionality will be available in the live system.',
+                null
+            );
+        }
+        
+        function sendMessageToAdmin() {
+            const message = document.getElementById('adminMessage').value.trim();
+            
+            if (!message) {
+                alert('Please enter a message before sending.');
+                return;
+            }
+            
+            if (message.length < 10) {
+                alert('Your message is too short. Please provide more details.');
+                return;
+            }
+            
+            // In a real system, this would send the message to the admin via API
+            // For demo purposes, we'll just show a confirmation
+            
+            // Clear the message field
+            document.getElementById('adminMessage').value = '';
+            
+            showConfirmationModal(
+                'Message Sent', 
+                'Your message has been sent to the school administrator. You will receive a response shortly via this message center.',
+                null
+            );
+            
+            // Update message history to show the sent message
+            setTimeout(function() {
+                const studentSession = JSON.parse(localStorage.getItem('studentSession'));
+                loadMessageHistory(studentSession.fullName);
+            }, 1000);
+        }
+        
+        function logoutStudent() {
+            // Show confirmation modal before logging out
+            showConfirmationModal(
+                'Confirm Logout', 
+                'Are you sure you want to log out of your student portal?',
+                function() {
+                    // Remove student session from localStorage
+                    localStorage.removeItem('studentSession');
+                    
+                    // Show logout confirmation
+                    showConfirmationModal(
+                        'Logged Out', 
+                        'You have been successfully logged out of your student portal.',
+                        function() {
+                            // Redirect to login page
+                            window.location.href = 'login.html';
+                        }
+                    );
+                }
+            );
+        }
+        
+        function showConfirmationModal(title, message, callback) {
+            document.getElementById('confirmationTitle').textContent = title;
+            document.getElementById('confirmationMessage').textContent = message;
+            
+            const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            modal.show();
+            
+            // If there's a callback, execute it when modal is hidden
+            if (callback) {
+                document.getElementById('confirmationModal').addEventListener('hidden.bs.modal', function handler() {
+                    callback();
+                    this.removeEventListener('hidden.bs.modal', handler);
+                });
+            }
         }
     </script>
 </body>
