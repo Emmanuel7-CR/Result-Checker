@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - IHS</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="../css/custom.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <header class="py-3 mb-4 border-bottom bg-white">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
+                    <span class="fs-4 fw-bold">IHS</span>
+                </div>
+                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link active">Student Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <div class="bg-white text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-person fs-1"></i>
+                        </div>
+                        <h2 class="mb-0 fw-bold">Student Portal</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <p class="text-muted">Log in to access your results and account</p>
+                        </div>
+                        
+                        <form id="studentLoginForm">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Admission Number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                    <input type="text" class="form-control" id="admissionNumber" placeholder="Enter your admission number" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Password / PIN</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-key"></i></span>
+                                    <input type="password" class="form-control" id="password" placeholder="Enter your password or PIN" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login to Portal
+                                </button>
+                                <a href="request-pin.html" class="btn btn-outline-secondary py-3">
+                                    <i class="bi bi-credit-card me-2"></i>Request New PIN
+                                </a>
+                            </div>
+                        </form>
+                        
+                        <div class="alert alert-info mt-4 mb-0">
+                            <strong>Note:</strong> If you don't have a password, use your result PIN to log in. 
+                            New students should request a PIN first.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-4 mt-5 bg-dark text-white">
+        <div class="container text-center">
+            <p class="mb-0">295, Sapele/Warri Road, Sapele, Delta State</p>
+            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.getElementById('studentLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const admissionNumber = document.getElementById('admissionNumber').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // In a real system, this would check against a database
+            // For demo purposes, we'll use sample credentials
+            const validStudents = [
+                { admNo: 'SS1SC2026001', name: 'Emmanuel Ochuko Omoniyi', pin: 'IHS2026SS1SC', class: 'SS1 Science' },
+                { admNo: 'SS2AR2026002', name: 'Chinwe Adebayo', pin: 'IHS2026SS2AR', class: 'SS2 Arts' },
+                { admNo: 'SS3CO2026003', name: 'Tunde Ibrahim', pin: 'IHS2026SS3CO', class: 'SS3 Commercial' }
+            ];
+            
+            const student = validStudents.find(s => 
+                s.admNo === admissionNumber && 
+                (s.pin === password || password === 'student123') // Allow PIN or default password
+            );
+            
+            if (student) {
+                // Set student session in localStorage
+                const studentSession = {
+                    loggedIn: true,
+                    admissionNumber: student.admNo,
+                    name: student.name,
+                    class: student.class,
+                    loginTime: new Date().toISOString()
+                };
+                localStorage.setItem('studentSession', JSON.stringify(studentSession));
+                
+                // Redirect to student portal
+                window.location.href = 'student-portal.html';
+            } else {
+                // Check if this is a demo PIN request
+                if (password === 'IHS2026SS1SC' && admissionNumber === 'SS1SC2026001') {
+                    // Allow direct result checking with valid PIN
+                    window.location.href = `check-result.html?adm=${admissionNumber}&pin=${password}`;
+                } else {
+                    alert('Invalid admission number or password/PIN. Please check your details and try again.');
+                }
+            }
+        });
+        
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentSession = localStorage.getItem('studentSession');
+            if (studentSession) {
+                const session = JSON.parse(studentSession);
+                // Check if session is still valid (not expired)
+                const loginTime = new Date(session.loginTime);
+                const currentTime = new Date();
+                const hoursDiff = (currentTime - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursDiff < 24) { // Session valid for 24 hours
+                    window.location.href = 'student-portal.html';
+                } else {
+                    localStorage.removeItem('studentSession');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

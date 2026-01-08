@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - IHS</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="../css/custom.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <header class="py-3 mb-4 border-bottom bg-white">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
+                    <span class="fs-4 fw-bold">IHS</span>
+                </div>
+                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="check-result.html" class="nav-link">Check Result</a></li>
+                <li class="nav-item"><a href="request-pin.html" class="nav-link">Request PIN</a></li>
+                <li class="nav-item"><a href="student-portal.html" class="nav-link active">My Portal</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-person me-2"></i>Student Portal</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                        <i class="bi bi-person fs-1"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="fw-bold mb-0">Emmanuel Ochuko Omoniyi</h3>
+                                        <p class="text-muted mb-0">Admission No: SS1SC2026001 | Class: SS1 Science</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <button class="btn btn-outline-primary" onclick="updateProfile()">
+                                    <i class="bi bi-pencil me-1"></i>Update Profile
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0 fw-bold"><i class="bi bi-bell me-2"></i>Notifications</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="list-group" id="notificationsList">
+                                            <!-- Notifications will be loaded here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card h-100 border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="mb-0 fw-bold"><i class="bi bi-key me-2"></i>My PINs</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="pinsTable">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Session</th>
+                                                        <th>Term</th>
+                                                        <th>PIN</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- PINs will be loaded here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-success mt-2" onclick="requestNewPIN()">
+                                            <i class="bi bi-plus-circle me-1"></i>Request New PIN
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-envelope me-2"></i>Message Center</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Note:</strong> In the live system, you'll receive PIN notifications via SMS and email. 
+                            This portal shows your notification history.
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Contact Admin</label>
+                            <textarea class="form-control" rows="3" placeholder="Type your message to the school admin..."></textarea>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="bi bi-send me-1"></i>Send Message
+                        </button>
+                        
+                        <div class="mt-4">
+                            <h6 class="fw-bold mb-3">Message History</h6>
+                            <div class="border rounded p-3 mb-2">
+                                <div class="d-flex justify-content-between">
+                                    <strong>Admin</strong>
+                                    <small class="text-muted">Jan 8, 2026, 10:30 AM</small>
+                                </div>
+                                <p class="mb-0">Your payment receipt has been approved. Your PIN IHS2026SS1SC is now active. You can check your results using this PIN.</p>
+                            </div>
+                            <div class="border rounded p-3">
+                                <div class="d-flex justify-content-between">
+                                    <strong>You</strong>
+                                    <small class="text-muted">Jan 8, 2026, 9:15 AM</small>
+                                </div>
+                                <p class="mb-0">Hello, I've uploaded my payment receipt for the result PIN. Please verify it when possible.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notifications Modal -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="bi bi-bell me-2"></i>Notification Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="notificationDetails">
+                    <!-- Notification details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-4 mt-5 bg-dark text-white">
+        <div class="container text-center">
+            <p class="mb-0">295, Sapele/Warri Road, Sapele, Delta State</p>
+            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+            loadPins();
+        });
+        
+        function loadNotifications() {
+            const notificationsList = document.getElementById('notificationsList');
+            notificationsList.innerHTML = '';
+            
+            // Get notifications from localStorage
+            const notifications = JSON.parse(localStorage.getItem('studentNotifications') || '[]');
+            const studentNotifications = notifications.filter(n => n.admissionNo === 'SS1SC2026001');
+            
+            if (studentNotifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
+                        <p>No notifications available</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by date (newest first)
+            studentNotifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            studentNotifications.slice(0, 5).forEach(notification => {
+                const date = new Date(notification.date);
+                const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+                
+                const item = document.createElement('a');
+                item.href = '#';
+                item.className = `list-group-item list-group-item-action ${notification.read ? '' : 'fw-bold bg-light'}`;
+                item.onclick = function(e) {
+                    e.preventDefault();
+                    showNotificationDetails(notification);
+                };
+                item.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${notification.message.substring(0, 30)}${notification.message.length > 30 ? '...' : ''}</h6>
+                        <small>${formattedDate}</small>
+                    </div>
+                `;
+                notificationsList.appendChild(item);
+            });
+        }
+        
+        function loadPins() {
+            const tableBody = document.getElementById('pinsTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+            
+            // Get PINs from localStorage
+            const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+            const studentPins = requests.filter(r => r.admissionNo === 'SS1SC2026001' && r.status === 'approved');
+            
+            if (studentPins.length === 0) {
+                const row = tableBody.insertRow();
+                const cell = row.insertCell(0);
+                cell.colSpan = 4;
+                cell.className = 'text-center py-4 text-muted';
+                cell.innerHTML = `
+                    <i class="bi bi-key fs-1 mb-2 d-block"></i>
+                    <p>No PINs available. Request a new PIN to get started.</p>
+                `;
+                return;
+            }
+            
+            studentPins.forEach(pinRequest => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td>2025/2026</td>
+                    <td>Second Term</td>
+                    <td class="fw-bold text-primary">${pinRequest.pin}</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                `;
+            });
+        }
+        
+        function showNotificationDetails(notification) {
+            document.getElementById('notificationDetails').innerHTML = `
+                <div class="mb-3">
+                    <h5 class="fw-bold">${notification.message}</h5>
+                </div>
+                <div class="alert alert-primary">
+                    <p class="mb-1"><strong>Date:</strong> ${new Date(notification.date).toLocaleString()}</p>
+                    ${notification.pin ? `<p class="mb-0"><strong>Your PIN:</strong> <span class="fw-bold text-success">${notification.pin}</span></p>` : ''}
+                </div>
+                <p class="text-muted">This notification was sent to your registered phone number. 
+                Keep your PIN secure and do not share it with anyone.</p>
+            `;
+            
+            // Mark as read
+            const notifications = JSON.parse(localStorage.getItem('studentNotifications') || '[]');
+            const index = notifications.findIndex(n => n.id === notification.id);
+            if (index !== -1) {
+                notifications[index].read = true;
+                localStorage.setItem('studentNotifications', JSON.stringify(notifications));
+            }
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
+            modal.show();
+            
+            // Refresh notifications
+            loadNotifications();
+        }
+        
+        function requestNewPIN() {
+            window.location.href = 'request-pin.html';
+        }
+        
+        function updateProfile() {
+            alert('Profile update functionality will be available in the live system.');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Result - IHS</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="../css/custom.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <header class="py-3 mb-4 border-bottom bg-white">
+        <div class="container d-flex flex-wrap justify-content-center">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
+                    <span class="fs-4 fw-bold">IHS</span>
+                </div>
+                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Student Login</a></li>
+                <li class="nav-item"><a href="check-result.html" class="nav-link active">Check Result</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white text-center py-4">
+                        <h2 class="mb-0 fw-bold"><i class="bi bi-search me-2"></i>Check Your Result</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="alert alert-info">
+                            <strong>Note:</strong> You need a valid PIN to check your result. If you don't have one, 
+                            <a href="request-pin.html" class="alert-link">request a PIN here</a>.
+                        </div>
+                        
+                        <form id="checkResultForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="form-label fw-semibold">Full Name</label>
+                                        <input type="text" class="form-control" id="studentName" placeholder="Enter your full name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="form-label fw-semibold">Admission Number</label>
+                                        <input type="text" class="form-control" id="admissionNo" placeholder="Enter your admission number" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="form-label fw-semibold">Class</label>
+                                        <select class="form-select" id="studentClass" required>
+                                            <option value="">Select Class</option>
+                                            <option>SS1</option>
+                                            <option>SS2</option>
+                                            <option>SS3</option>
+                                            <option>JSS1</option>
+                                            <option>JSS2</option>
+                                            <option>JSS3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="form-label fw-semibold">Track/Stream</label>
+                                        <select class="form-select" id="studentTrack" required>
+                                            <option value="">Select Track</option>
+                                            <option>Science</option>
+                                            <option>Arts</option>
+                                            <option>Commercial</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="form-label fw-semibold">Term</label>
+                                        <select class="form-select" id="studentTerm" required>
+                                            <option value="">Select Term</option>
+                                            <option>First Term</option>
+                                            <option>Second Term</option>
+                                            <option>Third Term</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label class="form-label fw-semibold">Academic Session</label>
+                                        <select class="form-select" id="studentSession" required>
+                                            <option value="">Select Session</option>
+                                            <option>2024/2025</option>
+                                            <option>2025/2026</option>
+                                            <option>2026/2027</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div>
+                                        <label class="form-label fw-semibold">Result PIN</label>
+                                        <input type="password" class="form-control" id="studentPin" placeholder="Enter your result PIN" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                                    <i class="bi bi-eye me-2"></i>View Result
+                                </button>
+                                <a href="login.html" class="btn btn-outline-secondary py-3">
+                                    <i class="bi bi-person me-2"></i>Student Portal
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-4 mt-5 bg-dark text-white">
+        <div class="container text-center">
+            <p class="mb-0">295, Sapele/Warri Road, Sapele, Delta State</p>
+            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.getElementById('checkResultForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('studentName').value;
+            const admissionNo = document.getElementById('admissionNo').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const track = document.getElementById('studentTrack').value;
+            const term = document.getElementById('studentTerm').value;
+            const session = document.getElementById('studentSession').value;
+            const pin = document.getElementById('studentPin').value;
+            
+            // For demo purposes, we'll use a sample student
+            if (pin === 'IHS2026SS1SC' && admissionNo === 'SS1SC2026001') {
+                // Save result check in localStorage for demo purposes
+                const result = {
+                    name: name,
+                    admissionNo: admissionNo,
+                    class: studentClass,
+                    track: track,
+                    term: term,
+                    session: session,
+                    pin: pin,
+                    checkedAt: new Date().toISOString()
+                };
+                
+                // Get existing results or initialize empty array
+                const results = JSON.parse(localStorage.getItem('resultChecks') || '[]');
+                results.push(result);
+                localStorage.setItem('resultChecks', JSON.stringify(results));
+                
+                // Redirect to result page
+                window.location.href = `result-details.html?name=${encodeURIComponent(name)}&adm=${admissionNo}&class=${studentClass}&track=${track}&term=${term}&session=${session}&pin=${pin}`;
+            } else {
+                alert('Invalid PIN or student details. Please check your information and try again.');
+            }
+        });
+        
+        // Check URL parameters for direct access with PIN
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const adm = urlParams.get('adm');
+            const pin = urlParams.get('pin');
+            
+            if (adm && pin) {
+                document.getElementById('admissionNo').value = adm;
+                document.getElementById('studentPin').value = pin;
+                
+                // Auto-fill other fields for demo
+                if (adm === 'SS1SC2026001') {
+                    document.getElementById('studentName').value = 'Emmanuel Ochuko Omoniyi';
+                    document.getElementById('studentClass').value = 'SS1';
+                    document.getElementById('studentTrack').value = 'Science';
+                    document.getElementById('studentTerm').value = 'Second Term';
+                    document.getElementById('studentSession').value = '2025/2026';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

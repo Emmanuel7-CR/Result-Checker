@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - IHS</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="../css/custom.css" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-dark text-white">
+            <div class="p-3 text-center border-bottom">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
+                    <span class="fs-4 fw-bold">IHS</span>
+                </div>
+                <h5 class="fw-bold">ADMIN PORTAL</h5>
+            </div>
+            <ul class="nav flex-column p-3">
+                <li class="nav-item mb-2">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="pin-verification.html" class="nav-link">
+                        <i class="bi bi-credit-card me-2"></i>PIN Verification
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="result-entry.html" class="nav-link">
+                        <i class="bi bi-file-earmark-text me-2"></i>Result Entry
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="settings.html" class="nav-link active">
+                        <i class="bi bi-gear me-2"></i>Settings
+                    </a>
+                </li>
+                <li class="nav-item mt-4 pt-3 border-top">
+                    <a href="login.html" class="nav-link text-warning" id="logoutBtn">
+                        <i class="bi bi-door-open me-2"></i>Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="bg-white shadow-sm p-3 mb-4">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h1 class="h4 mb-0">System Settings</h1>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i>ihsadmin
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Academic Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="academicSettingsForm">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div>
+                                                <label class="form-label fw-semibold">Current Academic Session</label>
+                                                <select class="form-select" required>
+                                                    <option>2024/2025</option>
+                                                    <option selected>2025/2026</option>
+                                                    <option>2026/2027</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div>
+                                                <label class="form-label fw-semibold">Current Term</label>
+                                                <select class="form-select" required>
+                                                    <option>First Term</option>
+                                                    <option selected>Second Term</option>
+                                                    <option>Third Term</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div>
+                                                <label class="form-label fw-semibold">Next Term Begins</label>
+                                                <input type="date" class="form-control" value="2026-05-10" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div>
+                                                <label class="form-label fw-semibold">Result Release Date</label>
+                                                <input type="date" class="form-control" value="2026-04-28" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-save me-2"></i>Save Academic Settings
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">Grade Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Score Range</th>
+                                                <th>Grade</th>
+                                                <th>Remark</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>70-100</td>
+                                                <td>A</td>
+                                                <td>EXCELLENT</td>
+                                            </tr>
+                                            <tr>
+                                                <td>60-69</td>
+                                                <td>B</td>
+                                                <td>VERY GOOD</td>
+                                            </tr>
+                                            <tr>
+                                                <td>50-59</td>
+                                                <td>C</td>
+                                                <td>AVERAGE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>45-49</td>
+                                                <td>D</td>
+                                                <td>BELOW AVERAGE</td>
+                                            </tr>
+                                            <tr>
+                                                <td>40-44</td>
+                                                <td>E</td>
+                                                <td>FAIR</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0-39</td>
+                                                <td>F</td>
+                                                <td>FAIL</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-outline-info">
+                                        <i class="bi bi-pencil me-2"></i>Edit Grade Scale
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">Payment Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="paymentSettingsForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">PIN Cost (₦)</label>
+                                        <input type="number" class="form-control" value="1000" min="100" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Bank Name</label>
+                                        <input type="text" class="form-control" value="First Bank of Nigeria" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Account Name</label>
+                                        <input type="text" class="form-control" value="International High School" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Account Number</label>
+                                        <input type="text" class="form-control" value="2034567890" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">PIN Validity Period</label>
+                                        <select class="form-select" required>
+                                            <option>1 Session</option>
+                                            <option selected>1 Academic Year</option>
+                                            <option>2 Academic Years</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="bi bi-save me-2"></i>Save Payment Settings
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Admin Accounts</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Current Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter current password">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">New Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter new password">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Confirm Password</label>
+                                    <input type="password" class="form-control" placeholder="Confirm new password">
+                                </div>
+                                <button class="btn btn-success w-100">
+                                    <i class="bi bi-key me-2"></i>Change Password
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0">System Information</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">System Version</small>
+                                    <strong class="d-block p-2 bg-light rounded">2.1.0</strong>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">Last Updated</small>
+                                    <strong class="d-block p-2 bg-light rounded">January 8, 2026</strong>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">Database Status</small>
+                                    <strong class="d-block p-2 bg-light rounded text-success">Connected</strong>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block mb-1">Storage Usage</small>
+                                    <div class="progress mt-2" style="height: 10px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted mt-1">45% used (2.7GB of 6GB)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0">System Maintenance</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-warning">
+                                    <strong>Warning:</strong> These actions affect the entire system. Use with caution.
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-danger">
+                                        <i class="bi bi-database me-2"></i>Backup Database
+                                    </button>
+                                    <button class="btn btn-outline-danger">
+                                        <i class="bi bi-arrow-repeat me-2"></i>Clear Cache
+                                    </button>
+                                    <button class="btn btn-danger">
+                                        <i class="bi bi-power me-2"></i>Restart System
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+            .content {
+                margin-left: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            padding: 10px 15px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            font-weight: 600;
+            border-radius: 10px 10px 0 0 !important;
+        }
+    </style>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is logged in
+            if (localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('adminLoggedIn');
+            });
+            
+            // Form submissions
+            document.getElementById('academicSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Academic settings saved successfully!');
+            });
+            
+            document.getElementById('paymentSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Payment settings saved successfully!');
+            });
+        });
+    </script>
+</body>
+</html>

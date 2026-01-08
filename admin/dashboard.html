@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - IHS</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
@@ -14,7 +14,9 @@
         <!-- Sidebar -->
         <aside class="sidebar bg-dark text-white">
             <div class="p-3 text-center border-bottom">
-                <img src="../assets/logo.png" alt="IHS Logo" height="40" class="mb-2">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
+                    <span class="fs-4 fw-bold">IHS</span>
+                </div>
                 <h5 class="fw-bold">ADMIN PORTAL</h5>
             </div>
             <ul class="nav flex-column p-3">
@@ -24,13 +26,8 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="academic-setup.html" class="nav-link">
-                        <i class="bi bi-mortarboard me-2"></i>Academic Setup
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="students.html" class="nav-link">
-                        <i class="bi bi-people me-2"></i>Students
+                    <a href="pin-verification.html" class="nav-link">
+                        <i class="bi bi-credit-card me-2"></i>PIN Verification
                     </a>
                 </li>
                 <li class="nav-item mb-2">
@@ -39,17 +36,12 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="payments.html" class="nav-link">
-                        <i class="bi bi-credit-card me-2"></i>Payments
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="pins.html" class="nav-link">
-                        <i class="bi bi-key me-2"></i>PIN Management
+                    <a href="settings.html" class="nav-link">
+                        <i class="bi bi-gear me-2"></i>Settings
                     </a>
                 </li>
                 <li class="nav-item mt-4 pt-3 border-top">
-                    <a href="../index.html" class="nav-link text-warning">
+                    <a href="login.html" class="nav-link text-warning" id="logoutBtn">
                         <i class="bi bi-door-open me-2"></i>Logout
                     </a>
                 </li>
@@ -64,13 +56,12 @@
                         <h1 class="h4 mb-0">Dashboard</h1>
                         <div class="dropdown">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>Admin User
+                                <i class="bi bi-person-circle me-1"></i>ihsadmin
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="../index.html">Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -89,7 +80,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div class="card border-primary h-100 bg-light">
                                             <div class="card-body">
-                                                <h1 class="display-6 text-primary fw-bold">24</h1>
+                                                <h1 class="display-6 text-primary fw-bold">15</h1>
                                                 <p class="mb-0">Classes</p>
                                             </div>
                                         </div>
@@ -97,7 +88,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div class="card border-success h-100 bg-light">
                                             <div class="card-body">
-                                                <h1 class="display-6 text-success fw-bold">1,250</h1>
+                                                <h1 class="display-6 text-success fw-bold">428</h1>
                                                 <p class="mb-0">Students</p>
                                             </div>
                                         </div>
@@ -113,8 +104,8 @@
                                     <div class="col-md-3 mb-3">
                                         <div class="card border-warning h-100 bg-light">
                                             <div class="card-body">
-                                                <h1 class="display-6 text-warning fw-bold">87</h1>
-                                                <p class="mb-0">Pending Payments</p>
+                                                <h1 class="display-6 text-warning fw-bold">17</h1>
+                                                <p class="mb-0">Pending PIN Requests</p>
                                             </div>
                                         </div>
                                     </div>
@@ -129,31 +120,31 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Result Upload Completed</div>
-                                        SS3 Science Mathematics results uploaded successfully
+                                        <div class="fw-bold">PIN Request Approved</div>
+                                        PIN generated for Emmanuel Ochuko Omoniyi (SS1SC2026001)
                                     </div>
-                                    <span class="badge bg-primary rounded-pill">2 min ago</span>
+                                    <span class="badge bg-primary rounded-pill">10 min ago</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Payment Verified</div>
-                                        Payment for STUD12345 verified and PIN generated
+                                        <div class="fw-bold">Result Uploaded</div>
+                                        SS1 Science results for Second Term uploaded
                                     </div>
-                                    <span class="badge bg-success rounded-pill">15 min ago</span>
+                                    <span class="badge bg-success rounded-pill">45 min ago</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div class="ms-2 me-auto">
-                                        <div class="fw-bold">New Student Added</div>
-                                        5 new SS1 Arts students added to system
+                                        <div class="fw-bold">New PIN Request</div>
+                                        Payment receipt uploaded by Chinwe Adebayo (SS2AR2026002)
                                     </div>
-                                    <span class="badge bg-info rounded-pill">1 hour ago</span>
+                                    <span class="badge bg-info rounded-pill">2 hours ago</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Academic Session Updated</div>
-                                        2026/2027 session configured with terms
+                                        <div class="fw-bold">System Settings</div>
+                                        Academic session 2026/2027 configured
                                     </div>
-                                    <span class="badge bg-warning rounded-pill">3 hours ago</span>
+                                    <span class="badge bg-warning rounded-pill">5 hours ago</span>
                                 </li>
                             </ul>
                         </div>
@@ -166,17 +157,17 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-grid gap-2">
-                                    <a href="academic-setup.html" class="btn btn-outline-primary">
-                                        <i class="bi bi-gear me-2"></i>Configure Academics
+                                    <a href="pin-verification.html" class="btn btn-outline-primary">
+                                        <i class="bi bi-credit-card me-2"></i>Verify Payment Receipts
                                     </a>
                                     <a href="result-entry.html" class="btn btn-outline-success">
-                                        <i class="bi bi-upload me-2"></i>Upload Results
+                                        <i class="bi bi-upload me-2"></i>Upload Results (CSV)
                                     </a>
-                                    <a href="payments.html" class="btn btn-outline-warning">
-                                        <i class="bi bi-credit-card me-2"></i>Verify Payments
+                                    <a href="settings.html" class="btn btn-outline-warning">
+                                        <i class="bi bi-gear me-2"></i>System Settings
                                     </a>
-                                    <a href="pins.html" class="btn btn-outline-danger">
-                                        <i class="bi bi-key me-2"></i>Manage PINs
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="bi bi-file-earmark-excel me-2"></i>Generate Reports
                                     </a>
                                 </div>
                             </div>
@@ -184,24 +175,21 @@
 
                         <div class="card">
                             <div class="card-header bg-warning text-dark">
-                                <h5 class="mb-0">Pending Tasks</h5>
+                                <h5 class="mb-0">System Status</h5>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <span class="badge bg-danger me-2">12</span> Unverified payments
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge bg-warning me-2">5</span> Result uploads pending
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge bg-info me-2">3</span> New student registrations
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="badge bg-success me-2">8</span> PINs to be revoked
-                                </li>
-                            </ul>
-                            <div class="card-footer text-center">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View All Tasks</a>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">Current Session</small>
+                                    <strong class="d-block p-2 bg-light rounded">2025/2026</strong>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">Current Term</small>
+                                    <strong class="d-block p-2 bg-light rounded">Second Term</strong>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block mb-1">Next Term Begins</small>
+                                    <strong class="d-block p-2 bg-light rounded">May 10, 2026</strong>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,7 +198,110 @@
         </main>
     </div>
 
-    <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="../js/custom.js"></script>
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+            .content {
+                margin-left: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            padding: 10px 15px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            font-weight: 600;
+            border-radius: 10px 10px 0 0 !important;
+        }
+    </style>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is logged in
+            if (localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('adminLoggedIn');
+            });
+            
+            // Demo notification
+            const demoNotification = document.createElement('div');
+            demoNotification.className = 'alert alert-info position-fixed bottom-0 end-0 m-3 shadow';
+            demoNotification.style.zIndex = '9999';
+            demoNotification.style.maxWidth = '350px';
+            demoNotification.innerHTML = `
+                <strong>Admin Demo:</strong> You are logged in as ihsadmin. This is a simulation of the admin portal.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            document.body.appendChild(demoNotification);
+            
+            // Auto-dismiss after 8 seconds
+            setTimeout(function() {
+                demoNotification.remove();
+            }, 8000);
+        });
+    </script>
 </body>
 </html>

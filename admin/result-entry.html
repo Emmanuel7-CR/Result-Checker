@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result Entry - IHS</title>
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
@@ -13,9 +13,10 @@
     <div class="admin-container">
         <!-- Sidebar -->
         <aside class="sidebar bg-dark text-white">
-            <!-- Same sidebar content as dashboard.html -->
             <div class="p-3 text-center border-bottom">
-                <img src="../assets/logo.png" alt="IHS Logo" height="40" class="mb-2">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
+                    <span class="fs-4 fw-bold">IHS</span>
+                </div>
                 <h5 class="fw-bold">ADMIN PORTAL</h5>
             </div>
             <ul class="nav flex-column p-3">
@@ -25,13 +26,8 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="academic-setup.html" class="nav-link">
-                        <i class="bi bi-mortarboard me-2"></i>Academic Setup
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="students.html" class="nav-link">
-                        <i class="bi bi-people me-2"></i>Students
+                    <a href="pin-verification.html" class="nav-link">
+                        <i class="bi bi-credit-card me-2"></i>PIN Verification
                     </a>
                 </li>
                 <li class="nav-item mb-2">
@@ -40,17 +36,12 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="payments.html" class="nav-link">
-                        <i class="bi bi-credit-card me-2"></i>Payments
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="pins.html" class="nav-link">
-                        <i class="bi bi-key me-2"></i>PIN Management
+                    <a href="settings.html" class="nav-link">
+                        <i class="bi bi-gear me-2"></i>Settings
                     </a>
                 </li>
                 <li class="nav-item mt-4 pt-3 border-top">
-                    <a href="../index.html" class="nav-link text-warning">
+                    <a href="login.html" class="nav-link text-warning" id="logoutBtn">
                         <i class="bi bi-door-open me-2"></i>Logout
                     </a>
                 </li>
@@ -65,13 +56,12 @@
                         <h1 class="h4 mb-0">Result Entry</h1>
                         <div class="dropdown">
                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>Admin User
+                                <i class="bi bi-person-circle me-1"></i>ihsadmin
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="../index.html">Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -79,16 +69,20 @@
             </header>
 
             <div class="container-fluid">
+                <div class="alert alert-info">
+                    <strong>Note:</strong> Upload results for paper-based examinations using CSV files. Ensure files follow the required format before uploading.
+                </div>
+                
                 <div class="card mb-4">
                     <div class="card-header bg-success text-white">
-                        <h5 class="mb-0">Upload Results for Paper Examinations</h5>
+                        <h5 class="mb-0">Bulk Result Upload (CSV/Excel)</h5>
                     </div>
                     <div class="card-body">
                         <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="alert alert-info">
+                            <div class="col-md-7">
+                                <div class="alert alert-info mb-0">
                                     <strong>Instructions:</strong> 
-                                    <ol>
+                                    <ol class="mb-0">
                                         <li>Select class, track, subject, session and term</li>
                                         <li>Download the template CSV file</li>
                                         <li>Fill in scores following validation rules</li>
@@ -96,8 +90,8 @@
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-md-6 text-end">
-                                <button class="btn btn-outline-primary">
+                            <div class="col-md-5 text-end">
+                                <button class="btn btn-outline-primary" id="downloadTemplateBtn">
                                     <i class="bi bi-download me-1"></i> Download CSV Template
                                 </button>
                             </div>
@@ -105,14 +99,15 @@
 
                         <form class="row g-3 mb-4">
                             <div class="col-md-3">
-                                <label class="form-label">Academic Session</label>
+                                <label class="form-label fw-semibold">Academic Session</label>
                                 <select class="form-select">
                                     <option>2024/2025</option>
                                     <option selected>2025/2026</option>
+                                    <option>2026/2027</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Term</label>
+                                <label class="form-label fw-semibold">Term</label>
                                 <select class="form-select">
                                     <option>First Term</option>
                                     <option selected>Second Term</option>
@@ -120,30 +115,36 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Class</label>
-                                <select class="form-select">
+                                <label class="form-label fw-semibold">Class</label>
+                                <select class="form-select" id="resultClass">
                                     <option>JSS1</option>
                                     <option>JSS2</option>
-                                    <option>SS1</option>
+                                    <option selected>SS1</option>
                                     <option>SS2</option>
-                                    <option selected>SS3</option>
+                                    <option>SS3</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Track</label>
-                                <select class="form-select">
-                                    <option>Science</option>
-                                    <option selected>Arts</option>
+                                <label class="form-label fw-semibold">Track</label>
+                                <select class="form-select" id="resultTrack">
+                                    <option selected>Science</option>
+                                    <option>Arts</option>
                                     <option>Commercial</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Subject</label>
+                                <label class="form-label fw-semibold">Subject</label>
                                 <select class="form-select">
                                     <option>Mathematics</option>
-                                    <option selected>Literature</option>
-                                    <option>Government</option>
+                                    <option>English Language</option>
+                                    <option>Physics</option>
+                                    <option>Chemistry</option>
+                                    <option>Biology</option>
+                                    <option>Geography</option>
                                     <option>Economics</option>
+                                    <option>Government</option>
+                                    <option>Literature</option>
+                                    <option>Computer Science</option>
                                 </select>
                             </div>
                             <div class="col-md-8 d-flex align-items-end">
@@ -157,74 +158,20 @@
                         </form>
 
                         <div class="border p-3 mb-4 bg-light rounded">
-                            <h5 class="mb-3">Upload CSV File</h5>
+                            <h5 class="mb-3 fw-bold">Upload CSV File</h5>
                             <div class="mb-3">
-                                <label for="csvUpload" class="form-label">Select CSV file (max 2MB)</label>
+                                <label for="csvUpload" class="form-label fw-semibold">Select CSV file (max 2MB)</label>
                                 <input class="form-control" type="file" id="csvUpload" accept=".csv">
                                 <div class="form-text">File must match the template format with columns: Admission Number, Student Name, CA, PT1, PT2, Exam</div>
                             </div>
-                            <button class="btn btn-success">
-                                <i class="bi bi-cloud-upload me-1"></i> Upload Results
-                            </button>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Admission No</th>
-                                        <th>Student Name</th>
-                                        <th>CA (10)</th>
-                                        <th>PT1 (10)</th>
-                                        <th>PT2 (10)</th>
-                                        <th>Exam (70)</th>
-                                        <th>Total</th>
-                                        <th>Grade</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>STUD12345</td>
-                                        <td>John Doe</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>7</td>
-                                        <td>65</td>
-                                        <td class="fw-bold text-success">89</td>
-                                        <td><span class="badge bg-success">A</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Edit</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>STUD67890</td>
-                                        <td>Jane Smith</td>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>9</td>
-                                        <td>58</td>
-                                        <td class="fw-bold text-success">82</td>
-                                        <td><span class="badge bg-success">A</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Edit</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>STUD24680</td>
-                                        <td>Alex Johnson</td>
-                                        <td>5</td>
-                                        <td>6</td>
-                                        <td>4</td>
-                                        <td>45</td>
-                                        <td class="fw-bold text-warning">60</td>
-                                        <td><span class="badge bg-warning">B</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Edit</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-success" id="uploadResultsBtn">
+                                    <i class="bi bi-cloud-upload me-1"></i> Upload Results
+                                </button>
+                                <button class="btn btn-outline-secondary" id="previewBtn" disabled>
+                                    <i class="bi bi-eye me-1"></i> Preview Data
+                                </button>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">
@@ -241,6 +188,141 @@
         </main>
     </div>
 
-    <script src="../js/bootstrap.bundle.min.js"></script>
+    <style>
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+            .content {
+                margin-left: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            padding: 10px 15px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            font-weight: 600;
+            border-radius: 10px 10px 0 0 !important;
+        }
+    </style>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is logged in
+            if (localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+            }
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('adminLoggedIn');
+            });
+            
+            // Download template button
+            document.getElementById('downloadTemplateBtn').addEventListener('click', function() {
+                alert('In the live system, this would download a CSV template file with the correct format for bulk uploads.');
+            });
+            
+            // CSV file upload
+            document.getElementById('csvUpload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const previewBtn = document.getElementById('previewBtn');
+                
+                if (file) {
+                    if (file.size > 2000000) { // 2MB limit
+                        alert('File too large! Maximum size is 2MB.');
+                        this.value = '';
+                        previewBtn.disabled = true;
+                        return;
+                    }
+                    
+                    if (file.name.split('.').pop().toLowerCase() !== 'csv') {
+                        alert('Invalid file format! Please upload a CSV file.');
+                        this.value = '';
+                        previewBtn.disabled = true;
+                        return;
+                    }
+                    
+                    previewBtn.disabled = false;
+                } else {
+                    previewBtn.disabled = true;
+                }
+            });
+            
+            // Upload results button
+            document.getElementById('uploadResultsBtn').addEventListener('click', function() {
+                const fileInput = document.getElementById('csvUpload');
+                
+                if (!fileInput.files.length) {
+                    alert('Please select a CSV file to upload');
+                    return;
+                }
+                
+                alert('Results have been successfully uploaded!\n\nIn the live system, this would process the CSV file and save the results to the database. Students would then be able to check their results using their PINs.');
+                
+                // Reset form
+                fileInput.value = '';
+                document.getElementById('previewBtn').disabled = true;
+            });
+        });
+    </script>
 </body>
 </html>
