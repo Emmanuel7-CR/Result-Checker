@@ -1,0 +1,114 @@
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    overflow-y: auto;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+}
+
+.content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 220px;
+    }
+    .content {
+        margin-left: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card-header {
+    font-weight: 600;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0,0,0,0.03);
+}
+
+.nav-pills .nav-link.active {
+    background-color: #0d6efd;
+}
+
+.nav-pills .nav-link {
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.footer {
+    background-color: #212529;
+    color: #fff;
+    padding: 20px 0;
+}
