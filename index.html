@@ -4,206 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>International High School - Result Checker</title>
-    <!-- Fixed: removed trailing spaces in URLs -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #10b981;
-            --danger-color: #ef4444;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .page-container {
-            display: none;
-        }
-
-        .page-container.active {
-            display: block;
-        }
-
-        .navbar-custom {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .hero-section {
-            padding: 60px 0;
-            color: white;
-        }
-
-        @media (min-width: 768px) {
-            .hero-section {
-                padding: 80px 0;
-            }
-        }
-
-        .card-custom {
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            border: none;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-5px);
-        }
-
-        .btn-primary-custom {
-            background: var(--primary-color);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary-custom:hover {
-            background: #4338ca;
-            transform: translateY(-2px);
-        }
-
-        .btn-success-custom {
-            background: var(--secondary-color);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .btn-success-custom:hover {
-            background: #059669;
-        }
-
-        .icon-large {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        @media (min-width: 576px) {
-            .icon-large {
-                font-size: 3rem;
-            }
-        }
-
-        .result-table th {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .stats-card {
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .modal-custom .modal-content {
-            border-radius: 15px;
-        }
-
-        .pin-display {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: var(--secondary-color);
-            padding: 20px;
-            background: #f0fdf4;
-            border-radius: 10px;
-            border: 2px solid var(--secondary-color);
-        }
-
-        @media (min-width: 576px) {
-            .pin-display {
-                font-size: 2rem;
-                letter-spacing: 3px;
-            }
-        }
-
-        .subject-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .admin-sidebar {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 auto 15px;
-        }
-
-        .school-header {
-            text-align: center;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
-        }
-
-        .alert-demo {
-            background: #dbeafe;
-            border: 1px solid #3b82f6;
-            color: #1e40af;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <!-- HOME PAGE -->
     <div id="homePage" class="page-container active">
-        <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-custom py-2">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="#">
-                    <i class="bi bi-mortarboard-fill text-primary fs-3 me-2"></i>
+                    <i class="bi bi-mortarboard-fill text-primary fs-4 me-2"></i>
                     <div>
-                        <strong>International High School</strong>
+                        <strong class="d-lg-block d-none">International High School</strong>
+                        <strong class="d-lg-none">IHS</strong>
                         <small class="d-block text-muted" style="font-size: 0.75rem;">Excellence in Education</small>
                     </div>
                 </a>
-                <button class="btn btn-outline-primary" onclick="showPage('adminLoginPage')">
-                    <i class="bi bi-lock-fill me-2"></i>Admin
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <button class="btn btn-outline-primary w-100" onclick="showPage('adminLoginPage')">
+                                <i class="bi bi-lock-fill me-2"></i>Admin
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
 
-        <div class="container hero-section">
-            <div class="text-center mb-5">
-                <h1 class="display-5 fw-bold mb-3">Check Your Results Online</h1>
+        <div class="home-content">
+            <div class="container hero-section">
+            <div class="text-center mb-4 mb-md-5">
+                <h1 class="display-5 fw-bold mb-2 mb-md-3">Check Your Results Online</h1>
                 <p class="fs-6">Fast, Secure, and Convenient Result Verification</p>
             </div>
 
             <div class="row g-4 mb-5">
                 <div class="col-md-6">
                     <div class="card card-custom h-100">
-                        <div class="card-body p-4">
-                            <i class="bi bi-search text-primary icon-large"></i>
-                            <h3 class="h5 card-title mb-3">Check Result</h3>
-                            <p class="card-text text-muted mb-4">Enter your details and PIN to view your examination results</p>
-                            <button class="btn btn-primary-custom w-100" onclick="showPage('checkResultPage')">
+                        <div class="card-body p-3 p-md-4">
+                            <i class="bi bi-search text-primary icon-large d-block mx-auto mb-3 mb-md-4"></i>
+                            <h3 class="h5 card-title mb-2 mb-md-3">Check Result</h3>
+                            <p class="card-text text-muted mb-3 mb-md-4">Enter your details and PIN to view your examination results</p>
+                            <button class="btn btn-primary-custom w-100 py-2 py-md-3" onclick="showPage('checkResultPage')">
                                 Proceed to Check Result
                             </button>
                         </div>
@@ -212,15 +60,15 @@
 
                 <div class="col-md-6">
                     <div class="card card-custom h-100">
-                        <div class="card-body p-4">
-                            <i class="bi bi-credit-card text-success icon-large"></i>
-                            <h3 class="h5 card-title mb-3">Purchase PIN</h3>
-                            <div class="mb-3">
+                        <div class="card-body p-3 p-md-4">
+                            <i class="bi bi-credit-card text-success icon-large d-block mx-auto mb-3 mb-md-4"></i>
+                            <h3 class="h5 card-title mb-2 mb-md-3">Purchase PIN</h3>
+                            <div class="mb-3 mb-md-4">
                                 <p class="card-text text-muted mb-2">Get your result checking PIN</p>
-                                <h2 class="text-success mb-0">₦1,000</h2>
+                                <h2 class="text-success mb-1">₦1,000</h2>
                                 <small class="text-muted">Per PIN</small>
                             </div>
-                            <button class="btn btn-success-custom w-100" onclick="showPurchaseModal()">
+                            <button class="btn btn-success-custom w-100 py-2 py-md-3" onclick="showPurchaseModal()">
                                 Purchase PIN
                             </button>
                         </div>
@@ -231,33 +79,33 @@
             <div class="row g-4">
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card card-custom h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon">
+                        <div class="card-body text-center p-3 p-md-4">
+                            <div class="feature-icon mx-auto mb-3">
                                 <i class="bi bi-lightning-charge-fill"></i>
                             </div>
-                            <h5 class="fw-bold">Instant Access</h5>
+                            <h5 class="fw-bold mb-2">Instant Access</h5>
                             <p class="text-muted mb-0">View your results immediately after release</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card card-custom h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon">
+                        <div class="card-body text-center p-3 p-md-4">
+                            <div class="feature-icon mx-auto mb-3">
                                 <i class="bi bi-shield-check"></i>
                             </div>
-                            <h5 class="fw-bold">Secure System</h5>
+                            <h5 class="fw-bold mb-2">Secure System</h5>
                             <p class="text-muted mb-0">PIN-protected access to your results</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 mb-4">
                     <div class="card card-custom h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="feature-icon">
+                        <div class="card-body text-center p-3 p-md-4">
+                            <div class="feature-icon mx-auto mb-3">
                                 <i class="bi bi-download"></i>
                             </div>
-                            <h5 class="fw-bold">Download Results</h5>
+                            <h5 class="fw-bold mb-2">Download Results</h5>
                             <p class="text-muted mb-0">Download your results as PDF</p>
                         </div>
                     </div>
@@ -268,18 +116,18 @@
 
     <!-- CHECK RESULT PAGE -->
     <div id="checkResultPage" class="page-container">
-        <div class="container py-4 py-md-5">
-            <button class="btn btn-link text-white mb-4 p-0" onclick="showPage('homePage')">
+        <div class="container py-3 py-md-4">
+            <button class="btn btn-link text-white p-0 mb-3 mb-md-4" onclick="showPage('homePage')">
                 <i class="bi bi-arrow-left me-2"></i>Back to Home
             </button>
 
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="card card-custom">
-                        <div class="card-body p-4 p-md-5">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 3rem;"></i>
-                                <h2 class="h4 fw-bold mt-3">Check Your Result</h2>
+                        <div class="card-body p-3 p-md-4 p-lg-5">
+                            <div class="text-center mb-3 mb-md-4">
+                                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 2.5rem;"></i>
+                                <h2 class="h4 fw-bold mt-2 mt-md-3">Check Your Result</h2>
                                 <p class="text-muted">Enter your details to view your examination results</p>
                             </div>
 
@@ -318,12 +166,12 @@
                                     <small class="text-muted">Don't have a PIN? <a href="#" onclick="showPurchaseModal(); return false;">Purchase here</a></small>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary-custom w-100 mt-3">
+                                <button type="submit" class="btn btn-primary-custom w-100 mt-3 py-2 py-md-3">
                                     Check Result
                                 </button>
                             </form>
 
-                            <div class="alert alert-demo mt-4 p-3">
+                            <div class="alert alert-demo mt-3 mt-md-4 p-2 p-md-3">
                                 <strong>Demo Credentials:</strong><br>
                                 <small>Name: Oluwaseun Adebayo | Class: SS3 | Session: 2024/2025 | PIN: IHS2024001</small>
                             </div>
@@ -336,23 +184,23 @@
 
     <!-- RESULT PAGE -->
     <div id="resultPage" class="page-container">
-        <div class="container py-4 py-md-5">
-            <button class="btn btn-link text-white mb-4 p-0" onclick="showPage('homePage')">
+        <div class="container py-3 py-md-4">
+            <button class="btn btn-link text-white p-0 mb-3 mb-md-4" onclick="showPage('homePage')">
                 <i class="bi bi-arrow-left me-2"></i>Back to Home
             </button>
 
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="card card-custom">
-                        <div class="card-body p-4 p-md-5">
-                            <div class="school-header">
-                                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 3rem;"></i>
+                        <div class="card-body p-3 p-md-4 p-lg-5">
+                            <div class="school-header mb-3 mb-md-4">
+                                <i class="bi bi-mortarboard-fill text-primary" style="font-size: 2.5rem;"></i>
                                 <h2 class="h4 fw-bold mt-2">International High School</h2>
-                                <p class="text-muted mb-0">Excellence in Education</p>
+                                <p class="text-muted mb-1">Excellence in Education</p>
                                 <small class="text-muted">Academic Result Sheet</small>
                             </div>
 
-                            <div class="row mb-4 g-3">
+                            <div class="row mb-3 mb-md-4 g-2 g-md-3">
                                 <div class="col-6 col-md-3">
                                     <small class="text-muted d-block">Student Name</small>
                                     <p class="fw-bold mb-0" id="resultName"></p>
@@ -371,8 +219,8 @@
                                 </div>
                             </div>
 
-                            <h5 class="fw-bold mb-3">Subject Scores</h5>
-                            <div class="table-responsive mb-4">
+                            <h5 class="fw-bold mb-2 mb-md-3">Subject Scores</h5>
+                            <div class="table-responsive mb-3 mb-md-4">
                                 <table class="table result-table">
                                     <thead>
                                         <tr>
@@ -386,32 +234,39 @@
                                 </table>
                             </div>
 
-                            <!-- Stats: Use flex-wrap for small screens -->
-                            <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-                                <div class="stats-card bg-primary bg-opacity-10" style="min-width: 120px;">
-                                    <small class="text-muted">Total Score</small>
-                                    <h3 class="text-primary fw-bold mb-0" id="totalScore"></h3>
+                            <div class="row row-cols-2 row-cols-md-4 g-2 g-md-3 mb-3 mb-md-4">
+                                <div class="col">
+                                    <div class="stats-card bg-primary bg-opacity-10 text-center p-2 p-md-3">
+                                        <small class="text-muted d-block">Total Score</small>
+                                        <h3 class="text-primary fw-bold mb-0" id="totalScore"></h3>
+                                    </div>
                                 </div>
-                                <div class="stats-card bg-success bg-opacity-10" style="min-width: 120px;">
-                                    <small class="text-muted">Average</small>
-                                    <h3 class="text-success fw-bold mb-0" id="averageScore"></h3>
+                                <div class="col">
+                                    <div class="stats-card bg-success bg-opacity-10 text-center p-2 p-md-3">
+                                        <small class="text-muted d-block">Average</small>
+                                        <h3 class="text-success fw-bold mb-0" id="averageScore"></h3>
+                                    </div>
                                 </div>
-                                <div class="stats-card bg-info bg-opacity-10" style="min-width: 120px;">
-                                    <small class="text-muted">Grade</small>
-                                    <h3 class="text-info fw-bold mb-0" id="overallGrade"></h3>
+                                <div class="col">
+                                    <div class="stats-card bg-info bg-opacity-10 text-center p-2 p-md-3">
+                                        <small class="text-muted d-block">Grade</small>
+                                        <h3 class="text-info fw-bold mb-0" id="overallGrade"></h3>
+                                    </div>
                                 </div>
-                                <div class="stats-card bg-warning bg-opacity-10" style="min-width: 120px;">
-                                    <small class="text-muted">Position</small>
-                                    <h3 class="text-warning fw-bold mb-0">12th</h3>
+                                <div class="col">
+                                    <div class="stats-card bg-warning bg-opacity-10 text-center p-2 p-md-3">
+                                        <small class="text-muted d-block">Position</small>
+                                        <h3 class="text-warning fw-bold mb-0">12th</h3>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="alert alert-success p-3">
+                            <div class="alert alert-success p-2 p-md-3">
                                 <small class="text-muted">Remarks</small>
                                 <p class="fw-bold mb-0" id="resultRemarks"></p>
                             </div>
 
-                            <button class="btn btn-primary-custom w-100" onclick="downloadPDF()">
+                            <button class="btn btn-primary-custom w-100 mt-3 py-2" onclick="downloadPDF()">
                                 <i class="bi bi-download me-2"></i>Download Result as PDF
                             </button>
                         </div>
@@ -423,18 +278,18 @@
 
     <!-- ADMIN LOGIN PAGE -->
     <div id="adminLoginPage" class="page-container">
-        <div class="container py-4 py-md-5">
-            <div class="row justify-content-center align-items-center min-vh-100">
-                <div class="col-md-5">
-                    <button class="btn btn-link text-white mb-4 p-0" onclick="showPage('homePage')">
+        <div class="container py-3 py-md-4">
+            <div class="row justify-content-center min-vh-100 align-items-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <button class="btn btn-link text-white p-0 mb-3 mb-md-4" onclick="showPage('homePage')">
                         <i class="bi bi-arrow-left me-2"></i>Back to Home
                     </button>
 
                     <div class="card card-custom">
-                        <div class="card-body p-4 p-md-5">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-lock-fill text-primary" style="font-size: 3rem;"></i>
-                                <h2 class="h4 fw-bold mt-3">Admin Login</h2>
+                        <div class="card-body p-3 p-md-4 p-lg-5">
+                            <div class="text-center mb-3 mb-md-4">
+                                <i class="bi bi-lock-fill text-primary" style="font-size: 2.5rem;"></i>
+                                <h2 class="h4 fw-bold mt-2 mt-md-3">Admin Login</h2>
                                 <p class="text-muted">Enter your credentials to continue</p>
                             </div>
 
@@ -449,12 +304,12 @@
                                     <input type="password" class="form-control" value="demo123" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary-custom w-100 mt-3">
+                                <button type="submit" class="btn btn-primary-custom w-100 mt-3 py-2 py-md-3">
                                     Login
                                 </button>
                             </form>
 
-                            <div class="alert alert-demo mt-4 p-3">
+                            <div class="alert alert-demo mt-3 mt-md-4 p-2 p-md-3">
                                 <strong>Demo Login:</strong><br>
                                 <small>Username: admin | Password: demo123</small>
                             </div>
@@ -467,12 +322,13 @@
 
     <!-- ADMIN DASHBOARD PAGE -->
     <div id="adminDashboardPage" class="page-container">
-        <nav class="navbar navbar-light navbar-custom">
+        <nav class="navbar navbar-light navbar-custom py-2">
             <div class="container">
                 <div class="d-flex align-items-center">
-                    <i class="bi bi-mortarboard-fill text-primary fs-3 me-2"></i>
+                    <i class="bi bi-mortarboard-fill text-primary fs-4 me-2"></i>
                     <div>
-                        <strong>Admin Dashboard</strong>
+                        <strong class="d-lg-block d-none">Admin Dashboard</strong>
+                        <strong class="d-lg-none">Dashboard</strong>
                         <small class="d-block text-muted" style="font-size: 0.75rem;">International High School</small>
                     </div>
                 </div>
@@ -482,12 +338,12 @@
             </div>
         </nav>
 
-        <div class="container py-4 py-md-5">
-            <div class="row g-4">
+        <div class="container py-3 py-md-4">
+            <div class="row g-3 g-md-4">
                 <div class="col-lg-6">
                     <div class="card card-custom">
-                        <div class="card-body p-4">
-                            <h4 class="fw-bold mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h4 class="fw-bold mb-3 mb-md-4">
                                 <i class="bi bi-plus-circle me-2"></i>Add New Student Result
                             </h4>
 
@@ -496,7 +352,7 @@
                                 <input type="text" class="form-control" id="adminStudentName" placeholder="Enter full name">
                             </div>
 
-                            <div class="row g-3">
+                            <div class="row g-3 mb-3 mb-md-4">
                                 <div class="col-md-6">
                                     <label class="form-label fw-semibold">Class</label>
                                     <select class="form-select" id="adminStudentClass">
@@ -522,17 +378,24 @@
                             <hr>
 
                             <h5 class="fw-bold mb-3">Add Subjects</h5>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="subjectName" placeholder="Subject name">
-                                <input type="number" class="form-control flex-grow-0" id="subjectScore" placeholder="Score" min="0" max="100" style="max-width: 100px;">
-                                <button class="btn btn-success" type="button" onclick="addSubject()">
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
+                            <div class="row g-2 mb-3">
+                                <div class="col-12 col-md-7">
+                                    <input type="text" class="form-control" id="subjectName" placeholder="Subject name">
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <input type="number" class="form-control" id="subjectScore" placeholder="Score" min="0" max="100">
+                                </div>
+                                <div class="col-12 col-md-2">
+                                    <button class="btn btn-success w-100 h-100" type="button" onclick="addSubject()">
+                                        <i class="bi bi-plus-lg d-md-none"></i>
+                                        <span class="d-none d-md-inline">Add</span>
+                                    </button>
+                                </div>
                             </div>
 
                             <div id="subjectsList" class="mb-3"></div>
 
-                            <button class="btn btn-primary-custom w-100" onclick="saveStudent()">
+                            <button class="btn btn-primary-custom w-100 py-2 py-md-3" onclick="saveStudent()">
                                 Save Student & Generate PIN
                             </button>
                         </div>
@@ -541,8 +404,8 @@
 
                 <div class="col-lg-6">
                     <div class="card card-custom">
-                        <div class="card-body p-4">
-                            <h4 class="fw-bold mb-4">
+                        <div class="card-body p-3 p-md-4">
+                            <h4 class="fw-bold mb-3 mb-md-4">
                                 <i class="bi bi-eye me-2"></i>Registered Students (<span id="studentCount">2</span>)
                             </h4>
 
@@ -558,15 +421,15 @@
     <div class="modal fade" id="purchaseModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content modal-custom">
-                <div class="modal-body p-4 p-md-5">
+                <div class="modal-body p-3 p-md-4">
                     <div id="purchaseForm">
-                        <div class="text-center mb-4">
-                            <i class="bi bi-credit-card text-success" style="font-size: 3rem;"></i>
-                            <h3 class="h4 fw-bold mt-3">Purchase Result PIN</h3>
+                        <div class="text-center mb-3 mb-md-4">
+                            <i class="bi bi-credit-card text-success" style="font-size: 2.5rem;"></i>
+                            <h3 class="h4 fw-bold mt-2 mt-md-3">Purchase Result PIN</h3>
                             <p class="text-muted">Get instant access to check your results</p>
                         </div>
 
-                        <div class="bg-success bg-opacity-10 rounded p-3 p-md-4 mb-4">
+                        <div class="bg-success bg-opacity-10 rounded p-2 p-md-3 mb-3 mb-md-4">
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Result PIN</span>
                                 <strong>1 Unit</strong>
@@ -577,22 +440,26 @@
                             </div>
                         </div>
 
-                        <div class="alert alert-info text-center p-2">
+                        <div class="alert alert-info text-center p-2 mb-3 mb-md-4">
                             <small><strong>Demo Mode:</strong> This is a simulated purchase. No real payment is required.</small>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-secondary flex-fill" data-bs-dismiss="modal">Cancel</button>
-                            <button class="btn btn-success-custom flex-fill" onclick="completePurchase()">Complete Purchase</button>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <button class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-success-custom w-100" onclick="completePurchase()">Complete Purchase</button>
+                            </div>
                         </div>
                     </div>
 
                     <div id="purchaseSuccess" style="display: none;">
                         <div class="text-center">
-                            <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
-                            <h3 class="h4 fw-bold mt-3">Purchase Successful!</h3>
-                            <p class="text-muted mb-4">Your result PIN has been generated</p>
-                            <div class="pin-display mb-4" id="generatedPinDisplay"></div>
+                            <i class="bi bi-check-circle-fill text-success" style="font-size: 3.5rem;"></i>
+                            <h3 class="h4 fw-bold mt-2 mt-md-3">Purchase Successful!</h3>
+                            <p class="text-muted mb-3 mb-md-4">Your result PIN has been generated</p>
+                            <div class="pin-display mb-3 mb-md-4 p-3 p-md-4" id="generatedPinDisplay"></div>
                             <p class="text-muted"><small>Please save this PIN to check your results</small></p>
                         </div>
                     </div>
@@ -602,9 +469,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // ... (Keep all your existing JavaScript unchanged)
-        // (No changes needed in JS for responsiveness)
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
