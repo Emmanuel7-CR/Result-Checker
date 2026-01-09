@@ -8,41 +8,220 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-width-mobile: 220px;
+            --header-height: 60px;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+        
+        .content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 1.5rem;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-header {
+            height: var(--header-height);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: white;
+            transition: margin-left 0.3s ease;
+        }
+        
+        @media (max-width: 1199px) {
+            .sidebar {
+                width: var(--sidebar-width-mobile);
+            }
+            
+            .content {
+                margin-left: var(--sidebar-width-mobile);
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .main-header {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            border-radius: 0.375rem;
+            margin-bottom: 0.375rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, 
+        .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .nav-link i {
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .card {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.25rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            font-weight: 600;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .settings-form .form-label {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .grade-table th {
+            background-color: #e9ecef;
+            font-weight: 600;
+        }
+        
+        .grade-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .system-info .info-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .system-info .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .maintenance-warning {
+            border-left: 3px solid #ffc107;
+        }
+        
+        @media (max-width: 767px) {
+            .main-header .dropdown-menu {
+                position: absolute !important;
+                inset: auto auto 0 0;
+                margin: 0;
+                transform: translate3d(0, 38px, 0) !important;
+            }
+            
+            .grade-table {
+                font-size: 0.85rem;
+            }
+            
+            .grade-table td, 
+            .grade-table th {
+                padding: 0.5rem 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
-        <aside class="sidebar bg-dark text-white">
-            <div class="p-3 text-center border-bottom">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+        <aside class="sidebar bg-dark text-white" id="adminSidebar">
+            <div class="p-3 text-center border-bottom border-secondary">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 50px; height: 50px;">
+                    <span class="fs-5 fw-bold">IHS</span>
                 </div>
-                <h5 class="fw-bold">ADMIN PORTAL</h5>
+                <h5 class="fw-bold sidebar-text">ADMIN PORTAL</h5>
             </div>
-            <ul class="nav flex-column p-3">
+            <ul class="nav flex-column px-3 py-4">
                 <li class="nav-item mb-2">
                     <a href="dashboard.html" class="nav-link">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                        <i class="bi bi-speedometer2 me-3 nav-text"></i>
+                        <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="pin-verification.html" class="nav-link">
-                        <i class="bi bi-credit-card me-2"></i>PIN Verification
+                        <i class="bi bi-credit-card me-3 nav-text"></i>
+                        <span class="nav-text">PIN Verification</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="result-entry.html" class="nav-link">
-                        <i class="bi bi-file-earmark-text me-2"></i>Result Entry
+                        <i class="bi bi-file-earmark-text me-3 nav-text"></i>
+                        <span class="nav-text">Result Entry</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="settings.html" class="nav-link active">
-                        <i class="bi bi-gear me-2"></i>Settings
+                        <i class="bi bi-gear me-3 nav-text"></i>
+                        <span class="nav-text">Settings</span>
                     </a>
                 </li>
-                <li class="nav-item mt-4 pt-3 border-top">
+                <li class="nav-item mt-4 pt-3 border-top border-secondary">
                     <a href="login.html" class="nav-link text-warning" id="logoutBtn">
-                        <i class="bi bi-door-open me-2"></i>Logout
+                        <i class="bi bi-door-open me-3 nav-text"></i>
+                        <span class="nav-text">Logout</span>
                     </a>
                 </li>
             </ul>
@@ -50,37 +229,48 @@
 
         <!-- Main Content -->
         <main class="content">
-            <header class="bg-white shadow-sm p-3 mb-4">
-                <div class="container-fluid">
+            <header class="main-header bg-white shadow-sm p-2 p-md-3 mb-4 d-flex align-items-center">
+                <button class="btn btn-outline-primary d-lg-none me-3 toggle-sidebar" type="button" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="container-fluid px-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="h4 mb-0">System Settings</h1>
+                        <h1 class="h4 mb-0 fw-bold">System Settings</h1>
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>ihsadmin
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i>
+                                <span class="d-none d-md-inline">ihsadmin</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-sliders me-2"></i>Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-bell me-2"></i>Notifications <span class="badge bg-primary rounded-pill ms-1">2</span></a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn"><i class="bi bi-door-open me-2"></i>Logout</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
+            <div class="container-fluid px-0 px-md-2">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>Note:</strong> Changes to system settings affect all users. Please review carefully before saving.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
                         <div class="card mb-4">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0">Academic Settings</h5>
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-calendar3 me-2"></i>Academic Settings</h5>
+                                <span class="badge bg-light text-primary">Session Configuration</span>
                             </div>
                             <div class="card-body">
                                 <form id="academicSettingsForm">
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="form-label fw-semibold">Current Academic Session</label>
+                                                <label class="form-label fw-semibold small mb-1">Current Academic Session</label>
                                                 <select class="form-select" required>
                                                     <option>2024/2025</option>
                                                     <option selected>2025/2026</option>
@@ -90,7 +280,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="form-label fw-semibold">Current Term</label>
+                                                <label class="form-label fw-semibold small mb-1">Current Term</label>
                                                 <select class="form-select" required>
                                                     <option>First Term</option>
                                                     <option selected>Second Term</option>
@@ -100,21 +290,21 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="form-label fw-semibold">Next Term Begins</label>
+                                                <label class="form-label fw-semibold small mb-1">Next Term Begins</label>
                                                 <input type="date" class="form-control" value="2026-05-10" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <label class="form-label fw-semibold">Result Release Date</label>
+                                                <label class="form-label fw-semibold small mb-1">Result Release Date</label>
                                                 <input type="date" class="form-control" value="2026-04-28" required>
                                             </div>
                                         </div>
                                     </div>
                                     
                                     <div class="mt-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-save me-2"></i>Save Academic Settings
+                                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                                            <i class="bi bi-check-circle me-2"></i>Save Academic Settings
                                         </button>
                                     </div>
                                 </form>
@@ -123,11 +313,11 @@
                         
                         <div class="card mb-4">
                             <div class="card-header bg-info text-white">
-                                <h5 class="mb-0">Grade Settings</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-stars me-2"></i>Grade Settings</h5>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered grade-table align-middle mb-0">
                                         <thead class="table-light">
                                             <tr>
                                                 <th>Score Range</th>
@@ -137,39 +327,39 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>70-100</td>
-                                                <td>A</td>
-                                                <td>EXCELLENT</td>
+                                                <td class="fw-medium">70-100</td>
+                                                <td class="fw-bold text-success">A</td>
+                                                <td class="fw-medium">EXCELLENT</td>
                                             </tr>
                                             <tr>
-                                                <td>60-69</td>
-                                                <td>B</td>
-                                                <td>VERY GOOD</td>
+                                                <td class="fw-medium">60-69</td>
+                                                <td class="fw-bold text-primary">B</td>
+                                                <td class="fw-medium">VERY GOOD</td>
                                             </tr>
                                             <tr>
-                                                <td>50-59</td>
-                                                <td>C</td>
-                                                <td>AVERAGE</td>
+                                                <td class="fw-medium">50-59</td>
+                                                <td class="fw-bold text-warning">C</td>
+                                                <td class="fw-medium">AVERAGE</td>
                                             </tr>
                                             <tr>
-                                                <td>45-49</td>
-                                                <td>D</td>
-                                                <td>BELOW AVERAGE</td>
+                                                <td class="fw-medium">45-49</td>
+                                                <td class="fw-bold text-info">D</td>
+                                                <td class="fw-medium">BELOW AVERAGE</td>
                                             </tr>
                                             <tr>
-                                                <td>40-44</td>
-                                                <td>E</td>
-                                                <td>FAIR</td>
+                                                <td class="fw-medium">40-44</td>
+                                                <td class="fw-bold text-secondary">E</td>
+                                                <td class="fw-medium">FAIR</td>
                                             </tr>
                                             <tr>
-                                                <td>0-39</td>
-                                                <td>F</td>
-                                                <td>FAIL</td>
+                                                <td class="fw-medium">0-39</td>
+                                                <td class="fw-bold text-danger">F</td>
+                                                <td class="fw-medium">FAIL</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="mt-3">
+                                <div class="mt-3 pt-3 border-top">
                                     <button class="btn btn-outline-info">
                                         <i class="bi bi-pencil me-2"></i>Edit Grade Scale
                                     </button>
@@ -179,61 +369,62 @@
                         
                         <div class="card">
                             <div class="card-header bg-warning text-dark">
-                                <h5 class="mb-0">Payment Settings</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-credit-card me-2"></i>Payment Settings</h5>
                             </div>
                             <div class="card-body">
                                 <form id="paymentSettingsForm">
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">PIN Cost (₦)</label>
+                                        <label class="form-label fw-semibold small mb-1">PIN Cost (₦)</label>
                                         <input type="number" class="form-control" value="1000" min="100" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Bank Name</label>
+                                        <label class="form-label fw-semibold small mb-1">Bank Name</label>
                                         <input type="text" class="form-control" value="First Bank of Nigeria" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Account Name</label>
+                                        <label class="form-label fw-semibold small mb-1">Account Name</label>
                                         <input type="text" class="form-control" value="International High School" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Account Number</label>
+                                        <label class="form-label fw-semibold small mb-1">Account Number</label>
                                         <input type="text" class="form-control" value="2034567890" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">PIN Validity Period</label>
+                                        <label class="form-label fw-semibold small mb-1">PIN Validity Period</label>
                                         <select class="form-select" required>
                                             <option>1 Session</option>
                                             <option selected>1 Academic Year</option>
                                             <option>2 Academic Years</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-warning">
-                                        <i class="bi bi-save me-2"></i>Save Payment Settings
+                                    <button type="submit" class="btn btn-warning btn-lg w-100">
+                                        <i class="bi bi-check-circle me-2"></i>Save Payment Settings
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-md-4">
+                    <div class="col-12 col-lg-4">
                         <div class="card mb-4">
                             <div class="card-header bg-success text-white">
-                                <h5 class="mb-0">Admin Accounts</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-person-gear me-2"></i>Admin Accounts</h5>
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold">Current Password</label>
+                                    <label class="form-label fw-semibold small mb-1">Current Password</label>
                                     <input type="password" class="form-control" placeholder="Enter current password">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold">New Password</label>
+                                    <label class="form-label fw-semibold small mb-1">New Password</label>
                                     <input type="password" class="form-control" placeholder="Enter new password">
+                                    <small class="text-muted mt-1">Password must be at least 8 characters with letters and numbers</small>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label fw-semibold">Confirm Password</label>
+                                    <label class="form-label fw-semibold small mb-1">Confirm Password</label>
                                     <input type="password" class="form-control" placeholder="Confirm new password">
                                 </div>
-                                <button class="btn btn-success w-100">
+                                <button class="btn btn-success w-100 py-2">
                                     <i class="bi bi-key me-2"></i>Change Password
                                 </button>
                             </div>
@@ -241,47 +432,55 @@
                         
                         <div class="card mb-4">
                             <div class="card-header bg-secondary text-white">
-                                <h5 class="mb-0">System Information</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-info-circle me-2"></i>System Information</h5>
                             </div>
-                            <div class="card-body">
-                                <div class="mb-3">
+                            <div class="card-body system-info">
+                                <div class="info-item">
                                     <small class="text-muted d-block mb-1">System Version</small>
-                                    <strong class="d-block p-2 bg-light rounded">2.1.0</strong>
-                                </div>
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Last Updated</small>
-                                    <strong class="d-block p-2 bg-light rounded">January 8, 2026</strong>
-                                </div>
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Database Status</small>
-                                    <strong class="d-block p-2 bg-light rounded text-success">Connected</strong>
-                                </div>
-                                <div>
-                                    <small class="text-muted d-block mb-1">Storage Usage</small>
-                                    <div class="progress mt-2" style="height: 10px;">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <strong class="fw-bold fs-5">2.1.0</strong>
+                                        <span class="badge bg-light text-dark">Latest</span>
                                     </div>
-                                    <small class="text-muted mt-1">45% used (2.7GB of 6GB)</small>
+                                </div>
+                                <div class="info-item">
+                                    <small class="text-muted d-block mb-1">Last Updated</small>
+                                    <strong>January 8, 2026</strong>
+                                </div>
+                                <div class="info-item">
+                                    <small class="text-muted d-block mb-1">Database Status</small>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-success me-2"><i class="bi bi-circle-fill fs-6"></i></span>
+                                        <strong class="text-success">Connected</strong>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <small class="text-muted d-block mb-1">Storage Usage</small>
+                                    <div class="mt-2">
+                                        <div class="progress" style="height: 10px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <small class="text-muted mt-1">45% used (2.7GB of 6GB)</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="card">
                             <div class="card-header bg-danger text-white">
-                                <h5 class="mb-0">System Maintenance</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-tools me-2"></i>System Maintenance</h5>
                             </div>
                             <div class="card-body">
-                                <div class="alert alert-warning">
-                                    <strong>Warning:</strong> These actions affect the entire system. Use with caution.
+                                <div class="alert alert-warning maintenance-warning mb-3">
+                                    <strong><i class="bi bi-exclamation-triangle me-1"></i> Warning:</strong> These actions affect the entire system. Use with caution.
                                 </div>
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-outline-danger">
+                                    <button class="btn btn-outline-danger d-flex align-items-center justify-content-center">
                                         <i class="bi bi-database me-2"></i>Backup Database
                                     </button>
-                                    <button class="btn btn-outline-danger">
+                                    <button class="btn btn-outline-danger d-flex align-items-center justify-content-center">
                                         <i class="bi bi-arrow-repeat me-2"></i>Clear Cache
                                     </button>
-                                    <button class="btn btn-danger">
+                                    <button class="btn btn-danger d-flex align-items-center justify-content-center">
                                         <i class="bi bi-power me-2"></i>Restart System
                                     </button>
                                 </div>
@@ -293,77 +492,50 @@
         </main>
     </div>
 
-    <style>
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-        }
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-door-open me-2"></i>Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="text-warning mb-3">
+                        <i class="bi bi-exclamation-triangle fs-1"></i>
+                    </div>
+                    <p class="lead mb-0">Are you sure you want to logout?</p>
+                    <p class="text-muted small mt-2">You'll need to log in again to access the admin portal.</p>
+                </div>
+                <div class="modal-footer justify-content-center border-0 py-3">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-warning px-4" id="confirmLogout">
+                        <i class="bi bi-door-open me-1"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            overflow-y: auto;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-        }
-
-        .content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 220px;
-            }
-            .content {
-                margin-left: 220px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .content {
-                margin-left: 0;
-            }
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            border-radius: 5px;
-            margin-bottom: 5px;
-            padding: 10px 15px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: white;
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card-header {
-            font-weight: 600;
-            border-radius: 10px 10px 0 0 !important;
-        }
-    </style>
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4 text-center">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <i class="bi bi-check2-circle fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2" id="successTitle">Logged Out Successfully</h4>
+                    <p class="text-muted mb-3" id="successMessage">You have been successfully logged out of the admin portal.</p>
+                    <button class="btn btn-primary" id="redirectLogin">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Go to Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -376,20 +548,112 @@
                 window.location.href = 'login.html';
             }
             
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('adminLoggedIn');
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            if (sidebarToggle && adminSidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    adminSidebar.classList.toggle('show');
+                });
+            }
+            
+            // Handle window resize to hide sidebar on large screens
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 991 && adminSidebar) {
+                    adminSidebar.classList.remove('show');
+                }
             });
             
-            // Form submissions
+            // Get modal elements
+            const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            const confirmLogoutBtn = document.getElementById('confirmLogout');
+            const redirectLoginBtn = document.getElementById('redirectLogin');
+            
+            // Logout functionality - show modal instead of alert
+            const logoutButtons = document.querySelectorAll('#logoutBtn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logoutModal.show();
+                });
+            });
+            
+            // Confirm logout button
+            confirmLogoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('adminLoggedIn');
+                
+                // Update success modal content
+                document.getElementById('successTitle').textContent = 'Logged Out Successfully';
+                document.getElementById('successMessage').textContent = 'You have been successfully logged out of the admin portal.';
+                
+                // Show success modal
+                logoutModal.hide();
+                successModal.show();
+            });
+            
+            // Redirect to login
+            redirectLoginBtn.addEventListener('click', function() {
+                successModal.hide();
+                window.location.href = 'login.html';
+            });
+            
+            // Form submissions with notifications
             document.getElementById('academicSettingsForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('Academic settings saved successfully!');
+                
+                // Show success toast
+                const toast = document.createElement('div');
+                toast.className = 'toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-3';
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+                toast.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Academic settings saved successfully!
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                `;
+                document.body.appendChild(toast);
+                
+                const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+                bsToast.show();
+                
+                // Remove toast after hiding
+                toast.addEventListener('hidden.bs.toast', function() {
+                    this.remove();
+                });
             });
             
             document.getElementById('paymentSettingsForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('Payment settings saved successfully!');
+                
+                // Show success toast
+                const toast = document.createElement('div');
+                toast.className = 'toast align-items-center text-bg-success border-0 position-fixed bottom-0 end-0 m-3';
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+                toast.innerHTML = `
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            Payment settings saved successfully!
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                `;
+                document.body.appendChild(toast);
+                
+                const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+                bsToast.show();
+                
+                // Remove toast after hiding
+                toast.addEventListener('hidden.bs.toast', function() {
+                    this.remove();
+                });
             });
         });
     </script>

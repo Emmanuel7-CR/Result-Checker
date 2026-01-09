@@ -8,41 +8,262 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-width-mobile: 220px;
+            --header-height: 60px;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+        
+        .content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 1.5rem;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-header {
+            height: var(--header-height);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: white;
+            transition: margin-left 0.3s ease;
+        }
+        
+        @media (max-width: 1199px) {
+            .sidebar {
+                width: var(--sidebar-width-mobile);
+            }
+            
+            .content {
+                margin-left: var(--sidebar-width-mobile);
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .main-header {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            border-radius: 0.375rem;
+            margin-bottom: 0.375rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, 
+        .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .nav-link i {
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .card {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.25rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            font-weight: 600;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #ced4da;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #0d6efd;
+            background-color: #e9ecef;
+        }
+        
+        .file-upload-icon {
+            font-size: 2.5rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        
+        .preview-table {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .validation-badge {
+            min-width: 70px;
+        }
+        
+        .instruction-step {
+            counter-increment: step-counter;
+        }
+        
+        .instruction-step::before {
+            content: counter(step-counter);
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.875rem;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .subject-badge {
+            min-width: 120px;
+            text-align: left;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #0d6efd;
+            border-radius: 50%;
+            animation: spinner 0.75s linear infinite;
+        }
+        
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 767px) {
+            .form-label {
+                font-size: 0.875rem;
+            }
+            
+            .btn i {
+                display: none;
+            }
+            
+            .desktop-only {
+                display: none;
+            }
+            
+            .file-upload-area {
+                padding: 1.5rem 1rem;
+            }
+            
+            .file-upload-icon {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
-        <aside class="sidebar bg-dark text-white">
-            <div class="p-3 text-center border-bottom">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+        <aside class="sidebar bg-dark text-white" id="adminSidebar">
+            <div class="p-3 text-center border-bottom border-secondary">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 50px; height: 50px;">
+                    <span class="fs-5 fw-bold">IHS</span>
                 </div>
-                <h5 class="fw-bold">ADMIN PORTAL</h5>
+                <h5 class="fw-bold sidebar-text">ADMIN PORTAL</h5>
             </div>
-            <ul class="nav flex-column p-3">
+            <ul class="nav flex-column px-3 py-4">
                 <li class="nav-item mb-2">
                     <a href="dashboard.html" class="nav-link">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                        <i class="bi bi-speedometer2 me-3 nav-text"></i>
+                        <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="pin-verification.html" class="nav-link">
-                        <i class="bi bi-credit-card me-2"></i>PIN Verification
+                        <i class="bi bi-credit-card me-3 nav-text"></i>
+                        <span class="nav-text">PIN Verification</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="result-entry.html" class="nav-link active">
-                        <i class="bi bi-file-earmark-text me-2"></i>Result Entry
+                        <i class="bi bi-file-earmark-text me-3 nav-text"></i>
+                        <span class="nav-text">Result Entry</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="settings.html" class="nav-link">
-                        <i class="bi bi-gear me-2"></i>Settings
+                        <i class="bi bi-gear me-3 nav-text"></i>
+                        <span class="nav-text">Settings</span>
                     </a>
                 </li>
-                <li class="nav-item mt-4 pt-3 border-top">
+                <li class="nav-item mt-4 pt-3 border-top border-secondary">
                     <a href="login.html" class="nav-link text-warning" id="logoutBtn">
-                        <i class="bi bi-door-open me-2"></i>Logout
+                        <i class="bi bi-door-open me-3 nav-text"></i>
+                        <span class="nav-text">Logout</span>
                     </a>
                 </li>
             </ul>
@@ -50,72 +271,79 @@
 
         <!-- Main Content -->
         <main class="content">
-            <header class="bg-white shadow-sm p-3 mb-4">
-                <div class="container-fluid">
+            <header class="main-header bg-white shadow-sm p-2 p-md-3 mb-4 d-flex align-items-center">
+                <button class="btn btn-outline-primary d-lg-none me-3 toggle-sidebar" type="button" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="container-fluid px-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="h4 mb-0">Result Entry</h1>
+                        <h1 class="h4 mb-0 fw-bold">Result Entry</h1>
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>ihsadmin
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i>
+                                <span class="d-none d-md-inline">ihsadmin</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-sliders me-2"></i>Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-bell me-2"></i>Notifications <span class="badge bg-primary rounded-pill ms-1">1</span></a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn"><i class="bi bi-door-open me-2"></i>Logout</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div class="container-fluid">
-                <div class="alert alert-info">
+            <div class="container-fluid px-0 px-md-2">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
                     <strong>Note:</strong> Upload results for paper-based examinations using CSV files. Ensure files follow the required format before uploading.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 
                 <div class="card mb-4">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0">Bulk Result Upload (CSV/Excel)</h5>
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold"><i class="bi bi-file-earmark-excel me-2"></i>Bulk Result Upload (CSV/Excel)</h5>
+                        <span class="badge bg-light text-success">Step 1 of 3</span>
                     </div>
                     <div class="card-body">
-                        <div class="row mb-4">
-                            <div class="col-md-7">
+                        <div class="row g-4 mb-4">
+                            <div class="col-12 col-md-7">
                                 <div class="alert alert-info mb-0">
-                                    <strong>Instructions:</strong> 
-                                    <ol class="mb-0">
-                                        <li>Select class, track, subject, session and term</li>
-                                        <li>Download the template CSV file</li>
-                                        <li>Fill in scores following validation rules</li>
-                                        <li>Upload completed CSV for processing</li>
+                                    <strong class="d-block mb-2">Instructions:</strong>
+                                    <ol class="mb-0 ps-3">
+                                        <li class="instruction-step mb-1">Select class, track, subject, session and term</li>
+                                        <li class="instruction-step mb-1">Download the template CSV file</li>
+                                        <li class="instruction-step mb-1">Fill in scores following validation rules</li>
+                                        <li class="instruction-step">Upload completed CSV for processing</li>
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-md-5 text-end">
-                                <button class="btn btn-outline-primary" id="downloadTemplateBtn">
-                                    <i class="bi bi-download me-1"></i> Download CSV Template
+                            <div class="col-12 col-md-5 text-md-end">
+                                <button class="btn btn-outline-primary w-100 w-md-auto" id="downloadTemplateBtn">
+                                    <i class="bi bi-download me-1 d-none d-md-inline"></i> Download CSV Template
                                 </button>
                             </div>
                         </div>
 
                         <form class="row g-3 mb-4">
-                            <div class="col-md-3">
-                                <label class="form-label fw-semibold">Academic Session</label>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small mb-1">Academic Session</label>
                                 <select class="form-select">
                                     <option>2024/2025</option>
                                     <option selected>2025/2026</option>
                                     <option>2026/2027</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label fw-semibold">Term</label>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small mb-1">Term</label>
                                 <select class="form-select">
                                     <option>First Term</option>
                                     <option selected>Second Term</option>
                                     <option>Third Term</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label fw-semibold">Class</label>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small mb-1">Class</label>
                                 <select class="form-select" id="resultClass">
                                     <option>JSS1</option>
                                     <option>JSS2</option>
@@ -124,17 +352,17 @@
                                     <option>SS3</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label fw-semibold">Track</label>
+                            <div class="col-12 col-md-3">
+                                <label class="form-label fw-semibold small mb-1">Track</label>
                                 <select class="form-select" id="resultTrack">
                                     <option selected>Science</option>
                                     <option>Arts</option>
                                     <option>Commercial</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-semibold">Subject</label>
-                                <select class="form-select">
+                            <div class="col-12 col-md-4">
+                                <label class="form-label fw-semibold small mb-1">Subject</label>
+                                <select class="form-select" id="resultSubject">
                                     <option>Mathematics</option>
                                     <option>English Language</option>
                                     <option>Physics</option>
@@ -147,40 +375,167 @@
                                     <option>Computer Science</option>
                                 </select>
                             </div>
-                            <div class="col-md-8 d-flex align-items-end">
-                                <button type="button" class="btn btn-primary me-2">
+                            <div class="col-12 col-md-8 d-flex flex-column flex-md-row align-items-stretch align-items-md-end gap-2">
+                                <button type="button" class="btn btn-primary flex-fill">
                                     <i class="bi bi-search me-1"></i> Find Students
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary">
+                                <button type="button" class="btn btn-outline-secondary flex-fill" data-bs-toggle="modal" data-bs-target="#manualEntryModal">
                                     <i class="bi bi-file-earmark-plus me-1"></i> Manual Entry
                                 </button>
                             </div>
                         </form>
 
-                        <div class="border p-3 mb-4 bg-light rounded">
-                            <h5 class="mb-3 fw-bold">Upload CSV File</h5>
-                            <div class="mb-3">
-                                <label for="csvUpload" class="form-label fw-semibold">Select CSV file (max 2MB)</label>
-                                <input class="form-control" type="file" id="csvUpload" accept=".csv">
-                                <div class="form-text">File must match the template format with columns: Admission Number, Student Name, CA, PT1, PT2, Exam</div>
+                        <div class="card mb-4">
+                            <div class="card-header bg-light-subtle">
+                                <h6 class="mb-0 fw-bold"><i class="bi bi-cloud-upload me-2"></i>Upload CSV File</h6>
                             </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-success" id="uploadResultsBtn">
-                                    <i class="bi bi-cloud-upload me-1"></i> Upload Results
-                                </button>
-                                <button class="btn btn-outline-secondary" id="previewBtn" disabled>
-                                    <i class="bi bi-eye me-1"></i> Preview Data
-                                </button>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="file-upload-area" id="dropArea">
+                                        <div class="file-upload-icon mb-2">
+                                            <i class="bi bi-filetype-csv"></i>
+                                        </div>
+                                        <h6 class="mb-1 fw-bold">Drag & Drop CSV File Here</h6>
+                                        <p class="text-muted mb-2 small">or click to browse files</p>
+                                        <small class="text-muted">Maximum file size: 2MB | Supported format: CSV only</small>
+                                        <input type="file" class="form-control d-none" id="csvUpload" accept=".csv">
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-3 p-3 bg-light-subtle rounded d-none" id="fileInfo">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-file-earmark-text text-primary me-2"></i>
+                                                <strong id="fileName" class="me-2">filename.csv</strong>
+                                                <span class="badge bg-primary" id="fileSize">1.2 MB</span>
+                                            </div>
+                                            <div class="progress mt-2" style="height: 6px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" id="uploadProgress"></div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn-close" id="removeFileBtn" aria-label="Remove file"></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-4">
-                            <button class="btn btn-outline-secondary">
-                                <i class="bi bi-arrow-left me-1"></i> Previous Subject
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-primary-subtle">
+                                        <h6 class="mb-0 fw-bold text-primary"><i class="bi bi-table me-2"></i>Template Format</h6>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <table class="table table-sm mb-0">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Column</th>
+                                                    <th>Description</th>
+                                                    <th>Validation</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Admission No</td>
+                                                    <td>Student ID</td>
+                                                    <td class="text-nowrap"><span class="badge bg-info-subtle text-info-emphasis">Required</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Student Name</td>
+                                                    <td>Full name</td>
+                                                    <td class="text-nowrap"><span class="badge bg-info-subtle text-info-emphasis">Required</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CA</td>
+                                                    <td>Continuous Assessment</td>
+                                                    <td class="text-nowrap"><span class="badge bg-success-subtle text-success-emphasis">Max 10</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PT1</td>
+                                                    <td>Periodic Test 1</td>
+                                                    <td class="text-nowrap"><span class="badge bg-success-subtle text-success-emphasis">Max 10</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PT2</td>
+                                                    <td>Periodic Test 2</td>
+                                                    <td class="text-nowrap"><span class="badge bg-success-subtle text-success-emphasis">Max 10</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Exam</td>
+                                                    <td>End of Term Exam</td>
+                                                    <td class="text-nowrap"><span class="badge bg-success-subtle text-success-emphasis">Max 70</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-success-subtle">
+                                        <h6 class="mb-0 fw-bold text-success"><i class="bi bi-check-circle me-2"></i>Validation Rules</h6>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <ul class="list-unstyled mb-0 small">
+                                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> All fields are required</li>
+                                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> CA, PT1, PT2 max score: 10 each</li>
+                                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Exam max score: 70</li>
+                                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Total score must not exceed 100</li>
+                                            <li><i class="bi bi-check-circle-fill text-success me-2"></i> Only registered students for the subject can be included</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-4">
+                            <button class="btn btn-outline-secondary d-none d-md-inline" id="previewBtn" disabled>
+                                <i class="bi bi-eye me-1"></i> Preview Data
                             </button>
-                            <button class="btn btn-primary">
-                                Save & Next Subject <i class="bi bi-arrow-right ms-1"></i>
+                            <button class="btn btn-success" id="uploadResultsBtn">
+                                <i class="bi bi-cloud-arrow-up me-1"></i> <span class="d-none d-md-inline">Upload Results</span> <span class="d-md-none">Upload</span>
                             </button>
+                        </div>
+
+                        <div class="preview-table d-none" id="csvPreview">
+                            <h5 class="mb-3 fw-bold"><i class="bi bi-table me-2"></i>Preview Data</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Adm No</th>
+                                            <th>Name</th>
+                                            <th>CA (10)</th>
+                                            <th>PT1 (10)</th>
+                                            <th>PT2 (10)</th>
+                                            <th>Exam (70)</th>
+                                            <th>Total</th>
+                                            <th>Grade</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="csvTableBody">
+                                        <!-- Preview data will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="alert alert-warning mt-3 mb-0">
+                                <strong>Note:</strong> Only the first 10 rows are shown in preview. All data will be processed during upload.
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-md-row justify-content-between mt-4 pt-3 border-top">
+                            <div class="mb-3 mb-md-0">
+                                <button class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left me-1 d-none d-md-inline"></i> Previous Subject
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary">
+                                    Save & Next Subject <i class="bi bi-arrow-right ms-1 d-none d-md-inline"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,77 +543,74 @@
         </main>
     </div>
 
-    <style>
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            overflow-y: auto;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-        }
-
-        .content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 220px;
-            }
-            .content {
-                margin-left: 220px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .content {
-                margin-left: 0;
-            }
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            border-radius: 5px;
-            margin-bottom: 5px;
-            padding: 10px 15px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: white;
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card-header {
-            font-weight: 600;
-            border-radius: 10px 10px 0 0 !important;
-        }
-    </style>
+    <!-- Manual Entry Modal -->
+    <div class="modal fade" id="manualEntryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold">Manual Result Entry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small mb-1">Student Name</label>
+                            <input type="text" class="form-control" placeholder="Enter student name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small mb-1">Admission Number</label>
+                            <input type="text" class="form-control" placeholder="Enter admission number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small mb-1">Subject</label>
+                            <select class="form-select">
+                                <option>Mathematics</option>
+                                <option>English Language</option>
+                                <option>Physics</option>
+                                <option>Chemistry</option>
+                                <option>Biology</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small mb-1">Term</label>
+                            <select class="form-select">
+                                <option>First Term</option>
+                                <option selected>Second Term</option>
+                                <option>Third Term</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold small mb-1">CA Score</label>
+                            <input type="number" class="form-control" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold small mb-1">PT1 Score</label>
+                            <input type="number" class="form-control" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold small mb-1">PT2 Score</label>
+                            <input type="number" class="form-control" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold small mb-1">Exam Score</label>
+                            <input type="number" class="form-control" min="0" max="70" placeholder="Max 70">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top py-3">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Save Result
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -271,40 +623,37 @@
                 window.location.href = 'login.html';
             }
             
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('adminLoggedIn');
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            if (sidebarToggle && adminSidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    adminSidebar.classList.toggle('show');
+                });
+            }
+            
+            // Handle window resize to hide sidebar on large screens
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 991 && adminSidebar) {
+                    adminSidebar.classList.remove('show');
+                }
             });
+            
+            // Logout functionality
+            const logoutButtons = document.querySelectorAll('#logoutBtn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    localStorage.removeItem('adminLoggedIn');
+                });
+            });
+            
+            // File upload functionality
+            setupFileUpload();
             
             // Download template button
             document.getElementById('downloadTemplateBtn').addEventListener('click', function() {
-                alert('In the live system, this would download a CSV template file with the correct format for bulk uploads.');
-            });
-            
-            // CSV file upload
-            document.getElementById('csvUpload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                const previewBtn = document.getElementById('previewBtn');
-                
-                if (file) {
-                    if (file.size > 2000000) { // 2MB limit
-                        alert('File too large! Maximum size is 2MB.');
-                        this.value = '';
-                        previewBtn.disabled = true;
-                        return;
-                    }
-                    
-                    if (file.name.split('.').pop().toLowerCase() !== 'csv') {
-                        alert('Invalid file format! Please upload a CSV file.');
-                        this.value = '';
-                        previewBtn.disabled = true;
-                        return;
-                    }
-                    
-                    previewBtn.disabled = false;
-                } else {
-                    previewBtn.disabled = true;
-                }
+                showNotification('CSV template download initiated. In the live system, this would download a properly formatted template file.', 'info');
             });
             
             // Upload results button
@@ -312,17 +661,332 @@
                 const fileInput = document.getElementById('csvUpload');
                 
                 if (!fileInput.files.length) {
-                    alert('Please select a CSV file to upload');
+                    showNotification('Please select a CSV file to upload', 'warning');
                     return;
                 }
                 
-                alert('Results have been successfully uploaded!\n\nIn the live system, this would process the CSV file and save the results to the database. Students would then be able to check their results using their PINs.');
-                
-                // Reset form
-                fileInput.value = '';
-                document.getElementById('previewBtn').disabled = true;
+                // Simulate upload progress
+                simulateUploadProgress();
             });
         });
+        
+        function setupFileUpload() {
+            const dropArea = document.getElementById('dropArea');
+            const fileInput = document.getElementById('csvUpload');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const uploadProgress = document.getElementById('uploadProgress');
+            const previewBtn = document.getElementById('previewBtn');
+            const removeFileBtn = document.getElementById('removeFileBtn');
+            
+            // Click to browse
+            dropArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // File selection
+            fileInput.addEventListener('change', function(e) {
+                handleFileSelection(e.target.files[0]);
+            });
+            
+            // Drag and drop functionality
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('border-primary', 'bg-primary-subtle');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('border-primary', 'bg-primary-subtle');
+            }
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length) {
+                    handleFileSelection(files[0]);
+                }
+            }
+            
+            function handleFileSelection(file) {
+                if (!file) return;
+                
+                // Validate file
+                if (file.size > 2000000) { // 2MB limit
+                    showNotification('File too large! Maximum size is 2MB.', 'danger');
+                    fileInput.value = '';
+                    return;
+                }
+                
+                if (file.name.split('.').pop().toLowerCase() !== 'csv') {
+                    showNotification('Invalid file format! Please upload a CSV file.', 'danger');
+                    fileInput.value = '';
+                    return;
+                }
+                
+                // Display file info
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                
+                // Show file info
+                fileInfo.classList.remove('d-none');
+                
+                // Enable preview button
+                previewBtn.disabled = false;
+                previewBtn.classList.remove('d-none');
+                
+                // Preview data
+                previewCSVData(file);
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            removeFileBtn.addEventListener('click', function() {
+                fileInput.value = '';
+                fileInfo.classList.add('d-none');
+                previewBtn.disabled = true;
+                document.getElementById('csvPreview').classList.add('d-none');
+                uploadProgress.style.width = '0%';
+            });
+        }
+        
+        function previewCSVData(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Parse CSV data (simulated for demo)
+                setTimeout(() => {
+                    const classVal = document.getElementById('resultClass').value;
+                    const trackVal = document.getElementById('resultTrack').value;
+                    const subjectVal = document.getElementById('resultSubject').value;
+                    
+                    document.getElementById('csvPreview').classList.remove('d-none');
+                    
+                    // Generate demo data based on selections
+                    generatePreviewData(classVal, trackVal, subjectVal);
+                }, 500);
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        function generatePreviewData(classVal, trackVal, subjectVal) {
+            const tableBody = document.getElementById('csvTableBody');
+            tableBody.innerHTML = '';
+            
+            // Demo data based on class and track
+            let demoData = [];
+            
+            if (classVal === 'SS1' && trackVal === 'Science' && subjectVal === 'Mathematics') {
+                demoData = [
+                    { admNo: 'SS1SC2026001', name: 'Emmanuel Ochuko Omoniyi', ca: 9, pt1: 8, pt2: 9, exam: 64 },
+                    { admNo: 'SS1SC2026002', name: 'Chinwe Adebayo', ca: 8, pt1: 9, pt2: 8, exam: 60 },
+                    { admNo: 'SS1SC2026003', name: 'Tunde Ibrahim', ca: 9, pt1: 8, pt2: 9, exam: 59 },
+                    { admNo: 'SS1SC2026004', name: 'Funmilayo Johnson', ca: 8, pt1: 8, pt2: 8, exam: 52 },
+                    { admNo: 'SS1SC2026005', name: 'David Okoro', ca: 9, pt1: 9, pt2: 8, exam: 50 }
+                ];
+            } else if (classVal === 'SS1' && trackVal === 'Science' && subjectVal === 'Physics') {
+                demoData = [
+                    { admNo: 'SS1SC2026001', name: 'Emmanuel Ochuko Omoniyi', ca: 9, pt1: 8, pt2: 9, exam: 64 },
+                    { admNo: 'SS1SC2026002', name: 'Chinwe Adebayo', ca: 8, pt1: 8, pt2: 8, exam: 58 },
+                    { admNo: 'SS1SC2026003', name: 'Tunde Ibrahim', ca: 9, pt1: 8, pt2: 9, exam: 57 }
+                ];
+            } else {
+                demoData = [
+                    { admNo: 'STUD12345', name: 'Demo Student 1', ca: 7, pt1: 8, pt2: 7, exam: 50 },
+                    { admNo: 'STUD12346', name: 'Demo Student 2', ca: 8, pt1: 7, pt2: 8, exam: 48 },
+                    { admNo: 'STUD12347', name: 'Demo Student 3', ca: 9, pt1: 9, pt2: 7, exam: 52 },
+                    { admNo: 'STUD12348', name: 'Demo Student 4', ca: 6, pt1: 7, pt2: 6, exam: 45 },
+                    { admNo: 'STUD12349', name: 'Demo Student 5', ca: 8, pt1: 8, pt2: 7, exam: 49 }
+                ];
+            }
+            
+            demoData.forEach(row => {
+                const total = row.ca + row.pt1 + row.pt2 + row.exam;
+                let grade = 'F';
+                let status = 'Invalid';
+                
+                if (total >= 70) grade = 'A';
+                else if (total >= 60) grade = 'B';
+                else if (total >= 50) grade = 'C';
+                else if (total >= 45) grade = 'D';
+                else if (total >= 40) grade = 'E';
+                
+                if (total <= 100) {
+                    status = 'Valid';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="fw-monospace">${row.admNo}</td>
+                    <td>${row.name}</td>
+                    <td class="text-center">${row.ca}</td>
+                    <td class="text-center">${row.pt1}</td>
+                    <td class="text-center">${row.pt2}</td>
+                    <td class="text-center">${row.exam}</td>
+                    <td class="text-center fw-bold ${total <= 100 ? 'text-success' : 'text-danger'}">${total}</td>
+                    <td class="text-center fw-bold ${getGradeColor(grade)}">${grade}</td>
+                    <td class="text-center">
+                        <span class="badge ${status === 'Valid' ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'}">
+                            ${status}
+                        </span>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+        
+        function getGradeColor(grade) {
+            switch(grade) {
+                case 'A': return 'text-success';
+                case 'B': return 'text-primary';
+                case 'C': return 'text-warning';
+                case 'D': return 'text-info';
+                case 'E': return 'text-secondary';
+                case 'F': return 'text-danger';
+                default: return '';
+            }
+        }
+        
+        function simulateUploadProgress() {
+            const uploadProgress = document.getElementById('uploadProgress');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += 5;
+                uploadProgress.style.width = progress + '%';
+                uploadProgress.textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        showSuccessModal();
+                    }, 500);
+                }
+            }, 100);
+        }
+        
+        function showSuccessModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal fade show';
+            modal.style.display = 'block';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body p-4 text-center">
+                            <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                                <i class="bi bi-check2-circle fs-2"></i>
+                            </div>
+                            <h4 class="fw-bold mb-2">Upload Successful!</h4>
+                            <p class="text-muted mb-3">Results have been successfully uploaded and processed.</p>
+                            <div class="alert alert-light border mb-3">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-file-earmark-excel text-primary me-2 fs-5"></i>
+                                    <span class="fw-bold fs-5">42 records processed</span>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" id="closeSuccessModal">
+                                    <i class="bi bi-check2-circle me-1"></i> Continue
+                                </button>
+                                <button class="btn btn-outline-secondary" id="viewResultsBtn">
+                                    <i class="bi bi-eye me-1"></i> View Results
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Close modal functionality
+            document.getElementById('closeSuccessModal').addEventListener('click', function() {
+                modal.remove();
+                resetForm();
+            });
+            
+            document.getElementById('viewResultsBtn').addEventListener('click', function() {
+                modal.remove();
+                showNotification('In the live system, this would redirect to the results page for verification.', 'info');
+                resetForm();
+            });
+            
+            // Close when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                    resetForm();
+                }
+            });
+        }
+        
+        function resetForm() {
+            document.getElementById('csvUpload').value = '';
+            document.getElementById('fileInfo').classList.add('d-none');
+            document.getElementById('previewBtn').disabled = true;
+            document.getElementById('csvPreview').classList.add('d-none');
+            document.getElementById('uploadProgress').style.width = '0%';
+            document.getElementById('uploadProgress').textContent = '';
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `toast align-items-center text-bg-${type} border-0 position-fixed bottom-0 end-0 m-3`;
+            notification.style.zIndex = '9999';
+            notification.setAttribute('role', 'alert');
+            notification.setAttribute('aria-live', 'assertive');
+            notification.setAttribute('aria-atomic', 'true');
+            notification.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Initialize and show toast
+            const toast = new bootstrap.Toast(notification, {
+                delay: 3000
+            });
+            toast.show();
+            
+            // Remove after hiding
+            notification.addEventListener('hidden.bs.toast', function() {
+                this.remove();
+            });
+        }
     </script>
 </body>
 </html>

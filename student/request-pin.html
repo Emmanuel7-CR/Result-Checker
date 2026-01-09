@@ -8,36 +8,149 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #198754;
+            --info-color: #0dcaf0;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            border-radius: 1rem 1rem 0 0 !important;
+            padding: 1.5rem;
+        }
+        
+        .form-control:focus, 
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background-color: #157347;
+            border-color: #146c43;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+        }
+        
+        .payment-details {
+            background-color: #f8f9fa;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-details strong {
+            color: #495057;
+            font-weight: 600;
+        }
+        
+        .receipt-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1100;
+        }
+        
+        .success-icon {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .btn-lg {
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+            }
+            
+            .card-header {
+                padding: 1rem;
+            }
+            
+            .payment-details {
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body class="bg-light">
-    <header class="py-3 mb-4 border-bottom bg-white">
+    <header class="py-3 mb-4 border-bottom bg-white sticky-top">
         <div class="container d-flex flex-wrap justify-content-center">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
                     <span class="fs-4 fw-bold">IHS</span>
                 </div>
-                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
+                <span class="d-none d-md-block fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
+                <span class="d-md-none fs-5 fw-bold ms-2">IHS</span>
             </a>
-            <ul class="nav nav-pills">
+            <button class="navbar-toggler d-md-none me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="nav nav-pills collapse navbar-collapse" id="navbarContent">
                 <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="check-result.html" class="nav-link">Check Result</a></li>
                 <li class="nav-item"><a href="request-pin.html" class="nav-link active">Request PIN</a></li>
+                <li class="nav-item d-md-none"><a href="check-result.html" class="btn btn-sm btn-primary mt-2">Check Result</a></li>
             </ul>
         </div>
     </header>
 
-    <main class="container py-5">
+    <main class="container py-4 py-md-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-success text-white text-center py-4">
                         <h2 class="mb-0 fw-bold"><i class="bi bi-credit-card me-2"></i>Request Result PIN</h2>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 p-md-4">
                         <div class="alert alert-info">
                             <strong>Instructions:</strong> 
-                            <ol class="mb-0">
-                                <li>Make payment of ₦1,000 to the school account</li>
+                            <ol class="mb-0 ps-3">
+                                <li>Make payment of ₦2,000 to the school account</li>
                                 <li>Upload your payment receipt below</li>
                                 <li>Wait for admin approval (usually within 24 hours)</li>
                                 <li>Your PIN will be generated and sent to you</li>
@@ -49,42 +162,54 @@
                                 Payment Details
                             </div>
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Bank Name</small>
-                                    <strong>First Bank of Nigeria</strong>
-                                </div>
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Account Name</small>
-                                    <strong>International High School</strong>
-                                </div>
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Account Number</small>
-                                    <strong>2034567890</strong>
-                                </div>
-                                <div>
-                                    <small class="text-muted d-block mb-1">Amount</small>
-                                    <h4 class="text-success mb-0">₦1,000</h4>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Bank Name</small>
+                                            <strong>First Bank of Nigeria</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Account Name</small>
+                                            <strong>International High School</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Account Number</small>
+                                            <strong>2034567890</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div>
+                                            <small class="text-muted d-block mb-1">Amount</small>
+                                            <h4 class="text-success mb-0">₦2,000</h4>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
                         <form id="pinRequestForm">
-                            <div class="row g-3">
+                            <div class="row g-3 mb-4">
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Full Name</label>
+                                        <label class="form-label fw-semibold small mb-1">Full Name</label>
                                         <input type="text" class="form-control" id="studentName" placeholder="Enter your full name" required>
+                                        <div class="invalid-feedback">Please enter your full name</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Admission Number</label>
+                                        <label class="form-label fw-semibold small mb-1">Admission Number</label>
                                         <input type="text" class="form-control" id="admissionNo" placeholder="Enter your admission number" required>
+                                        <div class="invalid-feedback">Please enter your admission number</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Class</label>
+                                        <label class="form-label fw-semibold small mb-1">Class</label>
                                         <select class="form-select" id="studentClass" required>
                                             <option value="">Select Class</option>
                                             <option>SS1</option>
@@ -94,38 +219,42 @@
                                             <option>JSS2</option>
                                             <option>JSS3</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select your class</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Phone Number</label>
+                                        <label class="form-label fw-semibold small mb-1">Phone Number</label>
                                         <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number" required>
+                                        <div class="invalid-feedback">Please enter a valid phone number</div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div>
-                                        <label class="form-label fw-semibold">Upload Payment Receipt</label>
+                                        <label class="form-label fw-semibold small mb-1">Upload Payment Receipt</label>
                                         <input class="form-control" type="file" id="receiptUpload" accept="image/*,application/pdf" required>
-                                        <div class="form-text">Max file size: 5MB. Supported formats: JPG, PNG, PDF</div>
+                                        <div class="form-text text-muted small">Max file size: 5MB. Supported formats: JPG, PNG, PDF</div>
+                                        <div class="invalid-feedback">Please upload your payment receipt</div>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                                        <label class="form-check-label" for="termsCheck">
-                                            I confirm that I have made payment to the school account and the receipt is genuine.
-                                        </label>
-                                    </div>
+                                    <img id="receiptPreview" class="receipt-preview img-fluid rounded mt-2" alt="Receipt preview">
                                 </div>
                             </div>
 
-                            <div class="d-grid gap-2 mt-4">
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label fw-semibold" for="termsCheck">
+                                    I confirm that I have made payment to the school account and the receipt is genuine.
+                                </label>
+                                <div class="invalid-feedback">You must agree to the terms</div>
+                            </div>
+
+                            <div class="d-grid gap-3">
                                 <button type="submit" class="btn btn-success btn-lg py-3">
-                                    <i class="bi bi-upload me-2"></i>Submit Payment Receipt
+                                    <i class="bi bi-cloud-upload me-2"></i>Submit Payment Receipt
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary py-3" onclick="window.location.href='check-result.html'">
-                                    <i class="bi bi-arrow-left me-2"></i>Back to Check Result
-                                </button>
+                                <a href="check-result.html" class="btn btn-outline-secondary py-3 text-center">
+                                    <i class="bi bi-arrow-left me-1"></i> Back to Check Result
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -134,10 +263,76 @@
         </div>
     </main>
 
-    <footer class="py-4 mt-5 bg-dark text-white">
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4 text-center">
+                    <div class="success-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">PIN Request Submitted Successfully!</h4>
+                    <p class="text-muted mb-3">An admin will review your payment receipt and generate your PIN within 24 hours. You will be notified via SMS when your PIN is ready.</p>
+                    <div class="alert alert-light border mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-info-circle text-primary me-2 mt-1"></i>
+                            <small class="text-muted">
+                                You can check the status of your PIN request by logging into your student portal or contacting the school administration.
+                            </small>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        <i class="bi bi-check2-circle me-1"></i> OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle me-2"></i>Submission Failed</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="error-icon">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <h5 class="mb-2">Please correct the errors below</h5>
+                    <p class="text-muted mb-0" id="errorMessage">Missing required fields or invalid file format.</p>
+                </div>
+                <div class="modal-footer justify-content-center border-0 py-3">
+                    <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-arrow-left me-1"></i> Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+    <footer class="py-3 py-md-4 mt-4 mt-md-5 bg-dark text-white">
         <div class="container text-center">
-            <p class="mb-0">295, Sapele/Warri Road, Sapele, Delta State</p>
-            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+            <p class="mb-1">Okpe Rd, Sapele, 331107, Delta</p>
+            <div class="mb-2">
+                <a href="https://wa.me/2348031234567" class="text-white mx-2" target="_blank" aria-label="WhatsApp">
+                    <i class="bi bi-whatsapp fs-4"></i>
+                </a>
+                <a href="mailto:info@internationalhighschool.edu.ng" class="text-white mx-2" target="_blank" aria-label="Email">
+                    <i class="bi bi-envelope fs-4"></i>
+                </a>
+                <a href="tel:+2348031234567" class="text-white mx-2" aria-label="Call">
+                    <i class="bi bi-telephone fs-4"></i>
+                </a>
+            </div>
+            <p class="mb-0 small">&copy; 2026 International High School. All rights reserved.</p>
         </div>
     </footer>
 
@@ -146,45 +341,146 @@
     <!-- Custom JS -->
     <script src="../js/script.js"></script>
     <script>
-        document.getElementById('pinRequestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form validation setup
+            const form = document.getElementById('pinRequestForm');
+            const receiptUpload = document.getElementById('receiptUpload');
+            const receiptPreview = document.getElementById('receiptPreview');
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            const errorMessage = document.getElementById('errorMessage');
             
-            const fileInput = document.getElementById('receiptUpload');
-            const file = fileInput.files[0];
+            // Preview receipt image
+            receiptUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            receiptPreview.src = event.target.result;
+                            receiptPreview.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        receiptPreview.style.display = 'none';
+                    }
+                } else {
+                    receiptPreview.style.display = 'none';
+                }
+            });
             
-            if (!file) {
-                alert('Please upload your payment receipt');
-                return;
-            }
-            
-            if (file.size > 5000000) { // 5MB limit
-                alert('File too large! Maximum size is 5MB.');
-                return;
-            }
-            
-            // Store the request in localStorage (simulating database)
-            const request = {
-                id: Date.now(),
-                name: document.getElementById('studentName').value,
-                admissionNo: document.getElementById('admissionNo').value,
-                class: document.getElementById('studentClass').value,
-                phone: document.getElementById('phoneNumber').value,
-                date: new Date().toISOString(),
-                status: 'pending',
-                pin: null
-            };
-            
-            // Get existing requests or initialize empty array
-            const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
-            requests.push(request);
-            localStorage.setItem('pinRequests', JSON.stringify(requests));
-            
-            // Show success message
-            alert('Your PIN request has been submitted successfully! An admin will review your payment receipt and generate your PIN within 24 hours. You will be notified via SMS when your PIN is ready.');
-            
-            // Reset form
-            this.reset();
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset validation states
+                form.querySelectorAll('.is-invalid').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
+                
+                let isValid = true;
+                let errors = [];
+                
+                // Get form values
+                const studentName = document.getElementById('studentName').value.trim();
+                const admissionNo = document.getElementById('admissionNo').value.trim();
+                const studentClass = document.getElementById('studentClass').value;
+                const phoneNumber = document.getElementById('phoneNumber').value.trim();
+                const file = receiptUpload.files[0];
+                const termsChecked = document.getElementById('termsCheck').checked;
+                
+                // Validate name
+                if (!studentName) {
+                    document.getElementById('studentName').classList.add('is-invalid');
+                    errors.push('Full name is required');
+                    isValid = false;
+                }
+                
+                // Validate admission number
+                if (!admissionNo) {
+                    document.getElementById('admissionNo').classList.add('is-invalid');
+                    errors.push('Admission number is required');
+                    isValid = false;
+                }
+                
+                // Validate class
+                if (!studentClass) {
+                    document.getElementById('studentClass').classList.add('is-invalid');
+                    errors.push('Class selection is required');
+                    isValid = false;
+                }
+                
+                // Validate phone number
+                if (!phoneNumber) {
+                    document.getElementById('phoneNumber').classList.add('is-invalid');
+                    errors.push('Phone number is required');
+                    isValid = false;
+                }
+                
+                // Validate file upload
+                if (!file) {
+                    document.getElementById('receiptUpload').classList.add('is-invalid');
+                    errors.push('Please upload your payment receipt');
+                    isValid = false;
+                } else if (file.size > 5000000) { // 5MB limit
+                    document.getElementById('receiptUpload').classList.add('is-invalid');
+                    errors.push('File too large! Maximum size is 5MB');
+                    isValid = false;
+                } else if (!['image/jpeg', 'image/png', 'application/pdf'].includes(file.type)) {
+                    document.getElementById('receiptUpload').classList.add('is-invalid');
+                    errors.push('Invalid file format! Please upload JPG, PNG, or PDF');
+                    isValid = false;
+                }
+                
+                // Validate terms agreement
+                if (!termsChecked) {
+                    document.getElementById('termsCheck').classList.add('is-invalid');
+                    errors.push('You must agree to the terms');
+                    isValid = false;
+                }
+                
+                // Show error modal if validation fails
+                if (!isValid) {
+                    errorMessage.textContent = errors.join('\n');
+                    errorModal.show();
+                    return;
+                }
+                
+                // Store the request in localStorage (simulating database)
+                const request = {
+                    id: Date.now(),
+                    name: studentName,
+                    admissionNo: admissionNo,
+                    class: studentClass,
+                    phone: phoneNumber,
+                    date: new Date().toISOString(),
+                    status: 'pending',
+                    pin: null
+                };
+                
+                // Get existing requests or initialize empty array
+                const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+                requests.push(request);
+                localStorage.setItem('pinRequests', JSON.stringify(requests));
+                
+                // Show success modal
+                successModal.show();
+                
+                // Reset form but keep preview hidden
+                form.reset();
+                receiptPreview.style.display = 'none';
+            });
         });
+        
+        // Initialize demo data if needed
+        function initializeDemoData() {
+            if (!localStorage.getItem('pinRequests')) {
+                localStorage.setItem('pinRequests', JSON.stringify([]));
+            }
+        }
+        
+        // Initialize on load
+        initializeDemoData();
     </script>
 </body>
 </html>

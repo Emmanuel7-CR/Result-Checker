@@ -8,54 +8,204 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #198754;
+            --info-color: #0dcaf0;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            border-radius: 1rem 1rem 0 0 !important;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control:focus, 
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background-color: #157347;
+            border-color: #146c43;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+        }
+        
+        .alert-link {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .alert-link:hover {
+            color: #0a58ca;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spinner 0.75s linear infinite;
+        }
+        
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+        
+        .success-icon {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1100;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 1rem;
+            }
+            
+            .card-header {
+                padding: 1rem;
+            }
+            
+            .btn-lg {
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
 </head>
 <body class="bg-light">
-    <header class="py-3 mb-4 border-bottom bg-white">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+    <header class="py-2 mb-4 border-bottom bg-white sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light px-0">
+                <div class="container-fluid p-0">
+                    <a href="/" class="navbar-brand d-flex align-items-center text-dark text-decoration-none">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 45px; height: 45px;">
+                            <span class="fs-5 fw-bold">IHS</span>
+                        </div>
+                        <span class="d-none d-md-block fs-4 ms-2">INTERNATIONAL HIGH SCHOOL</span>
+                        <span class="d-md-none fs-5 fw-bold ms-2">IHS</span>
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a href="../index.html" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="login.html" class="nav-link">Student Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="check-result.html" class="nav-link active">Check Result</a>
+                            </li>
+                        </ul>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="request-pin.html" class="btn btn-success">
+                                <i class="bi bi-credit-card me-1"></i>
+                                <span class="d-md-none">Request PIN</span>
+                                <span class="d-none d-md-inline">Request PIN</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
-            </a>
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="login.html" class="nav-link">Student Login</a></li>
-                <li class="nav-item"><a href="check-result.html" class="nav-link active">Check Result</a></li>
-            </ul>
+            </nav>
         </div>
     </header>
 
-    <main class="container py-5">
+    <main class="container py-4 py-md-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="card shadow-sm border-0">
-                    <div class="card-header bg-primary text-white text-center py-4">
-                        <h2 class="mb-0 fw-bold"><i class="bi bi-search me-2"></i>Check Your Result</h2>
+                    <div class="card-header bg-primary text-white text-center py-3 py-md-4">
+                        <h2 class="mb-0 fw-bold fs-4 fs-md-3"><i class="bi bi-search me-2"></i>Check Your Result</h2>
                     </div>
-                    <div class="card-body p-4">
-                        <div class="alert alert-info">
+                    <div class="card-body p-3 p-md-4">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong>Note:</strong> You need a valid PIN to check your result. If you don't have one, 
                             <a href="request-pin.html" class="alert-link">request a PIN here</a>.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         
                         <form id="checkResultForm">
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Full Name</label>
+                                        <label class="form-label fw-semibold small mb-1">Full Name</label>
                                         <input type="text" class="form-control" id="studentName" placeholder="Enter your full name" required>
+                                        <div class="invalid-feedback">Please enter your full name</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Admission Number</label>
+                                        <label class="form-label fw-semibold small mb-1">Admission Number</label>
                                         <input type="text" class="form-control" id="admissionNo" placeholder="Enter your admission number" required>
+                                        <div class="invalid-feedback">Please enter your admission number</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Class</label>
+                                        <label class="form-label fw-semibold small mb-1">Class</label>
                                         <select class="form-select" id="studentClass" required>
                                             <option value="">Select Class</option>
                                             <option>SS1</option>
@@ -65,51 +215,57 @@
                                             <option>JSS2</option>
                                             <option>JSS3</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select your class</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Track/Stream</label>
+                                        <label class="form-label fw-semibold small mb-1">Track/Stream</label>
                                         <select class="form-select" id="studentTrack" required>
                                             <option value="">Select Track</option>
                                             <option>Science</option>
                                             <option>Arts</option>
                                             <option>Commercial</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select your track/stream</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Term</label>
+                                        <label class="form-label fw-semibold small mb-1">Term</label>
                                         <select class="form-select" id="studentTerm" required>
                                             <option value="">Select Term</option>
                                             <option>First Term</option>
                                             <option>Second Term</option>
                                             <option>Third Term</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select a term</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 col-md-6">
                                     <div>
-                                        <label class="form-label fw-semibold">Academic Session</label>
+                                        <label class="form-label fw-semibold small mb-1">Academic Session</label>
                                         <select class="form-select" id="studentSession" required>
                                             <option value="">Select Session</option>
                                             <option>2024/2025</option>
                                             <option>2025/2026</option>
                                             <option>2026/2027</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select an academic session</div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div>
-                                        <label class="form-label fw-semibold">Result PIN</label>
+                                        <label class="form-label fw-semibold small mb-1">Result PIN</label>
                                         <input type="password" class="form-control" id="studentPin" placeholder="Enter your result PIN" required>
+                                        <div class="invalid-feedback">Please enter your valid PIN</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg py-3">
+                            <div class="d-grid gap-3 mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg py-3" id="submitBtn">
+                                    <span class="spinner-grow spinner-grow-sm me-2 d-none" id="loadingSpinner" role="status" aria-hidden="true"></span>
                                     <i class="bi bi-eye me-2"></i>View Result
                                 </button>
                                 <a href="login.html" class="btn btn-outline-secondary py-3">
@@ -123,10 +279,71 @@
         </div>
     </main>
 
-    <footer class="py-4 mt-5 bg-dark text-white">
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4 text-center">
+                    <div class="success-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2">PIN Verified Successfully!</h4>
+                    <p class="text-muted mb-3">Your result is being prepared. Please wait while we load your examination results.</p>
+                    <div class="progress mt-3" style="height: 8px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle me-2"></i>Invalid PIN or Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="error-icon">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <h5 class="mb-2">Please check your information</h5>
+                    <p class="text-muted mb-0" id="errorMessage">Your PIN or student details may be incorrect. Please verify and try again.</p>
+                </div>
+                <div class="modal-footer justify-content-center border-0 py-3">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-arrow-left me-1"></i>Try Again
+                    </button>
+                    <button type="button" class="btn btn-danger px-4" id="requestPinBtn">
+                        <i class="bi bi-credit-card me-1"></i>Request PIN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+    <footer class="py-3 py-md-4 mt-4 mt-md-5 bg-dark text-white">
         <div class="container text-center">
-            <p class="mb-0">295, Sapele/Warri Road, Sapele, Delta State</p>
-            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+            <p class="mb-1">Okpe Rd, Sapele, 331107, Delta</p>
+            <div class="mb-2">
+                <a href="https://wa.me/2348031234567" class="text-white mx-2" target="_blank" aria-label="WhatsApp">
+                    <i class="bi bi-whatsapp fs-4"></i>
+                </a>
+                <a href="mailto:info@internationalhighschool.edu.ng" class="text-white mx-2" target="_blank" aria-label="Email">
+                    <i class="bi bi-envelope fs-4"></i>
+                </a>
+                <a href="tel:+2348031234567" class="text-white mx-2" aria-label="Call">
+                    <i class="bi bi-telephone fs-4"></i>
+                </a>
+            </div>
+            <p class="mb-0 small">&copy; 2026 International High School. All rights reserved.</p>
         </div>
     </footer>
 
@@ -135,45 +352,15 @@
     <!-- Custom JS -->
     <script src="../js/script.js"></script>
     <script>
-        document.getElementById('checkResultForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('studentName').value;
-            const admissionNo = document.getElementById('admissionNo').value;
-            const studentClass = document.getElementById('studentClass').value;
-            const track = document.getElementById('studentTrack').value;
-            const term = document.getElementById('studentTerm').value;
-            const session = document.getElementById('studentSession').value;
-            const pin = document.getElementById('studentPin').value;
-            
-            // For demo purposes, we'll use a sample student
-            if (pin === 'IHS2026SS1SC' && admissionNo === 'SS1SC2026001') {
-                // Save result check in localStorage for demo purposes
-                const result = {
-                    name: name,
-                    admissionNo: admissionNo,
-                    class: studentClass,
-                    track: track,
-                    term: term,
-                    session: session,
-                    pin: pin,
-                    checkedAt: new Date().toISOString()
-                };
-                
-                // Get existing results or initialize empty array
-                const results = JSON.parse(localStorage.getItem('resultChecks') || '[]');
-                results.push(result);
-                localStorage.setItem('resultChecks', JSON.stringify(results));
-                
-                // Redirect to result page
-                window.location.href = `result-details.html?name=${encodeURIComponent(name)}&adm=${admissionNo}&class=${studentClass}&track=${track}&term=${term}&session=${session}&pin=${pin}`;
-            } else {
-                alert('Invalid PIN or student details. Please check your information and try again.');
-            }
-        });
-        
-        // Check URL parameters for direct access with PIN
         document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('checkResultForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            const requestPinBtn = document.getElementById('requestPinBtn');
+            
+            // Check URL parameters for direct access with PIN
             const urlParams = new URLSearchParams(window.location.search);
             const adm = urlParams.get('adm');
             const pin = urlParams.get('pin');
@@ -191,6 +378,130 @@
                     document.getElementById('studentSession').value = '2025/2026';
                 }
             }
+            
+            // Request PIN button handler
+            requestPinBtn.addEventListener('click', function() {
+                errorModal.hide();
+                // Add slight delay for better UX
+                setTimeout(function() {
+                    window.location.href = 'request-pin.html';
+                }, 300);
+            });
+            
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset validation states
+                form.querySelectorAll('.is-invalid').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
+                
+                let isValid = true;
+                let errors = [];
+                
+                // Get form values
+                const name = document.getElementById('studentName').value.trim();
+                const admissionNo = document.getElementById('admissionNo').value.trim();
+                const studentClass = document.getElementById('studentClass').value;
+                const track = document.getElementById('studentTrack').value;
+                const term = document.getElementById('studentTerm').value;
+                const session = document.getElementById('studentSession').value;
+                const pin = document.getElementById('studentPin').value.trim();
+                
+                // Validate fields
+                if (!name) {
+                    document.getElementById('studentName').classList.add('is-invalid');
+                    errors.push('Full name is required');
+                    isValid = false;
+                }
+                
+                if (!admissionNo) {
+                    document.getElementById('admissionNo').classList.add('is-invalid');
+                    errors.push('Admission number is required');
+                    isValid = false;
+                }
+                
+                if (!studentClass) {
+                    document.getElementById('studentClass').classList.add('is-invalid');
+                    errors.push('Class selection is required');
+                    isValid = false;
+                }
+                
+                if (!track) {
+                    document.getElementById('studentTrack').classList.add('is-invalid');
+                    errors.push('Track selection is required');
+                    isValid = false;
+                }
+                
+                if (!term) {
+                    document.getElementById('studentTerm').classList.add('is-invalid');
+                    errors.push('Term selection is required');
+                    isValid = false;
+                }
+                
+                if (!session) {
+                    document.getElementById('studentSession').classList.add('is-invalid');
+                    errors.push('Academic session is required');
+                    isValid = false;
+                }
+                
+                if (!pin) {
+                    document.getElementById('studentPin').classList.add('is-invalid');
+                    errors.push('PIN is required');
+                    isValid = false;
+                }
+                
+                // Show error modal if validation fails
+                if (!isValid) {
+                    document.getElementById('errorMessage').textContent = 
+                        errors.length > 1 ? 'Please fill in all required fields' : errors[0];
+                    errorModal.show();
+                    return;
+                }
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                loadingSpinner.classList.remove('d-none');
+                
+                // For demo purposes, we'll use a sample student
+                if (pin === 'IHS2026SS1SC' && admissionNo === 'SS1SC2026001') {
+                    // Save result check in localStorage for demo purposes
+                    const result = {
+                        name: name,
+                        admissionNo: admissionNo,
+                        class: studentClass,
+                        track: track,
+                        term: term,
+                        session: session,
+                        pin: pin,
+                        checkedAt: new Date().toISOString()
+                    };
+                    
+                    // Get existing results or initialize empty array
+                    const results = JSON.parse(localStorage.getItem('resultChecks') || '[]');
+                    results.push(result);
+                    localStorage.setItem('resultChecks', JSON.stringify(results));
+                    
+                    // Show success modal
+                    successModal.show();
+                    
+                    // Redirect to result page after a short delay
+                    setTimeout(function() {
+                        window.location.href = `result-details.html?name=${encodeURIComponent(name)}&adm=${admissionNo}&class=${studentClass}&track=${track}&term=${term}&session=${session}&pin=${pin}`;
+                    }, 1500);
+                    
+                } else {
+                    // Show error modal for invalid PIN
+                    document.getElementById('errorMessage').textContent = 
+                        'Your PIN or student details may be incorrect. Please verify and try again.';
+                    errorModal.show();
+                    
+                    // Hide loading state
+                    submitBtn.disabled = false;
+                    loadingSpinner.classList.add('d-none');
+                }
+            });
         });
     </script>
 </body>

@@ -8,33 +8,246 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #198754;
+            --info-color: #0dcaf0;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-header {
+            border-radius: 1rem 1rem 0 0 !important;
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .notification-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .notification-item:hover {
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        
+        .unread-notification {
+            background-color: rgba(13, 110, 253, 0.05);
+            font-weight: 500;
+        }
+        
+        .pin-badge {
+            min-width: 70px;
+            text-align: center;
+        }
+        
+        .message-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .message-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+        
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        
+        .admin-message {
+            background-color: rgba(13, 110, 253, 0.05);
+            border-radius: 0.75rem;
+        }
+        
+        .spinner-container {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .form-control:focus, 
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+        }
+        
+        .btn-outline-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 0.75rem 0;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spinner 0.75s linear infinite;
+        }
+        
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error-state {
+            color: var(--danger-color);
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #e9ecef;
+        }
+        
+        .success-icon {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+        
+        .error-icon {
+            font-size: 3rem;
+            color: var(--danger-color);
+            margin-bottom: 1rem;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1100;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 1rem;
+            }
+            
+            .card-header {
+                padding: 1rem;
+            }
+            
+            .btn-lg {
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+            }
+            
+            .message-container {
+                max-height: 300px;
+            }
+        }
+    </style>
 </head>
 <body class="bg-light">
-    <header class="py-3 mb-4 border-bottom bg-white">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+    <header class="py-2 mb-4 border-bottom bg-white sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light px-0">
+                <div class="container-fluid p-0">
+                    <a href="/" class="navbar-brand d-flex align-items-center text-dark text-decoration-none">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 45px; height: 45px;">
+                            <span class="fs-5 fw-bold">IHS</span>
+                        </div>
+                        <span class="d-none d-md-block fs-4 ms-2">INTERNATIONAL HIGH SCHOOL</span>
+                        <span class="d-md-none fs-5 fw-bold ms-2">IHS</span>
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a href="../index.html" class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="login.html" class="nav-link">Student Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="check-result.html" class="nav-link">Check Result</a>
+                            </li>
+                        </ul>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="#" class="btn btn-outline-danger" id="logoutLink">
+                                <i class="bi bi-door-open me-1 d-none d-md-inline"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
-            </a>
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="../index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="login.html" class="nav-link active">Student Login</a></li>
-                <li class="nav-item"><a href="check-result.html" class="nav-link">Check Result</a></li>
-                <li class="nav-item"><a href="#" class="nav-link text-danger" id="logoutLink">Logout</a></li>
-            </ul>
+            </nav>
         </div>
     </header>
 
-    <main class="container py-5">
+    <main class="container py-4 py-md-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="card shadow-sm border-0 mb-4">
-                    <div class="card-header bg-primary text-white text-center py-4">
+                    <div class="card-header bg-primary text-white text-center py-3 py-md-4">
                         <h2 class="mb-0 fw-bold"><i class="bi bi-person me-2"></i>Student Portal</h2>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 p-md-4">
                         <div class="row mb-4">
                             <div class="col-md-8">
                                 <div class="d-flex align-items-center">
@@ -47,8 +260,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 text-md-end">
-                                <button class="btn btn-outline-primary" onclick="updateProfile()">
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <button class="btn btn-outline-primary" id="updateProfileBtn">
                                     <i class="bi bi-pencil me-1"></i>Update Profile
                                 </button>
                             </div>
@@ -80,7 +293,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover align-middle">
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th>Session</th>
@@ -101,7 +314,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <button class="btn btn-sm btn-outline-success mt-2" onclick="requestNewPIN()">
+                                        <button class="btn btn-sm btn-outline-success mt-3 w-100" id="requestNewPINBtn">
                                             <i class="bi bi-plus-circle me-1"></i>Request New PIN
                                         </button>
                                     </div>
@@ -116,22 +329,27 @@
                         <h5 class="mb-0 fw-bold"><i class="bi bi-envelope me-2"></i>Message Center</h5>
                     </div>
                     <div class="card-body">
-                        <div class="alert alert-info">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <strong>Note:</strong> In the live system, you'll receive PIN notifications via SMS and email. 
                             This portal shows your notification history.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Contact Admin</label>
-                            <textarea class="form-control" rows="3" placeholder="Type your message to the school admin..." id="adminMessage"></textarea>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold mb-2">Contact Admin</label>
+                            <div class="input-group">
+                                <textarea class="form-control" rows="3" placeholder="Type your message to the school admin..." id="adminMessage"></textarea>
+                            </div>
+                            <div class="form-text text-muted small">Minimum 10 characters required</div>
+                            <div class="invalid-feedback">Please enter a message with at least 10 characters</div>
                         </div>
-                        <button class="btn btn-primary" onclick="sendMessageToAdmin()">
-                            <i class="bi bi-send me-1"></i>Send Message
+                        <button class="btn btn-primary w-100 py-2 mb-4" id="sendMessageBtn">
+                            <i class="bi bi-send me-2"></i>Send Message
                         </button>
                         
                         <div class="mt-4">
                             <h6 class="fw-bold mb-3">Message History</h6>
-                            <div id="messageHistory">
+                            <div class="message-container" id="messageHistory">
                                 <div class="text-center py-4">
                                     <div class="spinner-border text-info" role="status">
                                         <span class="visually-hidden">Loading messages...</span>
@@ -148,10 +366,10 @@
 
     <!-- Notifications Modal -->
     <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-bell me-2"></i>Notification Details</h5>
+                    <h5 class="modal-title fw-bold"><i class="bi bi-bell me-2"></i>Notification Details</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="notificationDetails">
@@ -161,41 +379,134 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer border-0 py-3">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Close
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title"><i class="bi bi-check-circle me-2"></i>Action Confirmed</h5>
+                <div class="modal-body p-4 text-center">
+                    <div class="success-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <h4 class="fw-bold mb-2" id="successTitle">Action Completed</h4>
+                    <p class="text-muted mb-3" id="successMessage">Your action was successful.</p>
+                    <button type="button" class="btn btn-primary" id="successConfirmBtn">
+                        <i class="bi bi-check2-circle me-1"></i> OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle me-2"></i>Action Failed</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center py-4">
-                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
-                        <i class="bi bi-check2-circle fs-1"></i>
+                    <div class="error-icon">
+                        <i class="bi bi-x-circle-fill"></i>
                     </div>
-                    <h4 class="mb-3" id="confirmationTitle">Action Completed</h4>
-                    <p class="text-muted" id="confirmationMessage">Your action was successful.</p>
+                    <h5 class="mb-2">Please correct the following errors:</h5>
+                    <p class="text-muted mb-0" id="errorMessage">An error occurred while processing your request.</p>
                 </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                <div class="modal-footer justify-content-center border-0 py-3">
+                    <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-arrow-left me-1"></i> Try Again
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="py-4 mt-5 bg-dark text-white">
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-door-open me-2"></i>Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="text-warning mb-3">
+                        <i class="bi bi-exclamation-triangle fs-1"></i>
+                    </div>
+                    <p class="lead mb-0">Are you sure you want to logout?</p>
+                    <p class="text-muted small mt-2">You'll need to log in again to access your student portal.</p>
+                </div>
+                <div class="modal-footer justify-content-center border-0 py-3">
+                    <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-warning px-4" id="confirmLogoutBtn">
+                        <i class="bi bi-door-open me-1"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Update Modal -->
+    <div class="modal fade" id="profileUpdateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-gear me-2"></i>Update Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-center text-muted">
+                        Profile update functionality will be available in the live system.
+                    </p>
+                    <div class="alert alert-info mt-3 mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <small>
+                            For now, please contact the school administration directly if you need to update your profile information.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-0 py-3">
+                    <button type="button" class="btn btn-info px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-check-circle me-1"></i>OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="py-3 py-md-4 mt-4 mt-md-5 bg-dark text-white">
         <div class="container text-center">
-            <p class="mb-0">295, Sapele/Warri Road, Sapele, Delta State</p>
-            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+            <p class="mb-1">Okpe Rd, Sapele, 331107, Delta</p>
+            <div class="mb-2">
+                <a href="https://wa.me/2348031234567" class="text-white mx-2" target="_blank" aria-label="WhatsApp">
+                    <i class="bi bi-whatsapp fs-4"></i>
+                </a>
+                <a href="mailto:info@internationalhighschool.edu.ng" class="text-white mx-2" target="_blank" aria-label="Email">
+                    <i class="bi bi-envelope fs-4"></i>
+                </a>
+                <a href="tel:+2348031234567" class="text-white mx-2" aria-label="Call">
+                    <i class="bi bi-telephone fs-4"></i>
+                </a>
+            </div>
+            <p class="mb-0 small">&copy; 2026 International High School. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- Toasts will be dynamically added here -->
+    </div>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -203,13 +514,93 @@
     <script src="../js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modals
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            const profileUpdateModal = new bootstrap.Modal(document.getElementById('profileUpdateModal'));
+            
             // Check authentication status when page loads
             checkAuthentication();
             
             // Set up logout functionality
             document.getElementById('logoutLink').addEventListener('click', function(e) {
                 e.preventDefault();
-                logoutStudent();
+                logoutModal.show();
+            });
+            
+            document.getElementById('confirmLogoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('studentSession');
+                
+                // Show success message
+                document.getElementById('successTitle').textContent = 'Logged Out';
+                document.getElementById('successMessage').textContent = 'You have been successfully logged out of your student portal.';
+                document.getElementById('successConfirmBtn').onclick = function() {
+                    successModal.hide();
+                    window.location.href = 'login.html';
+                };
+                
+                logoutModal.hide();
+                successModal.show();
+            });
+            
+            // Set up profile update button
+            document.getElementById('updateProfileBtn').addEventListener('click', function() {
+                profileUpdateModal.show();
+            });
+            
+            // Set up request new PIN button
+            document.getElementById('requestNewPINBtn').addEventListener('click', function() {
+                document.getElementById('successTitle').textContent = 'Request New PIN';
+                document.getElementById('successMessage').textContent = 'You will be redirected to the PIN request page where you can upload your payment receipt.';
+                document.getElementById('successConfirmBtn').onclick = function() {
+                    successModal.hide();
+                    window.location.href = 'request-pin.html';
+                };
+                
+                successModal.show();
+            });
+            
+            // Set up send message button with validation
+            document.getElementById('sendMessageBtn').addEventListener('click', function() {
+                const message = document.getElementById('adminMessage').value.trim();
+                const messageElement = document.getElementById('adminMessage');
+                
+                // Reset validation
+                messageElement.classList.remove('is-invalid');
+                
+                if (!message) {
+                    messageElement.classList.add('is-invalid');
+                    document.getElementById('errorMessage').textContent = 'Please enter a message before sending.';
+                    errorModal.show();
+                    return;
+                }
+                
+                if (message.length < 10) {
+                    messageElement.classList.add('is-invalid');
+                    document.getElementById('errorMessage').textContent = 'Your message is too short. Please provide at least 10 characters.';
+                    errorModal.show();
+                    return;
+                }
+                
+                // Clear the message field
+                messageElement.value = '';
+                messageElement.classList.remove('is-invalid');
+                
+                // Show success message
+                document.getElementById('successTitle').textContent = 'Message Sent';
+                document.getElementById('successMessage').textContent = 'Your message has been sent to the school administrator. You will receive a response shortly via this message center.';
+                document.getElementById('successConfirmBtn').onclick = function() {
+                    successModal.hide();
+                    
+                    // Update message history to show the sent message
+                    setTimeout(function() {
+                        const studentSession = JSON.parse(localStorage.getItem('studentSession'));
+                        loadMessageHistory(studentSession.fullName);
+                    }, 500);
+                };
+                
+                successModal.show();
             });
         });
         
@@ -219,7 +610,7 @@
             
             // If no session exists, redirect to login
             if (!studentSession) {
-                showConfirmationModal(
+                showSuccessModal(
                     'Not Logged In', 
                     'You need to log in to access the student portal.',
                     function() {
@@ -245,7 +636,7 @@
                 if (hoursDiff >= 24) {
                     // Session expired
                     localStorage.removeItem('studentSession');
-                    showConfirmationModal(
+                    showSuccessModal(
                         'Session Expired', 
                         'Your session has expired for security reasons. Please log in again.',
                         function() {
@@ -261,13 +652,15 @@
             } catch (error) {
                 console.error('Authentication error:', error);
                 localStorage.removeItem('studentSession');
-                showConfirmationModal(
+                showErrorModal(
                     'Session Error', 
-                    'There was an error with your session. Please log in again.',
-                    function() {
-                        window.location.href = 'login.html';
-                    }
+                    'There was an error with your session. Please log in again.'
                 );
+                
+                // Redirect after a short delay
+                setTimeout(function() {
+                    window.location.href = 'login.html';
+                }, 3000);
             }
         }
         
@@ -297,9 +690,10 @@
                 
                 if (studentNotifications.length === 0) {
                     notificationsList.innerHTML = `
-                        <div class="text-center py-4 text-muted">
-                            <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
-                            <p>You have no notifications at the moment.</p>
+                        <div class="empty-state">
+                            <i class="bi bi-bell text-muted"></i>
+                            <h5 class="mb-2">No Notifications</h5>
+                            <p class="text-muted mb-0">You have no notifications at the moment.</p>
                         </div>
                     `;
                     return;
@@ -311,20 +705,27 @@
                 // Display up to 5 most recent notifications
                 studentNotifications.slice(0, 5).forEach(notification => {
                     const date = new Date(notification.date);
-                    const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+                    const formattedDate = date.toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
                     
                     const item = document.createElement('a');
                     item.href = '#';
-                    item.className = `list-group-item list-group-item-action ${notification.read ? '' : 'fw-bold bg-light'}`;
+                    item.className = `list-group-item list-group-item-action d-flex justify-content-between align-items-start py-3 px-3 ${notification.read ? '' : 'unread-notification'}`;
                     item.onclick = function(e) {
                         e.preventDefault();
                         showNotificationDetails(notification);
                     };
                     item.innerHTML = `
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">${notification.message.substring(0, 30)}${notification.message.length > 30 ? '...' : ''}</h6>
-                            <small>${formattedDate}</small>
+                        <div class="me-3">
+                            <div class="fw-bold mb-1">${notification.message}</div>
+                            <small class="text-muted">${formattedDate}</small>
                         </div>
+                        ${notification.read ? '' : '<span class="badge bg-primary rounded-pill">New</span>'}
                     `;
                     notificationsList.appendChild(item);
                 });
@@ -332,9 +733,9 @@
             } catch (error) {
                 console.error('Error loading notifications:', error);
                 notificationsList.innerHTML = `
-                    <div class="text-center py-4 text-danger">
+                    <div class="error-state">
                         <i class="bi bi-exclamation-circle fs-1 mb-2 d-block"></i>
-                        <p>Error loading notifications. Please try again later.</p>
+                        <p class="mb-0">Error loading notifications. Please refresh the page.</p>
                     </div>
                 `;
             }
@@ -357,7 +758,8 @@
                         <tr>
                             <td colspan="4" class="text-center py-4 text-muted">
                                 <i class="bi bi-key fs-1 mb-2 d-block"></i>
-                                <p>No active PINs found. Request a new PIN to get started.</p>
+                                <p class="mb-2">No active PINs found.</p>
+                                <p class="small">Request a new PIN to get started.</p>
                             </td>
                         </tr>
                     `;
@@ -368,10 +770,10 @@
                 studentPins.forEach(pinRequest => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>2025/2026</td>
-                        <td>Second Term</td>
-                        <td class="fw-bold text-primary">${pinRequest.pin}</td>
-                        <td><span class="badge bg-success">Active</span></td>
+                        <td class="fw-medium">2025/2026</td>
+                        <td class="fw-medium">Second Term</td>
+                        <td class="fw-bold text-success">${pinRequest.pin}</td>
+                        <td><span class="badge bg-success-subtle text-success-emphasis px-2 py-1 rounded-pill">Active</span></td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -380,9 +782,9 @@
                 console.error('Error loading PINs:', error);
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="4" class="text-center py-4 text-danger">
+                        <td colspan="4" class="text-center py-4 text-muted">
                             <i class="bi bi-exclamation-circle fs-1 mb-2 d-block"></i>
-                            <p>Error loading PIN information. Please try again later.</p>
+                            <p class="mb-0">Error loading PIN information. Please refresh the page.</p>
                         </td>
                     </tr>
                 `;
@@ -408,15 +810,34 @@
                     }
                 ];
                 
+                if (messages.length === 0) {
+                    messageHistoryDiv.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-chat-left-text text-muted"></i>
+                            <h5 class="mb-2">No Messages</h5>
+                            <p class="text-muted mb-0">You have no messages at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 messages.forEach(message => {
                     const date = new Date(message.date);
-                    const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}, ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+                    const formattedDate = date.toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
                     
                     const messageDiv = document.createElement('div');
-                    messageDiv.className = 'border rounded p-3 mb-2';
+                    messageDiv.className = `message-item ${message.from === 'Admin' ? 'admin-message' : ''}`;
                     messageDiv.innerHTML = `
-                        <div class="d-flex justify-content-between">
-                            <strong>${message.from}</strong>
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <strong class="${message.from === 'Admin' ? 'text-primary' : 'text-dark'}">
+                                ${message.from}
+                            </strong>
                             <small class="text-muted">${formattedDate}</small>
                         </div>
                         <p class="mb-0">${message.text}</p>
@@ -427,9 +848,9 @@
             } catch (error) {
                 console.error('Error loading message history:', error);
                 messageHistoryDiv.innerHTML = `
-                    <div class="text-center py-4 text-danger">
+                    <div class="error-state">
                         <i class="bi bi-exclamation-circle fs-1 mb-2 d-block"></i>
-                        <p>Error loading message history. Please try again later.</p>
+                        <p class="mb-0">Error loading message history. Please refresh the page.</p>
                     </div>
                 `;
             }
@@ -478,93 +899,81 @@
             }
         }
         
-        function requestNewPIN() {
-            showConfirmationModal(
-                'Request New PIN', 
-                'You will be redirected to the PIN request page where you can upload your payment receipt.',
-                function() {
-                    window.location.href = 'request-pin.html';
-                }
-            );
-        }
-        
-        function updateProfile() {
-            showConfirmationModal(
-                'Profile Update', 
-                'Profile update functionality will be available in the live system.',
-                null
-            );
-        }
-        
-        function sendMessageToAdmin() {
-            const message = document.getElementById('adminMessage').value.trim();
+        function showSuccessModal(title, message, callback) {
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
             
-            if (!message) {
-                alert('Please enter a message before sending.');
-                return;
-            }
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
             
-            if (message.length < 10) {
-                alert('Your message is too short. Please provide more details.');
-                return;
-            }
-            
-            // In a real system, this would send the message to the admin via API
-            // For demo purposes, we'll just show a confirmation
-            
-            // Clear the message field
-            document.getElementById('adminMessage').value = '';
-            
-            showConfirmationModal(
-                'Message Sent', 
-                'Your message has been sent to the school administrator. You will receive a response shortly via this message center.',
-                null
-            );
-            
-            // Update message history to show the sent message
-            setTimeout(function() {
-                const studentSession = JSON.parse(localStorage.getItem('studentSession'));
-                loadMessageHistory(studentSession.fullName);
-            }, 1000);
-        }
-        
-        function logoutStudent() {
-            // Show confirmation modal before logging out
-            showConfirmationModal(
-                'Confirm Logout', 
-                'Are you sure you want to log out of your student portal?',
-                function() {
-                    // Remove student session from localStorage
-                    localStorage.removeItem('studentSession');
-                    
-                    // Show logout confirmation
-                    showConfirmationModal(
-                        'Logged Out', 
-                        'You have been successfully logged out of your student portal.',
-                        function() {
-                            // Redirect to login page
-                            window.location.href = 'login.html';
-                        }
-                    );
-                }
-            );
-        }
-        
-        function showConfirmationModal(title, message, callback) {
-            document.getElementById('confirmationTitle').textContent = title;
-            document.getElementById('confirmationMessage').textContent = message;
-            
-            const modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-            modal.show();
-            
-            // If there's a callback, execute it when modal is hidden
             if (callback) {
-                document.getElementById('confirmationModal').addEventListener('hidden.bs.modal', function handler() {
+                document.getElementById('successConfirmBtn').onclick = function() {
+                    successModal.hide();
                     callback();
-                    this.removeEventListener('hidden.bs.modal', handler);
-                });
+                };
             }
         }
+        
+        function showErrorModal(title, message) {
+            document.getElementById('errorMessage').textContent = message;
+            
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        }
+        
+        // Initialize demo data if needed
+        function initializeDemoData() {
+            if (!localStorage.getItem('studentSession')) {
+                // Create a demo session for testing
+                const demoSession = {
+                    loggedIn: true,
+                    fullName: 'Emmanuel Ochuko Omoniyi',
+                    name: 'Emmanuel Omoniyi',
+                    class: 'SS1 Science',
+                    admissionNumber: 'SS1SC2026001',
+                    loginTime: new Date().toISOString()
+                };
+                localStorage.setItem('studentSession', JSON.stringify(demoSession));
+            }
+            
+            if (!localStorage.getItem('studentNotifications')) {
+                // Create demo notifications
+                const demoNotifications = [
+                    {
+                        id: 1,
+                        fullName: 'Emmanuel Ochuko Omoniyi',
+                        message: 'Your payment receipt has been approved',
+                        date: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                        pin: 'IHS2026SS1SC',
+                        read: false
+                    },
+                    {
+                        id: 2,
+                        fullName: 'Emmanuel Ochuko Omoniyi',
+                        message: 'New result available for Second Term',
+                        date: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+                        read: true
+                    }
+                ];
+                localStorage.setItem('studentNotifications', JSON.stringify(demoNotifications));
+            }
+            
+            if (!localStorage.getItem('pinRequests')) {
+                // Create demo PIN requests
+                const demoRequests = [
+                    {
+                        fullName: 'Emmanuel Ochuko Omoniyi',
+                        pin: 'IHS2026SS1SC',
+                        status: 'approved',
+                        date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+                    }
+                ];
+                localStorage.setItem('pinRequests', JSON.stringify(demoRequests));
+            }
+        }
+        
+        // Initialize demo data on load
+        initializeDemoData();
     </script>
 </body>
 </html>

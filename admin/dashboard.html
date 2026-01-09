@@ -8,41 +8,215 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-width-mobile: 220px;
+            --header-height: 60px;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+        
+        .content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 1.5rem;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-header {
+            height: var(--header-height);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: white;
+            transition: margin-left 0.3s ease;
+        }
+        
+        @media (max-width: 1199px) {
+            .sidebar {
+                width: var(--sidebar-width-mobile);
+            }
+            
+            .content {
+                margin-left: var(--sidebar-width-mobile);
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .main-header {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            border-radius: 0.375rem;
+            margin-bottom: 0.375rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, 
+        .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .nav-link i {
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .card {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.25rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            font-weight: 600;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .activity-item {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 0.75rem 0;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .badge {
+            font-weight: 500;
+            padding: 0.35em 0.65em;
+        }
+        
+        .quick-actions .btn {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        @media (max-width: 767px) {
+            .quick-actions .btn i {
+                display: none;
+            }
+            
+            .activity-content {
+                font-size: 0.9rem;
+            }
+            
+            .stats-number {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
-        <aside class="sidebar bg-dark text-white">
-            <div class="p-3 text-center border-bottom">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+        <aside class="sidebar bg-dark text-white" id="adminSidebar">
+            <div class="p-3 text-center border-bottom border-secondary">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 50px; height: 50px;">
+                    <span class="fs-5 fw-bold">IHS</span>
                 </div>
-                <h5 class="fw-bold">ADMIN PORTAL</h5>
+                <h5 class="fw-bold sidebar-text">ADMIN PORTAL</h5>
             </div>
-            <ul class="nav flex-column p-3">
+            <ul class="nav flex-column px-3 py-4">
                 <li class="nav-item mb-2">
                     <a href="dashboard.html" class="nav-link active">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                        <i class="bi bi-speedometer2 me-3 nav-text"></i>
+                        <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="pin-verification.html" class="nav-link">
-                        <i class="bi bi-credit-card me-2"></i>PIN Verification
+                        <i class="bi bi-credit-card me-3 nav-text"></i>
+                        <span class="nav-text">PIN Verification</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="result-entry.html" class="nav-link">
-                        <i class="bi bi-file-earmark-text me-2"></i>Result Entry
+                        <i class="bi bi-file-earmark-text me-3 nav-text"></i>
+                        <span class="nav-text">Result Entry</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="settings.html" class="nav-link">
-                        <i class="bi bi-gear me-2"></i>Settings
+                        <i class="bi bi-gear me-3 nav-text"></i>
+                        <span class="nav-text">Settings</span>
                     </a>
                 </li>
-                <li class="nav-item mt-4 pt-3 border-top">
+                <li class="nav-item mt-4 pt-3 border-top border-secondary">
                     <a href="login.html" class="nav-link text-warning" id="logoutBtn">
-                        <i class="bi bi-door-open me-2"></i>Logout
+                        <i class="bi bi-door-open me-3 nav-text"></i>
+                        <span class="nav-text">Logout</span>
                     </a>
                 </li>
             </ul>
@@ -50,62 +224,73 @@
 
         <!-- Main Content -->
         <main class="content">
-            <header class="bg-white shadow-sm p-3 mb-4">
-                <div class="container-fluid">
+            <header class="main-header bg-white shadow-sm p-2 p-md-3 mb-4 d-flex align-items-center">
+                <button class="btn btn-outline-primary d-lg-none me-3 toggle-sidebar" type="button" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="container-fluid px-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="h4 mb-0">Dashboard</h1>
+                        <h1 class="h4 mb-0 fw-bold">Dashboard</h1>
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>ihsadmin
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i>
+                                <span class="d-none d-md-inline">ihsadmin</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-sliders me-2"></i>Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-bell me-2"></i>Notifications <span class="badge bg-primary rounded-pill ms-1">3</span></a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn"><i class="bi bi-door-open me-2"></i>Logout</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div class="container-fluid">
-                <div class="row mb-4">
-                    <div class="col-md-8">
+            <div class="container-fluid px-0 px-md-2">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>Admin Demo:</strong> You are logged in as ihsadmin. This is a demonstration of the admin portal functionality.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
                         <div class="card mb-4">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="mb-0">System Overview</h5>
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-graph-up me-2"></i>System Overview</h5>
+                                <span class="badge bg-light text-primary">Updated now</span>
                             </div>
                             <div class="card-body">
-                                <div class="row text-center">
-                                    <div class="col-md-3 mb-3">
-                                        <div class="card border-primary h-100 bg-light">
-                                            <div class="card-body">
-                                                <h1 class="display-6 text-primary fw-bold">15</h1>
-                                                <p class="mb-0">Classes</p>
+                                <div class="row text-center g-3">
+                                    <div class="col-6 col-md-3">
+                                        <div class="card stats-card border-primary h-100 bg-light">
+                                            <div class="card-body p-2 p-md-3">
+                                                <h1 class="display-6 text-primary fw-bold stats-number">15</h1>
+                                                <p class="mb-0 small">Classes</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 mb-3">
-                                        <div class="card border-success h-100 bg-light">
-                                            <div class="card-body">
-                                                <h1 class="display-6 text-success fw-bold">428</h1>
-                                                <p class="mb-0">Students</p>
+                                    <div class="col-6 col-md-3">
+                                        <div class="card stats-card border-success h-100 bg-light">
+                                            <div class="card-body p-2 p-md-3">
+                                                <h1 class="display-6 text-success fw-bold stats-number">428</h1>
+                                                <p class="mb-0 small">Students</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 mb-3">
-                                        <div class="card border-info h-100 bg-light">
-                                            <div class="card-body">
-                                                <h1 class="display-6 text-info fw-bold">3</h1>
-                                                <p class="mb-0">Active Sessions</p>
+                                    <div class="col-6 col-md-3">
+                                        <div class="card stats-card border-info h-100 bg-light">
+                                            <div class="card-body p-2 p-md-3">
+                                                <h1 class="display-6 text-info fw-bold stats-number">3</h1>
+                                                <p class="mb-0 small">Active Sessions</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 mb-3">
-                                        <div class="card border-warning h-100 bg-light">
-                                            <div class="card-body">
-                                                <h1 class="display-6 text-warning fw-bold">17</h1>
-                                                <p class="mb-0">Pending PIN Requests</p>
+                                    <div class="col-6 col-md-3">
+                                        <div class="card stats-card border-warning h-100 bg-light">
+                                            <div class="card-body p-2 p-md-3">
+                                                <h1 class="display-6 text-warning fw-bold stats-number">17</h1>
+                                                <p class="mb-0 small">Pending PINs</p>
                                             </div>
                                         </div>
                                     </div>
@@ -114,60 +299,73 @@
                         </div>
 
                         <div class="card">
-                            <div class="card-header bg-success text-white">
-                                <h5 class="mb-0">Recent Activities</h5>
+                            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history me-2"></i>Recent Activities</h5>
+                                <a href="#" class="text-white text-decoration-none small">View All</a>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">PIN Request Approved</div>
-                                        PIN generated for Emmanuel Ochuko Omoniyi (SS1SC2026001)
+                            <div class="list-group list-group-flush">
+                                <div class="activity-item px-3 px-md-4 py-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="me-3">
+                                            <div class="fw-bold mb-1">PIN Request Approved</div>
+                                            <div class="text-muted activity-content">PIN generated for Emmanuel Ochuko Omoniyi (SS1SC2026001)</div>
+                                        </div>
+                                        <span class="badge bg-primary rounded-3">10m</span>
                                     </div>
-                                    <span class="badge bg-primary rounded-pill">10 min ago</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">Result Uploaded</div>
-                                        SS1 Science results for Second Term uploaded
+                                </div>
+                                <div class="activity-item px-3 px-md-4 py-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="me-3">
+                                            <div class="fw-bold mb-1">Result Uploaded</div>
+                                            <div class="text-muted activity-content">SS1 Science results for Second Term uploaded</div>
+                                        </div>
+                                        <span class="badge bg-success rounded-3">45m</span>
                                     </div>
-                                    <span class="badge bg-success rounded-pill">45 min ago</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">New PIN Request</div>
-                                        Payment receipt uploaded by Chinwe Adebayo (SS2AR2026002)
+                                </div>
+                                <div class="activity-item px-3 px-md-4 py-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="me-3">
+                                            <div class="fw-bold mb-1">New PIN Request</div>
+                                            <div class="text-muted activity-content">Payment receipt uploaded by Chinwe Adebayo (SS2AR2026002)</div>
+                                        </div>
+                                        <span class="badge bg-info rounded-3">2h</span>
                                     </div>
-                                    <span class="badge bg-info rounded-pill">2 hours ago</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <div class="ms-2 me-auto">
-                                        <div class="fw-bold">System Settings</div>
-                                        Academic session 2026/2027 configured
+                                </div>
+                                <div class="activity-item px-3 px-md-4 py-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="me-3">
+                                            <div class="fw-bold mb-1">System Settings</div>
+                                            <div class="text-muted activity-content">Academic session 2026/2027 configured</div>
+                                        </div>
+                                        <span class="badge bg-warning rounded-3">5h</span>
                                     </div>
-                                    <span class="badge bg-warning rounded-pill">5 hours ago</span>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="col-md-4">
+                    <div class="col-12 col-lg-4">
                         <div class="card mb-4">
                             <div class="card-header bg-info text-white">
-                                <h5 class="mb-0">Quick Actions</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-lightning me-2"></i>Quick Actions</h5>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body quick-actions">
                                 <div class="d-grid gap-2">
-                                    <a href="pin-verification.html" class="btn btn-outline-primary">
-                                        <i class="bi bi-credit-card me-2"></i>Verify Payment Receipts
+                                    <a href="pin-verification.html" class="btn btn-outline-primary d-flex align-items-center justify-content-center text-truncate">
+                                        <i class="bi bi-credit-card me-2"></i>
+                                        <span>Verify Payment Receipts</span>
                                     </a>
-                                    <a href="result-entry.html" class="btn btn-outline-success">
-                                        <i class="bi bi-upload me-2"></i>Upload Results (CSV)
+                                    <a href="result-entry.html" class="btn btn-outline-success d-flex align-items-center justify-content-center text-truncate">
+                                        <i class="bi bi-upload me-2"></i>
+                                        <span>Upload Results (CSV)</span>
                                     </a>
-                                    <a href="settings.html" class="btn btn-outline-warning">
-                                        <i class="bi bi-gear me-2"></i>System Settings
+                                    <a href="settings.html" class="btn btn-outline-warning d-flex align-items-center justify-content-center text-truncate">
+                                        <i class="bi bi-gear me-2"></i>
+                                        <span>System Settings</span>
                                     </a>
-                                    <a href="#" class="btn btn-outline-danger">
-                                        <i class="bi bi-file-earmark-excel me-2"></i>Generate Reports
+                                    <a href="#" class="btn btn-outline-danger d-flex align-items-center justify-content-center text-truncate">
+                                        <i class="bi bi-file-earmark-excel me-2"></i>
+                                        <span>Generate Reports</span>
                                     </a>
                                 </div>
                             </div>
@@ -175,20 +373,29 @@
 
                         <div class="card">
                             <div class="card-header bg-warning text-dark">
-                                <h5 class="mb-0">System Status</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-info-circle me-2"></i>System Status</h5>
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
                                     <small class="text-muted d-block mb-1">Current Session</small>
-                                    <strong class="d-block p-2 bg-light rounded">2025/2026</strong>
+                                    <div class="bg-light p-2 rounded fw-semibold">2025/2026</div>
                                 </div>
                                 <div class="mb-3">
                                     <small class="text-muted d-block mb-1">Current Term</small>
-                                    <strong class="d-block p-2 bg-light rounded">Second Term</strong>
+                                    <div class="bg-light p-2 rounded fw-semibold">Second Term</div>
                                 </div>
-                                <div>
+                                <div class="mb-3">
                                     <small class="text-muted d-block mb-1">Next Term Begins</small>
-                                    <strong class="d-block p-2 bg-light rounded">May 10, 2026</strong>
+                                    <div class="bg-light p-2 rounded fw-semibold">May 10, 2026</div>
+                                </div>
+                                <div class="mt-3 pt-2 border-top">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <small class="text-muted">Storage Usage</small>
+                                        <small class="text-muted fw-bold">45%</small>
+                                    </div>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -197,78 +404,6 @@
             </div>
         </main>
     </div>
-
-    <style>
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            overflow-y: auto;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-        }
-
-        .content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 220px;
-            }
-            .content {
-                margin-left: 220px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .content {
-                margin-left: 0;
-            }
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            border-radius: 5px;
-            margin-bottom: 5px;
-            padding: 10px 15px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: white;
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card-header {
-            font-weight: 600;
-            border-radius: 10px 10px 0 0 !important;
-        }
-    </style>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -281,26 +416,30 @@
                 window.location.href = 'login.html';
             }
             
-            // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('adminLoggedIn');
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            if (sidebarToggle && adminSidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    adminSidebar.classList.toggle('show');
+                });
+            }
+            
+            // Handle window resize to hide sidebar on large screens
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 991 && adminSidebar) {
+                    adminSidebar.classList.remove('show');
+                }
             });
             
-            // Demo notification
-            const demoNotification = document.createElement('div');
-            demoNotification.className = 'alert alert-info position-fixed bottom-0 end-0 m-3 shadow';
-            demoNotification.style.zIndex = '9999';
-            demoNotification.style.maxWidth = '350px';
-            demoNotification.innerHTML = `
-                <strong>Admin Demo:</strong> You are logged in as ihsadmin. This is a simulation of the admin portal.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            `;
-            document.body.appendChild(demoNotification);
-            
-            // Auto-dismiss after 8 seconds
-            setTimeout(function() {
-                demoNotification.remove();
-            }, 8000);
+            // Logout functionality
+            const logoutButtons = document.querySelectorAll('#logoutBtn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    localStorage.removeItem('adminLoggedIn');
+                });
+            });
         });
     </script>
 </body>

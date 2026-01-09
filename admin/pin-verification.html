@@ -8,41 +8,250 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link href="../css/custom.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-width-mobile: 220px;
+            --header-height: 60px;
+        }
+        
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+        
+        .content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 1.5rem;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-header {
+            height: var(--header-height);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background: white;
+            transition: margin-left 0.3s ease;
+        }
+        
+        @media (max-width: 1199px) {
+            .sidebar {
+                width: var(--sidebar-width-mobile);
+            }
+            
+            .content {
+                margin-left: var(--sidebar-width-mobile);
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .main-header {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: block;
+            }
+        }
+        
+        .nav-link {
+            color: rgba(255,255,255,0.85);
+            border-radius: 0.375rem;
+            margin-bottom: 0.375rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, 
+        .nav-link.active {
+            color: white;
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .nav-link i {
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .card {
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 1.25rem;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            font-weight: 600;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .action-btn {
+            min-width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .receipt-image {
+            max-height: 400px;
+            object-fit: contain;
+            width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 767px) {
+            .action-btn i {
+                font-size: 0.9rem;
+            }
+            
+            .stats-card .fw-bold {
+                font-size: 1.25rem;
+            }
+            
+            .modal-dialog {
+                margin: 0.5rem;
+                max-width: none;
+            }
+            
+            .modal-content {
+                border-radius: 0.5rem;
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #e9ecef;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #0d6efd;
+            border-radius: 50%;
+            animation: spinner 0.75s linear infinite;
+        }
+        
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Form validation styles */
+        .is-invalid {
+            border-color: #dc3545 !important;
+        }
+        
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
-        <aside class="sidebar bg-dark text-white">
-            <div class="p-3 text-center border-bottom">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 60px; height: 60px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+        <aside class="sidebar bg-dark text-white" id="adminSidebar">
+            <div class="p-3 text-center border-bottom border-secondary">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 50px; height: 50px;">
+                    <span class="fs-5 fw-bold">IHS</span>
                 </div>
-                <h5 class="fw-bold">ADMIN PORTAL</h5>
+                <h5 class="fw-bold sidebar-text">ADMIN PORTAL</h5>
             </div>
-            <ul class="nav flex-column p-3">
+            <ul class="nav flex-column px-3 py-4">
                 <li class="nav-item mb-2">
                     <a href="dashboard.html" class="nav-link">
-                        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                        <i class="bi bi-speedometer2 me-3 nav-text"></i>
+                        <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="pin-verification.html" class="nav-link active">
-                        <i class="bi bi-credit-card me-2"></i>PIN Verification
+                        <i class="bi bi-credit-card me-3 nav-text"></i>
+                        <span class="nav-text">PIN Verification</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="result-entry.html" class="nav-link">
-                        <i class="bi bi-file-earmark-text me-2"></i>Result Entry
+                        <i class="bi bi-file-earmark-text me-3 nav-text"></i>
+                        <span class="nav-text">Result Entry</span>
                     </a>
                 </li>
                 <li class="nav-item mb-2">
                     <a href="settings.html" class="nav-link">
-                        <i class="bi bi-gear me-2"></i>Settings
+                        <i class="bi bi-gear me-3 nav-text"></i>
+                        <span class="nav-text">Settings</span>
                     </a>
                 </li>
-                <li class="nav-item mt-4 pt-3 border-top">
+                <li class="nav-item mt-4 pt-3 border-top border-secondary">
                     <a href="login.html" class="nav-link text-warning" id="logoutBtn">
-                        <i class="bi bi-door-open me-2"></i>Logout
+                        <i class="bi bi-door-open me-3 nav-text"></i>
+                        <span class="nav-text">Logout</span>
                     </a>
                 </li>
             </ul>
@@ -50,51 +259,64 @@
 
         <!-- Main Content -->
         <main class="content">
-            <header class="bg-white shadow-sm p-3 mb-4">
-                <div class="container-fluid">
+            <header class="main-header bg-white shadow-sm p-2 p-md-3 mb-4 d-flex align-items-center">
+                <button class="btn btn-outline-primary d-lg-none me-3 toggle-sidebar" type="button" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="container-fluid px-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="h4 mb-0">Payment Verification</h1>
+                        <h1 class="h4 mb-0 fw-bold">Payment Verification</h1>
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle me-1"></i>ihsadmin
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle me-1"></i>
+                                <span class="d-none d-md-inline">ihsadmin</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="settings.html">Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-sliders me-2"></i>Profile Settings</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-bell me-2"></i>Notifications <span class="badge bg-primary rounded-pill ms-1">2</span></a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn">Logout</a></li>
+                                <li><a class="dropdown-item text-danger" href="login.html" id="logoutBtn"><i class="bi bi-door-open me-2"></i>Logout</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div class="container-fluid">
-                <div class="alert alert-info">
+            <div class="container-fluid px-0 px-md-2">
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
                     <strong>Note:</strong> Review payment receipts uploaded by students. Approve valid payments to generate PINs automatically.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 
-                <div class="row mb-4">
-                    <div class="col-md-8">
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
                         <div class="card">
                             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Pending Payment Receipts</h5>
-                                <span class="badge bg-light text-primary">12 pending</span>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Pending Payment Receipts</h5>
+                                <span class="badge bg-light text-primary" id="pendingCountBadge">Loading...</span>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover align-middle" id="pendingRequestsTable">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Admission No</th>
-                                                <th>Class</th>
-                                                <th>Date</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
+                                                <th class="text-nowrap">Name</th>
+                                                <th class="text-nowrap">Admission No</th>
+                                                <th class="text-nowrap">Class</th>
+                                                <th class="text-nowrap">Date</th>
+                                                <th class="text-nowrap">Status</th>
+                                                <th class="text-nowrap text-end">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="pendingRequestsTable">
-                                            <!-- Requests will be loaded here -->
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="6" class="text-center py-4" id="loadingPlaceholder">
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <div class="loading-spinner mb-2"></div>
+                                                        <span class="text-muted">Loading payment requests...</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -102,24 +324,27 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-4">
+                    <div class="col-12 col-lg-4">
                         <div class="card mb-4">
                             <div class="card-header bg-success text-white">
-                                <h5 class="mb-0">Generate PIN Manually</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-plus-circle me-2"></i>Generate PIN Manually</h5>
                             </div>
                             <div class="card-body">
                                 <form id="manualPinForm">
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Student Name</label>
+                                        <label class="form-label fw-semibold small mb-1">Student Name</label>
                                         <input type="text" class="form-control" placeholder="Enter full name" required>
+                                        <div class="invalid-feedback">Please enter the student's full name</div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Admission Number</label>
+                                        <label class="form-label fw-semibold small mb-1">Admission Number</label>
                                         <input type="text" class="form-control" placeholder="Enter admission number" required>
+                                        <div class="invalid-feedback">Please enter the admission number</div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Class</label>
+                                        <label class="form-label fw-semibold small mb-1">Class</label>
                                         <select class="form-select" required>
+                                            <option value="">Select Class</option>
                                             <option>SS1</option>
                                             <option>SS2</option>
                                             <option>SS3</option>
@@ -127,12 +352,14 @@
                                             <option>JSS2</option>
                                             <option>JSS3</option>
                                         </select>
+                                        <div class="invalid-feedback">Please select a class</div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Phone Number</label>
+                                        <label class="form-label fw-semibold small mb-1">Phone Number</label>
                                         <input type="tel" class="form-control" placeholder="Enter phone number" required>
+                                        <div class="invalid-feedback">Please enter a valid phone number</div>
                                     </div>
-                                    <button type="submit" class="btn btn-success w-100">
+                                    <button type="submit" class="btn btn-success w-100 py-2">
                                         <i class="bi bi-key me-2"></i>Generate PIN
                                     </button>
                                 </form>
@@ -141,20 +368,34 @@
 
                         <div class="card">
                             <div class="card-header bg-info text-white">
-                                <h5 class="mb-0">PIN Statistics</h5>
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-graph-up me-2"></i>PIN Statistics</h5>
                             </div>
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Total PINs Generated</small>
-                                    <strong class="d-block p-2 bg-light rounded fw-bold text-primary">156</strong>
-                                </div>
-                                <div class="mb-3">
-                                    <small class="text-muted d-block mb-1">Pending Requests</small>
-                                    <strong class="d-block p-2 bg-light rounded fw-bold text-warning">12</strong>
-                                </div>
-                                <div>
-                                    <small class="text-muted d-block mb-1">PINs Used</small>
-                                    <strong class="d-block p-2 bg-light rounded fw-bold text-success">144</strong>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <small class="text-muted d-block mb-1">Total PINs</small>
+                                            <strong class="d-block fw-bold text-primary fs-4">156</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <small class="text-muted d-block mb-1">Pending</small>
+                                            <strong class="d-block fw-bold text-warning fs-4">12</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <small class="text-muted d-block mb-1">Approved</small>
+                                            <strong class="d-block fw-bold text-success fs-4">144</strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <small class="text-muted d-block mb-1">Rejected</small>
+                                            <strong class="d-block fw-bold text-danger fs-4">0</strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -165,24 +406,164 @@
                 <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Payment Receipt</h5>
+                            <div class="modal-header border-bottom">
+                                <h5 class="modal-title fw-bold">Payment Receipt Details</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body text-center">
-                                <img src="https://images.unsplash.com/photo-1561070791-37d6b82e8476?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
-                                     class="img-fluid rounded" 
-                                     id="receiptPreview"
-                                     alt="Payment Receipt">
-                                <div class="mt-3">
-                                    <h5 id="studentNameModal"></h5>
-                                    <p class="text-muted mb-1">Admission No: <span id="admissionNoModal"></span></p>
-                                    <p class="text-muted">Class: <span id="classModal"></span></p>
+                            <div class="modal-body p-4">
+                                <div class="text-center mb-4">
+                                    <div class="border rounded p-3 mb-3">
+                                        <img src="https://images.unsplash.com/photo-1561070791-37d6b82e8476?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                                             class="receipt-image img-fluid rounded" 
+                                             id="receiptPreview"
+                                             alt="Payment Receipt">
+                                    </div>
+                                    <div class="mt-3">
+                                        <h4 class="fw-bold mb-1" id="studentNameModal">Loading...</h4>
+                                        <div class="d-flex justify-content-center gap-3 text-muted small">
+                                            <span>Admission No: <strong id="admissionNoModal" class="text-dark">-</strong></span>
+                                            <span>Class: <strong id="classModal" class="text-dark">-</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-6">
+                                        <div class="card border-primary bg-light-subtle">
+                                            <div class="card-body p-3">
+                                                <small class="text-primary fw-semibold d-block mb-1">RECEIPT DETAILS</small>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted small">Amount:</span>
+                                                    <span class="fw-bold">₦1,000</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted small">Date Uploaded:</span>
+                                                    <span class="fw-bold" id="uploadDateModal">-</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-muted small">Status:</span>
+                                                    <span class="badge bg-warning text-dark">PENDING</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card border-success bg-light-subtle">
+                                            <div class="card-body p-3">
+                                                <small class="text-success fw-semibold d-block mb-1">PIN DETAILS</small>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted small">PIN Type:</span>
+                                                    <span>Standard Result PIN</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted small">Validity:</span>
+                                                    <span>1 Academic Year</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-muted small">Generation:</span>
+                                                    <span>Automatic on approval</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" id="rejectBtn">Reject Payment</button>
-                                <button type="button" class="btn btn-success" id="approveBtn">Approve Payment</button>
+                            <div class="modal-footer border-top py-3">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-circle me-1"></i>Cancel
+                                </button>
+                                <button type="button" class="btn btn-danger" id="rejectBtn">
+                                    <i class="bi bi-x-circle me-1"></i>Reject
+                                </button>
+                                <button type="button" class="btn btn-success" id="approveBtn">
+                                    <i class="bi bi-check-circle me-1"></i>Approve
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Success Modal -->
+                <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body p-4 text-center">
+                                <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                                    <i class="bi bi-check2-circle fs-2"></i>
+                                </div>
+                                <h4 class="fw-bold mb-2" id="successTitle">Payment Approved</h4>
+                                <p class="text-muted mb-3" id="successMessage">PIN generated successfully and student notified.</p>
+                                <div class="alert alert-light border mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-key text-primary me-2 fs-5"></i>
+                                        <span class="fw-bold fs-5" id="generatedPinDisplay">IHS2026SS1SC</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                    <i class="bi bi-check2-circle me-1"></i>OK
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Error Modal -->
+                <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle me-2"></i>Validation Error</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center py-4">
+                                <div class="text-danger mb-3">
+                                    <i class="bi bi-x-circle fs-1"></i>
+                                </div>
+                                <h5 class="mb-2">Form Validation Failed</h5>
+                                <p class="text-muted mb-0" id="errorMessage">Please fill all required fields in the form.</p>
+                            </div>
+                            <div class="modal-footer justify-content-center border-0 py-3">
+                                <button type="button" class="btn btn-danger px-4" data-bs-dismiss="modal">
+                                    <i class="bi bi-arrow-left me-1"></i>Try Again
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reject Confirmation Modal -->
+                <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title fw-bold"><i class="bi bi-exclamation-triangle me-2"></i>Confirm Rejection</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center py-4">
+                                <div class="text-danger mb-3">
+                                    <i class="bi bi-x-circle fs-1"></i>
+                                </div>
+                                <h5 class="mb-2">Are you sure you want to reject this payment?</h5>
+                                <p class="text-muted">This action cannot be undone. The student will be notified of the rejection.</p>
+                                
+                                <div class="mt-4 p-3 bg-light-subtle rounded">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="bi bi-person-circle me-2 text-danger"></i>
+                                        <strong id="rejectStudentName">Student Name</strong>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-credit-card me-2 text-danger"></i>
+                                        <strong>Admission No:</strong> <span id="rejectAdmissionNo">ADMISSION_NO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center border-0 py-3">
+                                <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-circle me-1"></i>Cancel
+                                </button>
+                                <button type="button" class="btn btn-danger px-4" id="confirmRejectBtn">
+                                    <i class="bi bi-check-circle me-1"></i>Reject
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -190,78 +571,6 @@
             </div>
         </main>
     </div>
-
-    <style>
-        .admin-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            width: 280px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            overflow-y: auto;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-        }
-
-        .content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 220px;
-            }
-            .content {
-                margin-left: 220px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .content {
-                margin-left: 0;
-            }
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            border-radius: 5px;
-            margin-bottom: 5px;
-            padding: 10px 15px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: white;
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card-header {
-            font-weight: 600;
-            border-radius: 10px 10px 0 0 !important;
-        }
-    </style>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -274,82 +583,248 @@
                 window.location.href = 'login.html';
             }
             
-            // Load pending requests
-            loadPendingRequests();
+            // Sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const adminSidebar = document.getElementById('adminSidebar');
+            
+            if (sidebarToggle && adminSidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    adminSidebar.classList.toggle('show');
+                });
+            }
+            
+            // Handle window resize to hide sidebar on large screens
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 991 && adminSidebar) {
+                    adminSidebar.classList.remove('show');
+                }
+            });
             
             // Logout functionality
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('adminLoggedIn');
+            const logoutButtons = document.querySelectorAll('#logoutBtn');
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    localStorage.removeItem('adminLoggedIn');
+                });
             });
+            
+            // Load pending requests
+            loadPendingRequests();
             
             // Manual PIN generation
             document.getElementById('manualPinForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                alert('PIN generated successfully! The student will be notified via SMS.');
+                
+                // Reset validation states
+                this.querySelectorAll('.is-invalid').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
+                
+                const formData = {
+                    name: this.querySelector('input[type="text"]:first-child').value.trim(),
+                    admissionNo: this.querySelector('input[type="text"]:nth-child(2)').value.trim(),
+                    class: this.querySelector('select').value,
+                    phone: this.querySelector('input[type="tel"]').value.trim()
+                };
+                
+                let isValid = true;
+                let errorMessage = '';
+                
+                if (!formData.name) {
+                    this.querySelector('input[type="text"]:first-child').classList.add('is-invalid');
+                    isValid = false;
+                    errorMessage = 'Please enter the student\'s full name';
+                }
+                
+                if (!formData.admissionNo) {
+                    this.querySelector('input[type="text"]:nth-child(2)').classList.add('is-invalid');
+                    isValid = false;
+                    if (!errorMessage) errorMessage = 'Please enter the admission number';
+                }
+                
+                if (!formData.class) {
+                    this.querySelector('select').classList.add('is-invalid');
+                    isValid = false;
+                    if (!errorMessage) errorMessage = 'Please select a class';
+                }
+                
+                if (!formData.phone) {
+                    this.querySelector('input[type="tel"]').classList.add('is-invalid');
+                    isValid = false;
+                    if (!errorMessage) errorMessage = 'Please enter a valid phone number';
+                }
+                
+                if (!isValid) {
+                    document.getElementById('errorMessage').textContent = errorMessage;
+                    const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                    errorModal.show();
+                    return;
+                }
+                
+                // Generate PIN (simplified for demo)
+                const pin = `IHS${new Date().getFullYear()}${formData.class}${formData.admissionNo.substring(0,3)}`;
+                
+                // Show success message with PIN
+                document.getElementById('successTitle').textContent = 'PIN Generated';
+                document.getElementById('successMessage').textContent = `Manual PIN created successfully for ${formData.name}.`;
+                document.getElementById('generatedPinDisplay').textContent = pin;
+                
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                
+                // Reset form
                 this.reset();
+                
+                // Reset validation states
+                this.querySelectorAll('.is-invalid').forEach(el => {
+                    el.classList.remove('is-invalid');
+                });
             });
             
-            // Approve payment
+            // Store the request ID being rejected
+            let requestIdToReject = null;
+            let rejectRequestDetails = null;
+            
+            // Set up event listeners for modal buttons
             document.getElementById('approveBtn').addEventListener('click', function() {
-                const requestId = document.getElementById('approveBtn').getAttribute('data-id');
-                approvePayment(requestId);
-                const modal = bootstrap.Modal.getInstance(document.getElementById('receiptModal'));
-                modal.hide();
+                const requestId = this.getAttribute('data-id');
+                if (requestId) {
+                    approvePayment(requestId);
+                    
+                    // Hide receipt modal
+                    const receiptModal = bootstrap.Modal.getInstance(document.getElementById('receiptModal'));
+                    receiptModal.hide();
+                }
             });
             
-            // Reject payment
             document.getElementById('rejectBtn').addEventListener('click', function() {
-                const requestId = document.getElementById('rejectBtn').getAttribute('data-id');
-                rejectPayment(requestId);
-                const modal = bootstrap.Modal.getInstance(document.getElementById('receiptModal'));
-                modal.hide();
+                const requestId = this.getAttribute('data-id');
+                if (requestId) {
+                    // Get request details first
+                    const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+                    const request = requests.find(req => req.id == requestId);
+                    
+                    if (request) {
+                        requestIdToReject = requestId;
+                        rejectRequestDetails = request;
+                        
+                        // Set modal content
+                        document.getElementById('rejectStudentName').textContent = request.name;
+                        document.getElementById('rejectAdmissionNo').textContent = request.admissionNo;
+                        
+                        // Show confirmation modal
+                        const rejectModal = new bootstrap.Modal(document.getElementById('rejectConfirmationModal'));
+                        rejectModal.show();
+                    }
+                }
+            });
+            
+            // Confirm rejection button
+            document.getElementById('confirmRejectBtn').addEventListener('click', function() {
+                if (requestIdToReject && rejectRequestDetails) {
+                    // Original reject payment logic
+                    const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+                    const requestIndex = requests.findIndex(req => req.id == requestIdToReject);
+                    
+                    if (requestIndex !== -1) {
+                        requests[requestIndex].status = 'rejected';
+                        requests[requestIndex].rejectedDate = new Date().toISOString();
+                        requests[requestIndex].rejectedReason = 'Invalid payment receipt';
+                        
+                        // Save back to localStorage
+                        localStorage.setItem('pinRequests', JSON.stringify(requests));
+                        
+                        // Show success message
+                        showNotification('Payment rejected successfully!', 'danger');
+                        
+                        // Reload the table
+                        loadPendingRequests();
+                    }
+                    
+                    requestIdToReject = null;
+                    rejectRequestDetails = null;
+                    
+                    // Hide confirmation modal
+                    const rejectModal = bootstrap.Modal.getInstance(document.getElementById('rejectConfirmationModal'));
+                    rejectModal.hide();
+                }
             });
         });
         
         function loadPendingRequests() {
-            const tableBody = document.getElementById('pendingRequestsTable');
-            tableBody.innerHTML = '';
+            const tableBody = document.getElementById('pendingRequestsTable').querySelector('tbody');
+            const pendingCountBadge = document.getElementById('pendingCountBadge');
+            const loadingPlaceholder = document.getElementById('loadingPlaceholder');
             
-            // Get requests from localStorage
-            const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
-            const pendingRequests = requests.filter(req => req.status === 'pending');
+            // Show loading state
+            loadingPlaceholder.style.display = 'table-cell';
             
-            if (pendingRequests.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="text-center py-4">
-                            <div class="text-muted">
-                                <i class="bi bi-inbox fs-1 mb-2 d-block"></i>
-                                <p>No pending payment receipts</p>
+            // Simulate API delay
+            setTimeout(() => {
+                // Get requests from localStorage
+                const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+                const pendingRequests = requests.filter(req => req.status === 'pending');
+                
+                // Update pending count badge
+                pendingCountBadge.textContent = `${pendingRequests.length} pending`;
+                
+                if (pendingRequests.length === 0) {
+                    loadingPlaceholder.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-receipt text-muted"></i>
+                            <h5 class="mb-2">No Pending Receipts</h5>
+                            <p class="text-muted mb-0">All payment receipts have been processed.</p>
+                        </div>
+                    `;
+                    loadingPlaceholder.colSpan = 6;
+                    return;
+                }
+                
+                // Hide loading placeholder
+                loadingPlaceholder.style.display = 'none';
+                
+                // Clear table body
+                tableBody.innerHTML = '';
+                
+                // Add requests to table
+                pendingRequests.forEach(request => {
+                    const date = new Date(request.date);
+                    const formattedDate = date.toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="fw-medium">${request.name}</td>
+                        <td class="fw-monospace">${request.admissionNo}</td>
+                        <td>
+                            <span class="badge bg-info-subtle text-info-emphasis">${request.class}</span>
+                        </td>
+                        <td class="text-nowrap">${formattedDate}</td>
+                        <td>
+                            <span class="badge bg-warning-subtle text-warning-emphasis">Pending</span>
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-2">
+                                <button class="btn btn-sm btn-outline-primary action-btn" 
+                                        title="View Receipt" 
+                                        onclick="viewReceipt(${request.id})">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success action-btn" 
+                                        title="Approve Payment" 
+                                        onclick="quickApprove(${request.id})">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
                             </div>
                         </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            pendingRequests.forEach(request => {
-                const date = new Date(request.date);
-                const formattedDate = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+                    `;
+                    tableBody.appendChild(row);
+                });
                 
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${request.name}</td>
-                    <td>${request.admissionNo}</td>
-                    <td>${request.class}</td>
-                    <td>${formattedDate}</td>
-                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-primary me-1" onclick="viewReceipt(${request.id})">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        <button class="btn btn-sm btn-success" onclick="approvePayment(${request.id})">
-                            <i class="bi bi-check"></i>
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
+            }, 800);
         }
         
         function viewReceipt(requestId) {
@@ -361,6 +836,7 @@
                 document.getElementById('studentNameModal').textContent = request.name;
                 document.getElementById('admissionNoModal').textContent = request.admissionNo;
                 document.getElementById('classModal').textContent = request.class;
+                document.getElementById('uploadDateModal').textContent = new Date(request.date).toLocaleDateString();
                 document.getElementById('approveBtn').setAttribute('data-id', requestId);
                 document.getElementById('rejectBtn').setAttribute('data-id', requestId);
                 
@@ -370,7 +846,11 @@
             }
         }
         
-        function approvePayment(requestId) {
+        function quickApprove(requestId) {
+            approvePayment(requestId, true);
+        }
+        
+        function approvePayment(requestId, quickMode = false) {
             const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
             
             // Find the request
@@ -387,35 +867,94 @@
                 // Save back to localStorage
                 localStorage.setItem('pinRequests', JSON.stringify(requests));
                 
-                // Show success message
-                alert(`Payment approved successfully! PIN generated: ${pin}\nThe student will be notified via SMS.`);
+                if (quickMode) {
+                    // Show toast notification
+                    showNotification('Payment approved successfully!', 'success');
+                } else {
+                    // Show success modal
+                    document.getElementById('successTitle').textContent = 'Payment Approved';
+                    document.getElementById('successMessage').textContent = `Payment approved successfully! PIN generated: ${pin}`;
+                    document.getElementById('generatedPinDisplay').textContent = pin;
+                    
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                }
                 
                 // Reload the table
                 loadPendingRequests();
             }
         }
         
-        function rejectPayment(requestId) {
-            const requests = JSON.parse(localStorage.getItem('pinRequests') || '[]');
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `toast align-items-center text-bg-${type} border-0 position-fixed bottom-0 end-0 m-3`;
+            notification.style.zIndex = '9999';
+            notification.setAttribute('role', 'alert');
+            notification.setAttribute('aria-live', 'assertive');
+            notification.setAttribute('aria-atomic', 'true');
+            notification.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
             
-            // Find the request
-            const requestIndex = requests.findIndex(req => req.id == requestId);
-            if (requestIndex !== -1) {
-                // Update request
-                requests[requestIndex].status = 'rejected';
-                requests[requestIndex].rejectedDate = new Date().toISOString();
-                requests[requestIndex].rejectedReason = 'Invalid payment receipt';
-                
-                // Save back to localStorage
-                localStorage.setItem('pinRequests', JSON.stringify(requests));
-                
-                // Show success message
-                alert('Payment rejected successfully! The student will be notified via SMS about the rejection.');
-                
-                // Reload the table
-                loadPendingRequests();
+            // Add to document
+            document.body.appendChild(notification);
+            
+            // Initialize and show toast
+            const toast = new bootstrap.Toast(notification, {
+                delay: 3000
+            });
+            toast.show();
+            
+            // Remove after hiding
+            notification.addEventListener('hidden.bs.toast', function() {
+                this.remove();
+            });
+        }
+        
+        // Initialize demo data if none exists
+        function initializeDemoData() {
+            if (!localStorage.getItem('pinRequests')) {
+                const demoRequests = [
+                    {
+                        id: 1,
+                        name: 'Emmanuel Ochuko Omoniyi',
+                        admissionNo: 'SS1SC2026001',
+                        class: 'SS1',
+                        date: new Date('2026-01-08T09:15:00'),
+                        status: 'pending',
+                        phone: '+2348031234567'
+                    },
+                    {
+                        id: 2,
+                        name: 'Chinwe Adebayo',
+                        admissionNo: 'SS2AR2026002',
+                        class: 'SS2',
+                        date: new Date('2026-01-08T10:30:00'),
+                        status: 'pending',
+                        phone: '+2348037654321'
+                    },
+                    {
+                        id: 3,
+                        name: 'Tunde Ibrahim',
+                        admissionNo: 'SS3CO2026003',
+                        class: 'SS3',
+                        date: new Date('2026-01-08T11:45:00'),
+                        status: 'pending',
+                        phone: '+2348039876543'
+                    }
+                ];
+                localStorage.setItem('pinRequests', JSON.stringify(demoRequests));
             }
         }
+        
+        // Initialize demo data on load
+        initializeDemoData();
     </script>
 </body>
 </html>
