@@ -10,123 +10,147 @@
     <link href="css/custom.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-    <header class="py-3 mb-4 border-bottom bg-white">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 50px; height: 50px;">
-                    <span class="fs-4 fw-bold">IHS</span>
+    <header class="py-2 mb-4 border-bottom bg-white sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light px-0">
+                <div class="container-fluid p-0">
+                    <a href="/" class="navbar-brand d-flex align-items-center text-dark text-decoration-none">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 45px; height: 45px;">
+                            <span class="fs-5 fw-bold">IHS</span>
+                        </div>
+                        <span class="d-none d-md-block fs-4 ms-2">INTERNATIONAL HIGH SCHOOL</span>
+                        <span class="d-md-none fs-5 fw-bold ms-2">IHS</span>
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#features" class="nav-link">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#how-it-works" class="nav-link">How It Works</a>
+                            </li>
+                        </ul>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="student/login.html" class="btn btn-primary">
+                                <i class="bi bi-person-circle d-md-none"></i>
+                                <span class="d-none d-md-inline">Student Login</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <span class="fs-4 ms-3">INTERNATIONAL HIGH SCHOOL</span>
-            </a>
-            <ul class="nav nav-pills">
-                <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
-                <li class="nav-item"><a href="#features" class="nav-link">Features</a></li>
-                <li class="nav-item"><a href="#how-it-works" class="nav-link">How It Works</a></li>
-                 <li class="nav-item"><a href="student/login.html" class="nav-link btn btn-primary text-white">Student Login</a></li>
-            </ul>
+            </nav>
         </div>
     </header>
 
-    <main class="container py-5">
-        <section class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary">SUCCESS THROUGH EXCELLENCE</h1>
-            <p class="lead text-muted">Official Result Checker Portal</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
-                <a href="student/check-result.html" class="btn btn-primary btn-lg px-4 me-sm-3">
+    <main class="container py-4 py-md-5">
+        <section class="text-center mb-4 mb-md-5">
+            <h1 class="display-5 display-md-4 fw-bold text-primary mb-2 mb-md-3">SUCCESS THROUGH EXCELLENCE</h1>
+            <p class="lead text-muted mb-3 mb-md-4">Official Result Checker Portal</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="student/check-result.html" class="btn btn-primary btn-lg px-4 py-3">
                     <i class="bi bi-search me-2"></i>Check Result
                 </a>
-                <a href="student/request-pin.html" class="btn btn-success btn-lg px-4">
+                <a href="student/request-pin.html" class="btn btn-success btn-lg px-4 py-3 mt-3 mt-sm-0">
                     <i class="bi bi-credit-card me-2"></i>Request PIN
                 </a>
             </div>
         </section>
 
-        <section id="features" class="row mb-5">
-            <div class="col-md-4 mb-4">
+        <section id="features" class="row mb-4 mb-md-5">
+            <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100 border-primary shadow-sm">
-                    <div class="card-body text-center">
-                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 80px; height: 80px;">
+                    <div class="card-body text-center p-3 p-md-4">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 70px; height: 70px;">
                             <i class="bi bi-shield-check fs-1"></i>
                         </div>
-                        <h3 class="card-title text-primary">Secure Access</h3>
-                        <p class="card-text">Your results are protected with unique PINs</p>
+                        <h3 class="card-title text-primary h5 h4-md mb-2">Secure Access</h3>
+                        <p class="card-text mb-0">Your results are protected with unique PINs</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+            <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100 border-success shadow-sm">
-                    <div class="card-body text-center">
-                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 80px; height: 80px;">
+                    <div class="card-body text-center p-3 p-md-4">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 70px; height: 70px;">
                             <i class="bi bi-file-earmark-text fs-1"></i>
                         </div>
-                        <h3 class="card-title text-success">Detailed Reports</h3>
-                        <p class="card-text">Complete academic and character assessments</p>
+                        <h3 class="card-title text-success h5 h4-md mb-2">Detailed Reports</h3>
+                        <p class="card-text mb-0">Complete academic and character assessments</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
+            <div class="col-12 col-md-4 mb-4">
                 <div class="card h-100 border-info shadow-sm">
-                    <div class="card-body text-center">
-                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 80px; height: 80px;">
+                    <div class="card-body text-center p-3 p-md-4">
+                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 70px; height: 70px;">
                             <i class="bi bi-download fs-1"></i>
                         </div>
-                        <h3 class="card-title text-info">Instant Access</h3>
-                        <p class="card-text">View and download results anytime, anywhere</p>
+                        <h3 class="card-title text-info h5 h4-md mb-2">Instant Access</h3>
+                        <p class="card-text mb-0">View and download results anytime, anywhere</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="how-it-works" class="mb-5">
-            <h2 class="text-center mb-4 fw-bold text-primary">How It Works</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
+        <section id="how-it-works" class="mb-4 mb-md-5">
+            <h2 class="text-center mb-3 mb-md-4 fw-bold text-primary h3">How It Works</h2>
+            <div class="row g-3 g-md-4">
+                <div class="col-12 col-md-4">
                     <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                                <span class="fs-4 fw-bold">1</span>
+                        <div class="card-body text-center p-3 p-md-4">
+                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-5 fw-bold">1</span>
                             </div>
-                            <h4 class="card-title mb-3">Request PIN</h4>
-                            <p class="card-text">Upload your payment receipt to request a PIN</p>
+                            <h4 class="card-title mb-2 h6 h5-md">Request PIN</h4>
+                            <p class="card-text mb-0">Upload your payment receipt to request a PIN</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4">
                     <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                                <span class="fs-4 fw-bold">2</span>
+                        <div class="card-body text-center p-3 p-md-4">
+                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-5 fw-bold">2</span>
                             </div>
-                            <h4 class="card-title mb-3">Admin Verification</h4>
-                            <p class="card-text">School admin verifies your payment</p>
+                            <h4 class="card-title mb-2 h6 h5-md">Admin Verification</h4>
+                            <p class="card-text mb-0">School admin verifies your payment</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4">
                     <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body text-center p-4">
-                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                                <span class="fs-4 fw-bold">3</span>
+                        <div class="card-body text-center p-3 p-md-4">
+                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-5 fw-bold">3</span>
                             </div>
-                            <h4 class="card-title mb-3">Access Results</h4>
-                            <p class="card-text">Get your PIN and check your results</p>
+                            <h4 class="card-title mb-2 h6 h5-md">Access Results</h4>
+                            <p class="card-text mb-0">Get your PIN and check your results</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-5">
-            <div class="row align-items-center g-4">
-                <div class="col-md-6">
+        <section class="mb-4 mb-md-5">
+            <div class="row align-items-center g-3 g-md-4">
+                <div class="col-12 col-md-6 mb-3 mb-md-0">
                     <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
                          class="img-fluid rounded shadow" 
                          alt="Students in classroom"
-                         style="max-height: 400px; object-fit: cover;">
+                         style="max-height: 350px; object-fit: cover; width: 100%;">
                 </div>
-                <div class="col-md-6">
-                    <h2 class="fw-bold text-primary mb-3">About Our Result System</h2>
-                    <p class="lead mb-4">International High School is committed to providing a secure and efficient way for students and parents to access examination results.</p>
+                <div class="col-12 col-md-6">
+                    <h2 class="fw-bold text-primary h3 mb-3">About Our Result System</h2>
+                    <p class="lead mb-3 mb-md-4 fs-6">International High School is committed to providing a secure and efficient way for students and parents to access examination results.</p>
                     <ul class="list-unstyled mb-4">
                         <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Instant access to results after publication</li>
                         <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Secure PIN-protected system</li>
@@ -139,21 +163,25 @@
         </section>
     </main>
 
-    <footer class="py-4 mt-5 bg-dark text-white">
-        <div class="container text-center">
-            <p class="mb-2">295, Sapele/Warri Road, Sapele, Delta State</p>
-            <p class="mb-2">
-                <a href="https://wa.me/2348031234567" class="text-white me-3" target="_blank">
-                    <i class="bi bi-whatsapp"></i> WhatsApp
-                </a>
-                <a href="mailto:info@internationalhighschool.edu.ng" class="text-white me-3" target="_blank">
-                    <i class="bi bi-envelope"></i> Email
-                </a>
-                <a href="tel:+2348031234567" class="text-white">
-                    <i class="bi bi-telephone"></i> Call
-                </a>
-            </p>
-            <p class="mb-0">&copy; 2026 International High School. All rights reserved.</p>
+    <footer class="py-3 py-md-4 mt-4 mt-md-5 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-3 mb-md-0">
+                    <p class="mb-1">Okpe Rd, Sapele, 331107, Delta</p>
+                    <div class="mb-2">
+                        <a href="https://wa.me/2348031234567" class="text-white mx-2" target="_blank" aria-label="WhatsApp">
+                            <i class="bi bi-whatsapp fs-4"></i>
+                        </a>
+                        <a href="mailto:info@internationalhighschool.edu.ng" class="text-white mx-2" target="_blank" aria-label="Email">
+                            <i class="bi bi-envelope fs-4"></i>
+                        </a>
+                        <a href="tel:+2348031234567" class="text-white mx-2" aria-label="Call">
+                            <i class="bi bi-telephone fs-4"></i>
+                        </a>
+                    </div>
+                    <p class="mb-0 small">&copy; 2026 International High School. All rights reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
 
